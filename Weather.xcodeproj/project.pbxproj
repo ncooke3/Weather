@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		EA736611242677B400CABA5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736610242677B400CABA5C /* AppDelegate.m */; };
 		EA736614242677B400CABA5C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736613242677B400CABA5C /* SceneDelegate.m */; };
-		EA736617242677B400CABA5C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736616242677B400CABA5C /* ViewController.m */; };
-		EA73661A242677B400CABA5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA736618242677B400CABA5C /* Main.storyboard */; };
 		EA73661C242677B800CABA5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA73661B242677B800CABA5C /* Assets.xcassets */; };
 		EA73661F242677B800CABA5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA73661D242677B800CABA5C /* LaunchScreen.storyboard */; };
 		EA736622242677B800CABA5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736621242677B800CABA5C /* main.m */; };
 		EA73662C242677B800CABA5C /* WeatherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73662B242677B800CABA5C /* WeatherTests.m */; };
+		EA73663E24267DE200CABA5C /* WeatherController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73663D24267DE200CABA5C /* WeatherController.m */; };
+		EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73664024267FAE00CABA5C /* CurrentForecast.m */; };
+		EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736644242681B300CABA5C /* DarkSkyContants.m */; };
+		EA736648242681DD00CABA5C /* DarkSky.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736647242681DD00CABA5C /* DarkSky.m */; };
+		EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73664A2426829900CABA5C /* DailyForecastCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +36,6 @@
 		EA736610242677B400CABA5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EA736612242677B400CABA5C /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		EA736613242677B400CABA5C /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		EA736615242677B400CABA5C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		EA736616242677B400CABA5C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		EA736619242677B400CABA5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA73661B242677B800CABA5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA73661E242677B800CABA5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA736620242677B800CABA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,6 +43,17 @@
 		EA736627242677B800CABA5C /* WeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA73662B242677B800CABA5C /* WeatherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherTests.m; sourceTree = "<group>"; };
 		EA73662D242677B800CABA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA73663C24267DE200CABA5C /* WeatherController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherController.h; sourceTree = "<group>"; };
+		EA73663D24267DE200CABA5C /* WeatherController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherController.m; sourceTree = "<group>"; };
+		EA73663F24267FAE00CABA5C /* CurrentForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentForecast.h; sourceTree = "<group>"; };
+		EA73664024267FAE00CABA5C /* CurrentForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurrentForecast.m; sourceTree = "<group>"; };
+		EA7366422426816E00CABA5C /* NSArray+URLValidExclusionsParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+URLValidExclusionsParameter.h"; path = "Weather/Controllers/NSArray+URLValidExclusionsParameter.h"; sourceTree = SOURCE_ROOT; };
+		EA7366432426819300CABA5C /* DarkSkyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DarkSkyConstants.h; sourceTree = "<group>"; };
+		EA736644242681B300CABA5C /* DarkSkyContants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DarkSkyContants.m; sourceTree = "<group>"; };
+		EA736646242681DD00CABA5C /* DarkSky.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DarkSky.h; sourceTree = "<group>"; };
+		EA736647242681DD00CABA5C /* DarkSky.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DarkSky.m; sourceTree = "<group>"; };
+		EA7366492426829900CABA5C /* DailyForecastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyForecastCell.h; sourceTree = "<group>"; };
+		EA73664A2426829900CABA5C /* DailyForecastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyForecastCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,13 +95,12 @@
 		EA73660E242677B400CABA5C /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				EA73660F242677B400CABA5C /* AppDelegate.h */,
-				EA736610242677B400CABA5C /* AppDelegate.m */,
-				EA736612242677B400CABA5C /* SceneDelegate.h */,
-				EA736613242677B400CABA5C /* SceneDelegate.m */,
-				EA736615242677B400CABA5C /* ViewController.h */,
-				EA736616242677B400CABA5C /* ViewController.m */,
-				EA736618242677B400CABA5C /* Main.storyboard */,
+				EA73663B24267DA200CABA5C /* Application */,
+				EA73663A24267DA100CABA5C /* Models */,
+				EA73663924267DA000CABA5C /* Views */,
+				EA73663824267D9E00CABA5C /* Controllers */,
+				EA73663724267D9C00CABA5C /* Utils */,
+				EA73663624267D9A00CABA5C /* Networking */,
 				EA73661B242677B800CABA5C /* Assets.xcassets */,
 				EA73661D242677B800CABA5C /* LaunchScreen.storyboard */,
 				EA736620242677B800CABA5C /* Info.plist */,
@@ -106,6 +116,63 @@
 				EA73662D242677B800CABA5C /* Info.plist */,
 			);
 			path = WeatherTests;
+			sourceTree = "<group>";
+		};
+		EA73663624267D9A00CABA5C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				EA7366422426816E00CABA5C /* NSArray+URLValidExclusionsParameter.h */,
+				EA7366432426819300CABA5C /* DarkSkyConstants.h */,
+				EA736644242681B300CABA5C /* DarkSkyContants.m */,
+				EA736646242681DD00CABA5C /* DarkSky.h */,
+				EA736647242681DD00CABA5C /* DarkSky.m */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		EA73663724267D9C00CABA5C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		EA73663824267D9E00CABA5C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EA73663C24267DE200CABA5C /* WeatherController.h */,
+				EA73663D24267DE200CABA5C /* WeatherController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EA73663924267DA000CABA5C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EA7366492426829900CABA5C /* DailyForecastCell.h */,
+				EA73664A2426829900CABA5C /* DailyForecastCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EA73663A24267DA100CABA5C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EA73663F24267FAE00CABA5C /* CurrentForecast.h */,
+				EA73664024267FAE00CABA5C /* CurrentForecast.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EA73663B24267DA200CABA5C /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				EA73660F242677B400CABA5C /* AppDelegate.h */,
+				EA736610242677B400CABA5C /* AppDelegate.m */,
+				EA736612242677B400CABA5C /* SceneDelegate.h */,
+				EA736613242677B400CABA5C /* SceneDelegate.m */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,7 +257,6 @@
 			files = (
 				EA73661F242677B800CABA5C /* LaunchScreen.storyboard in Resources */,
 				EA73661C242677B800CABA5C /* Assets.xcassets in Resources */,
-				EA73661A242677B400CABA5C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,9 +274,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA736617242677B400CABA5C /* ViewController.m in Sources */,
+				EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */,
 				EA736611242677B400CABA5C /* AppDelegate.m in Sources */,
+				EA736648242681DD00CABA5C /* DarkSky.m in Sources */,
+				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
+				EA73663E24267DE200CABA5C /* WeatherController.m in Sources */,
+				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,
 				EA736614242677B400CABA5C /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,14 +304,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EA736618242677B400CABA5C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EA736619242677B400CABA5C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EA73661D242677B800CABA5C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

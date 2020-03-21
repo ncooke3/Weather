@@ -1,6 +1,9 @@
 #import "SceneDelegate.h"
+#import "WeatherController.h"
 
 @interface SceneDelegate ()
+
+@property (strong, nonatomic) WeatherController *mainViewController;
 
 @end
 
@@ -8,9 +11,12 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-    // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-    // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    UIWindowScene *windowScene = [[UIWindowScene alloc] initWithSession:session connectionOptions:connectionOptions];
+    self.window = [[UIWindow alloc] initWithFrame:windowScene.coordinateSpace.bounds];
+    self.mainViewController = [WeatherController new];
+    self.window.windowScene = windowScene;
+    self.window.rootViewController = self.mainViewController;
+    [self.window makeKeyAndVisible];
 }
 
 
@@ -31,12 +37,27 @@
 - (void)sceneWillResignActive:(UIScene *)scene {
     // Called when the scene will move from an active state to an inactive state.
     // This may occur due to temporary interruptions (ex. an incoming phone call).
+    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
+        [self.mainViewController.locationManager stopUpdatingLocation];
+        [self.mainViewController.locationManager startMonitoringSignificantLocationChanges];
+    } else {
+        NSLog(@"Significant location change monitoring is not available.");
+    }
+
 }
 
 
 - (void)sceneWillEnterForeground:(UIScene *)scene {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
+    
+    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
+        [self.mainViewController.locationManager stopMonitoringSignificantLocationChanges];
+        [self.mainViewController.locationManager startUpdatingLocation];
+    } else {
+        NSLog(@"Significant location change monitoring is not available.");
+    }
+    
 }
 
 
