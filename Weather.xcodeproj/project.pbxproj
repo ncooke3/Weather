@@ -18,6 +18,7 @@
 		EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736644242681B300CABA5C /* DarkSkyContants.m */; };
 		EA736648242681DD00CABA5C /* DarkSky.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736647242681DD00CABA5C /* DarkSky.m */; };
 		EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73664A2426829900CABA5C /* DailyForecastCell.m */; };
+		EAAD4EAF2426C2520031A171 /* ForecastModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EAE2426C2520031A171 /* ForecastModelTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		EA736647242681DD00CABA5C /* DarkSky.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DarkSky.m; sourceTree = "<group>"; };
 		EA7366492426829900CABA5C /* DailyForecastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyForecastCell.h; sourceTree = "<group>"; };
 		EA73664A2426829900CABA5C /* DailyForecastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyForecastCell.m; sourceTree = "<group>"; };
+		EAAD4EAE2426C2520031A171 /* ForecastModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForecastModelTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				EA73662B242677B800CABA5C /* WeatherTests.m */,
+				EAAD4EAE2426C2520031A171 /* ForecastModelTests.m */,
 				EA73662D242677B800CABA5C /* Info.plist */,
 			);
 			path = WeatherTests;
@@ -289,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAAD4EAF2426C2520031A171 /* ForecastModelTests.m in Sources */,
 				EA73662C242677B800CABA5C /* WeatherTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -47,6 +47,10 @@
     return _locationManager;
 }
 
+- (void)setCurrentForecast:(CurrentForecast *)currentForecast {
+    _currentForecast = currentForecast;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -54,6 +58,8 @@
     
     darksky = [DarkSky sharedManagager];
     [darksky clearCache]; // MARK: clearCache enabled!
+    
+    [self updateCurrentForecast];
     
     [self configureScrollView];
     [self configureCollectionView];
@@ -68,15 +74,18 @@
 
 #pragma mark - Networking
 
-- (void)currentForecast {
+- (void)updateCurrentForecast {
     CLLocationCoordinate2D location = [self currentLocationCoordinate];
     NSNumber *time = [NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]];
-
-    [darksky getForecastForLatitude:location.latitude longitude:location.longitude time:time excluding:@[] extend:@"" language:@"" units:@"us" success:^(NSDictionary *forecastJSON) {
-        
+    __weak typeof(self) weakSelf = self;
+    [darksky getForecastForLatitude:location.latitude longitude:location.longitude time:time excluding:@[kDSdailyForecast, kDSminutelyForecast, kDShourlyForecast, kDSflags] extend:@"" language:@"" units:@"us" success:^(NSDictionary *forecastJSON) {
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            strongSelf.currentForecast = [[CurrentForecast alloc] initWithDictionary:forecastJSON[kDScurrentlyForecast]];
+            // fire off delegate method (single delegate for all forecasts, provide forecast type as parameter)
+        }
     } failure:^(NSError *error, id response) {
         NSLog(@"Error while retrieving forecast: %@", [error description]);
-        
     }];
 }
 

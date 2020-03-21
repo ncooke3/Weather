@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CurrentForecast : NSObject
+@interface CurrentForecast : NSObject<NSCoding>
 
 @property (nonatomic, readonly) NSNumber *time;
 @property (nonatomic, readonly) NSString *icon;
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Precipitation Properties
 @property (nonatomic, readonly) NSNumber *precipProbability;
 @property (nonatomic, readonly) NSNumber *precipIntensity;
-@property (nonatomic, copy, readonly) NSString *precipType;
+@property (nonatomic, readonly) NSString *precipType;
 
 // Additional Weather Data Properties
 @property (nonatomic, readonly) NSNumber *humidity;

@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CurrentForecast.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WeatherController : UIViewController <CLLocationManagerDelegate>
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic) CurrentForecast *currentForecast;
 
 @end
 
