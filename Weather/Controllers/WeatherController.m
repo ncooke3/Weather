@@ -15,6 +15,8 @@
 
 @property (nonatomic) UIScrollView *scrollView;
 
+@property (nonatomic) UIRefreshControl *refreshControl;
+
 // Location Properties
 @property (nonatomic) UILabel *locationLabel;
 
@@ -135,7 +137,7 @@
 - (void)configureScrollView {
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1.50 * self.view.frame.size.height);
+    _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 1.5 * self.view.bounds.size.height);
     
     CALayer *layer = [[CALayer alloc] init];
     layer.frame = CGRectMake(0, -self.view.frame.size.width, self.view.frame.size.width, self.view.frame.size.width + self.view.frame.size.height - 50);
@@ -158,7 +160,21 @@
     [self configureApparentTemperatureLabel];
     [_scrollView addSubview:self.apparentTemperatureLabel];
     
+    [self configureRefreshControl];
+    [_scrollView addSubview:_refreshControl];
+    
     [self.view addSubview:_scrollView];
+}
+
+- (void)configureRefreshControl {
+    _refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.tintColor = UIColor.lightTextColor;
+    [_refreshControl addTarget:self action:@selector(handleRefreshCurrentForecast:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)handleRefreshCurrentForecast:(UIRefreshControl *)sender {
+    [self updateCurrentForecast];
+    [sender endRefreshing];
 }
 
 - (void)setupLocationLabel {
