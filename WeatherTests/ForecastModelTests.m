@@ -39,6 +39,8 @@
     NSDictionary *mockForecastJSON = @{
         @"time": @(123456),
         // @"icon": @"snow" // missing field
+        @"temperature": @(68.9),
+        @"apparentTemperature": @(67.49),
         @"nearestStormDistance": @(240),
         // @"nearestStormBearing": // missing field
         @"precipProbability": @(0.16),
@@ -53,6 +55,8 @@
     XCTAssert([currentForecast isKindOfClass:[CurrentForecast class]]);
     XCTAssert(currentForecast.time != nil);
     XCTAssert(currentForecast.icon == nil); // since it is missing
+    XCTAssert(currentForecast.temperature.intValue == 69);
+    XCTAssert(currentForecast.apparentTemperature.intValue == 67);
     XCTAssert(currentForecast.nearestStormDistance.intValue == 240);
     XCTAssert(currentForecast.nearestStormBearing == nil); // since it is missing
     XCTAssert(currentForecast.precipProbability.doubleValue == 0.16);
@@ -86,6 +90,8 @@
         XCTAssert([currentForecast isKindOfClass:[CurrentForecast class]]);
         XCTAssert(currentForecast.time.intValue == time);
         XCTAssert([currentForecast.icon isEqualToString:@"rain"]);
+        XCTAssert(currentForecast.temperature != nil);
+        XCTAssert(currentForecast.apparentTemperature != nil);
         XCTAssert(currentForecast.nearestStormDistance.intValue == 0);
         XCTAssert(currentForecast.nearestStormBearing == nil);
         XCTAssert(currentForecast.precipProbability.doubleValue == 0.38);

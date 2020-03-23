@@ -6,9 +6,17 @@
 //  Copyright © 2020 Nicholas Cooke. All rights reserved.
 //
 
+// Frameworks
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+
+// Models
 #import "CurrentForecast.h"
+#import "DailyForecast.h"
+#import "HourlyForecast.h"
+
+// Networking
+#import "DarkSky.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CurrentForecast *currentForecast;
+@property (nonatomic) NSArray<DailyForecast *> *dailyForecasts;
+@property (nonatomic) NSArray<HourlyForecast *> *hourlyForecasts;
+@property (nonatomic) DarkSky *darksky;
+
+- (CLLocationCoordinate2D)currentLocationCoordinate;
 
 @end
 

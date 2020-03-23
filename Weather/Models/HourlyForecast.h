@@ -1,38 +1,30 @@
 //
-//  CurrentForecast.h
+//  HourlyForecast.h
 //  Weather
 //
-//  Created by Nicholas Cooke on 3/20/20.
+//  Created by Nicholas Cooke on 3/22/20.
 //  Copyright © 2020 Nicholas Cooke. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Forecast.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CurrentForecast : Forecast<NSCoding>
+@interface HourlyForecast : Forecast
 
 @property (nonatomic, readonly) NSNumber *time;
 @property (nonatomic, readonly) NSString *icon;
 
 // Temperature Properties
-@property (nonatomic, readonly) NSNumber *temperature;
-@property (nonatomic, readonly) NSNumber *apparentTemperature;
-
-// Storm Properties
-@property (nonatomic, readonly) NSNumber  *nearestStormDistance;
-@property (nonatomic, readonly) NSNumber  *nearestStormBearing;
+@property (nonatomic, readonly) NSNumber *minTemperature;
+@property (nonatomic, readonly) NSNumber *maxTemperature;
 
 // Precipitation Properties
 @property (nonatomic, readonly) NSNumber *precipProbability;
-@property (nonatomic, readonly) NSNumber *precipIntensity;
 @property (nonatomic, readonly) NSString *precipType;
 
 // Additional Weather Data Properties
 @property (nonatomic, readonly) NSNumber *humidity;
-@property (nonatomic, readonly) NSNumber *pressure;
-@property (nonatomic, readonly) NSNumber *windSpeed;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

@@ -37,10 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
         [_lowTempLabel setTextColor:[UIColor.blueColor colorWithAlphaComponent:0.5]];
         _lowTempLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_lowTempLabel];
-        
-
-        [self.contentView addSubview:_lowTempLabel];
-        
     }
     return self;
     
@@ -49,18 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    [_dayLabel sizeToFit];
+
     [_dayLabel setCenter:CGPointMake(contentViewWidth * 0.5, contentViewHeight * 0.2)];
-    
     [_iconImageView setCenter:CGPointMake(contentViewWidth * 0.5, contentViewHeight * 0.4)];
-    
-    [_highTempLabel sizeToFit];
     [_highTempLabel setCenter:CGPointMake(contentViewWidth * 0.5, contentViewHeight * 0.6)];
-    
-    [_lowTempLabel sizeToFit];
     [_lowTempLabel setCenter:CGPointMake(contentViewWidth * 0.5, contentViewHeight * 0.8)];
-    
 }
 
 @end

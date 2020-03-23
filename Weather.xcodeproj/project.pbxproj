@@ -19,6 +19,11 @@
 		EA736648242681DD00CABA5C /* DarkSky.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736647242681DD00CABA5C /* DarkSky.m */; };
 		EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA73664A2426829900CABA5C /* DailyForecastCell.m */; };
 		EAAD4EAF2426C2520031A171 /* ForecastModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EAE2426C2520031A171 /* ForecastModelTests.m */; };
+		EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EB22427CDE40031A171 /* Forecast.m */; };
+		EAAD4EBC2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EBB2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m */; };
+		EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC12427E6200031A171 /* DailyForecast.m */; };
+		EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */; };
+		EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC724282BF30031A171 /* HourlyForecast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +61,16 @@
 		EA7366492426829900CABA5C /* DailyForecastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyForecastCell.h; sourceTree = "<group>"; };
 		EA73664A2426829900CABA5C /* DailyForecastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyForecastCell.m; sourceTree = "<group>"; };
 		EAAD4EAE2426C2520031A171 /* ForecastModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForecastModelTests.m; sourceTree = "<group>"; };
+		EAAD4EB12427CDE40031A171 /* Forecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Forecast.h; sourceTree = "<group>"; };
+		EAAD4EB22427CDE40031A171 /* Forecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Forecast.m; sourceTree = "<group>"; };
+		EAAD4EBA2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WeatherController+WeatherController_Forecasts.h"; sourceTree = "<group>"; };
+		EAAD4EBB2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WeatherController+WeatherController_Forecasts.m"; sourceTree = "<group>"; };
+		EAAD4EC02427E6200031A171 /* DailyForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyForecast.h; sourceTree = "<group>"; };
+		EAAD4EC12427E6200031A171 /* DailyForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyForecast.m; sourceTree = "<group>"; };
+		EAAD4EC3242827210031A171 /* NSDateFormatter+UnixConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+UnixConverter.h"; path = "Weather/Models/NSDateFormatter+UnixConverter.h"; sourceTree = SOURCE_ROOT; };
+		EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+UnixConverter.m"; path = "Weather/Models/NSDateFormatter+UnixConverter.m"; sourceTree = SOURCE_ROOT; };
+		EAAD4EC624282BF30031A171 /* HourlyForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyForecast.h; sourceTree = "<group>"; };
+		EAAD4EC724282BF30031A171 /* HourlyForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecast.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +151,8 @@
 		EA73663724267D9C00CABA5C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EAAD4EC3242827210031A171 /* NSDateFormatter+UnixConverter.h */,
+				EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -145,6 +162,8 @@
 			children = (
 				EA73663C24267DE200CABA5C /* WeatherController.h */,
 				EA73663D24267DE200CABA5C /* WeatherController.m */,
+				EAAD4EBA2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.h */,
+				EAAD4EBB2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -161,8 +180,14 @@
 		EA73663A24267DA100CABA5C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EAAD4EB12427CDE40031A171 /* Forecast.h */,
+				EAAD4EB22427CDE40031A171 /* Forecast.m */,
 				EA73663F24267FAE00CABA5C /* CurrentForecast.h */,
 				EA73664024267FAE00CABA5C /* CurrentForecast.m */,
+				EAAD4EC02427E6200031A171 /* DailyForecast.h */,
+				EAAD4EC12427E6200031A171 /* DailyForecast.m */,
+				EAAD4EC624282BF30031A171 /* HourlyForecast.h */,
+				EAAD4EC724282BF30031A171 /* HourlyForecast.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -278,12 +303,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */,
+				EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */,
 				EA736611242677B400CABA5C /* AppDelegate.m in Sources */,
 				EA736648242681DD00CABA5C /* DarkSky.m in Sources */,
+				EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */,
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
 				EA73663E24267DE200CABA5C /* WeatherController.m in Sources */,
+				EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */,
+				EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */,
 				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,
+				EAAD4EBC2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m in Sources */,
 				EA736614242677B400CABA5C /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

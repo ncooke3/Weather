@@ -7,8 +7,9 @@
 //
 
 #import "WeatherController.h"
+#import "WeatherController+WeatherController_Forecasts.h"
 #import "DailyForecastCell.h"
-#import "DarkSky.h"
+
 
 @interface WeatherController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -33,8 +34,14 @@
 
 @end
 
-@implementation WeatherController {
-    DarkSky *darksky;
+@implementation WeatherController
+
+- (DarkSky *)darksky {
+    if (!_darksky) {
+        _darksky = [DarkSky sharedManagager];
+        [_darksky clearCache]; // MARK: clearCache enabled!
+    }
+    return _darksky;
 }
 
 -(CLLocationManager *)locationManager {
@@ -47,19 +54,14 @@
     return _locationManager;
 }
 
-- (void)setCurrentForecast:(CurrentForecast *)currentForecast {
-    _currentForecast = currentForecast;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:0.97 green:0.97 blue:0.95 alpha:1.0]];
     
-    darksky = [DarkSky sharedManagager];
-    [darksky clearCache]; // MARK: clearCache enabled!
-    
     [self updateCurrentForecast];
+    [self updateDailyForecasts];
+    [self updateHourlyForecasts];
     
     [self configureScrollView];
     [self configureCollectionView];
@@ -69,23 +71,46 @@
     [super viewDidAppear:animated];
     
     [self handleLocationManagerAuthorization];
-
 }
 
 #pragma mark - Networking
 
 - (void)updateCurrentForecast {
-    CLLocationCoordinate2D location = [self currentLocationCoordinate];
-    NSNumber *time = [NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]];
-    __weak typeof(self) weakSelf = self;
-    [darksky getForecastForLatitude:location.latitude longitude:location.longitude time:time excluding:@[kDSdailyForecast, kDSminutelyForecast, kDShourlyForecast, kDSflags] extend:@"" language:@"" units:@"us" success:^(NSDictionary *forecastJSON) {
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            strongSelf.currentForecast = [[CurrentForecast alloc] initWithDictionary:forecastJSON[kDScurrentlyForecast]];
-            // fire off delegate method (single delegate for all forecasts, provide forecast type as parameter)
+    typeof(self) weakSelf = self;
+    [self getCurrentForecast:^(ForecastResponse forecast) {
+        if (forecast == nil) { return; }
+        weakSelf.currentForecast = [[CurrentForecast alloc] initWithDictionary:forecast];
+        dispatch_async(dispatch_get_main_queue(), ^{ [weakSelf displayCurrentForecast]; });
+    }];
+}
+
+- (void)updateDailyForecasts {
+    typeof(self) weakSelf = self;
+    [self getDailyForecasts:^(ForecastResponse dailyForecasts) {
+        if (dailyForecasts == nil) { return; }
+        // TODO: observe lifecycle of updatedDailyForecasts
+        NSMutableArray<DailyForecast *> *updatedDailyForecasts = [[NSMutableArray alloc] init];
+        for (NSDictionary *forecast in dailyForecasts) {
+            DailyForecast *dailyForecast = [[DailyForecast alloc] initWithDictionary:forecast];
+            [updatedDailyForecasts addObject:dailyForecast];
         }
-    } failure:^(NSError *error, id response) {
-        NSLog(@"Error while retrieving forecast: %@", [error description]);
+        weakSelf.dailyForecasts = [updatedDailyForecasts copy];
+        dispatch_async(dispatch_get_main_queue(), ^{ [weakSelf displayDailyForecasts]; });
+    }];
+}
+
+- (void)updateHourlyForecasts {
+    typeof(self) weakSelf = self;
+    [self getHourlyForecasts:^(ForecastResponse hourlyForecasts) {
+        if (hourlyForecasts == nil) { return; }
+        // TODO: observe lifecycle of updatedHourlyForecasts
+        NSMutableArray<HourlyForecast *> *updatedHourlyForecasts = [[NSMutableArray alloc] init];
+        for (NSDictionary *forecast in hourlyForecasts) {
+            HourlyForecast *hourlyForecast = [[HourlyForecast alloc] initWithDictionary:forecast];
+            [updatedHourlyForecasts addObject:hourlyForecast];
+        }
+        weakSelf.hourlyForecasts = updatedHourlyForecasts;
+        dispatch_async(dispatch_get_main_queue(), ^{ [weakSelf displayHourlyForecast]; });
     }];
 }
 
@@ -230,21 +255,32 @@
                     [self.locationLabel setText:firstLocation.locality];
                 });
             }
-            
         }
     }];
 }
 
-# pragma mark - UICollectionViewDelegate
+#pragma mark - Forecast Update Handling
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"selected cell");
+- (void)displayCurrentForecast {
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%@°F",
+    [_currentForecast.temperature stringValue]];
+    [self.temperatureLabel sizeToFit];
+    self.conditionsLabel.text = _currentForecast.icon;
+    self.apparentTemperatureLabel.text = [NSString stringWithFormat:@"%@", _currentForecast.apparentTemperature];
+}
+
+- (void)displayDailyForecasts {
+    [_collectionView reloadData];
+}
+
+- (void)displayHourlyForecast {
+    // update charts
 }
 
 # pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 7;
+    return [_dailyForecasts count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -255,15 +291,16 @@
     
     [cell setBackgroundColor:UIColor.lightTextColor];
     
-    UIImage *iconImage = [UIImage imageNamed:@"partly-cloudy-day"];
+    UIImage *iconImage = [UIImage imageNamed:_dailyForecasts[indexPath.row].icon];
     [cell.iconImageView setImage:iconImage];
     cell.iconImageView.image = [cell.iconImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [cell.iconImageView setTintColor:[UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1.0]];
-    
-    
-    [cell.dayLabel setText:@"Fri"];
-    [cell.highTempLabel setText:@"12"];
-    [cell.lowTempLabel setText:@"3"];
+    cell.dayLabel.text = _dailyForecasts[indexPath.row].dayOfTheWeek;
+    [cell.dayLabel sizeToFit];
+    cell.highTempLabel.text = [_dailyForecasts[indexPath.row].maxTemperature stringValue];
+    [cell.highTempLabel sizeToFit];
+    cell.lowTempLabel.text = [_dailyForecasts[indexPath.row].minTemperature stringValue];
+    [cell.lowTempLabel sizeToFit];
     
     return cell;
 }
@@ -271,8 +308,7 @@
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake( self.collectionView.frame.size.width / 5 - 10, self.view.frame.size.height / 5);
-    
+    return CGSizeMake(self.collectionView.frame.size.width / 5 - 10, self.view.frame.size.height / 5);
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -286,7 +322,6 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if ([locations count]) {
-        
         NSLog(@"%@", locations.lastObject);
         [self updateLocationLabelWithLocation:locations.lastObject];
     }
@@ -309,8 +344,7 @@
         NSLog(@"%s: location services authorization was previously denied by the user.", __PRETTY_FUNCTION__);
         // Display alert to the user.
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Location services" message:@"Location services were previously denied by the user. Please enable location services for this app in settings." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}]; // Do nothing action to dismiss the alert.
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]; // Do nothing action to dismiss the alert.
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
