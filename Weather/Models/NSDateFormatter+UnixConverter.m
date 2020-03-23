@@ -13,7 +13,13 @@
 + (NSString *)weekdayFromDate:(NSDate *)date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"E"];
-    return [formatter stringFromDate:date];;
+    return [formatter stringFromDate:date];
+}
+
++ (NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)dateStyle {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:dateStyle];
+    return [formatter stringFromDate:date];
 }
 
 @end

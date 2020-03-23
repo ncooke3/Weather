@@ -24,6 +24,7 @@
 		EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC12427E6200031A171 /* DailyForecast.m */; };
 		EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */; };
 		EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC724282BF30031A171 /* HourlyForecast.m */; };
+		EAAD4ECB242962370031A171 /* NSString+ForecastConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,8 @@
 		EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+UnixConverter.m"; path = "Weather/Models/NSDateFormatter+UnixConverter.m"; sourceTree = SOURCE_ROOT; };
 		EAAD4EC624282BF30031A171 /* HourlyForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyForecast.h; sourceTree = "<group>"; };
 		EAAD4EC724282BF30031A171 /* HourlyForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecast.m; sourceTree = "<group>"; };
+		EAAD4EC9242962370031A171 /* NSString+ForecastConditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+ForecastConditions.h"; path = "Weather/Controllers/NSString+ForecastConditions.h"; sourceTree = SOURCE_ROOT; };
+		EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+ForecastConditions.m"; path = "Weather/Controllers/NSString+ForecastConditions.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,8 @@
 		EA73663724267D9C00CABA5C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EAAD4EC9242962370031A171 /* NSString+ForecastConditions.h */,
+				EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */,
 				EAAD4EC3242827210031A171 /* NSDateFormatter+UnixConverter.h */,
 				EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */,
 			);
@@ -314,6 +319,7 @@
 				EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */,
 				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,
 				EAAD4EBC2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m in Sources */,
+				EAAD4ECB242962370031A171 /* NSString+ForecastConditions.m in Sources */,
 				EA736614242677B400CABA5C /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

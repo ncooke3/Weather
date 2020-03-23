@@ -98,6 +98,22 @@ NSString* const kDSWindSpeed                   = @"windSpeed";
 NSString* const kDSData     = @"data";
 
 // TODO: Icon Keys
+NSString* const kDSclearDay                    = @"clear-day";
+NSString* const kDSclearNight                  = @"clear-night";
+NSString* const kDScloudy                      = @"cloudy";
+NSString* const kDSfog                         = @"fog";
+NSString* const kDShail                        = @"hail";
+NSString* const kDSpartlyCloudyDay             = @"partly-cloudy-day";
+NSString* const kDSpartlyCloudyNight           = @"partly-cloudy-night";
+NSString* const kDSrain                        = @"rain";
+NSString* const kDSsleet                       = @"sleet";
+NSString* const kDSsnow                        = @"snow";
+NSString* const kDSthunderstorm                = @"thunderstorm";
+NSString* const kDStornado                     = @"tornado";
+NSString* const kDSwind                        = @"wind";
+
+//NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+//@"value1", @"key1", @"value2", @"key2", nil];
 
 // TODO: Alerts Object Keys
 

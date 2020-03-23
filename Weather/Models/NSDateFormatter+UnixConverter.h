@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSDateFormatter (UnixConverter)
 
 + (NSString *)weekdayFromDate:(NSDate *)date;
++ (NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)dateStyle;
 
 @end
 

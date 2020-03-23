@@ -109,7 +109,20 @@ extern NSString* const kDSData;
 extern NSString* const kDSSummary;
 extern NSString* const kDSIcon;
 
-// TODO: Icon Keys
+// Icon Conditions
+extern NSString* const kDSclearDay;
+extern NSString* const kDSclearNight;
+extern NSString* const kDScloudy;
+extern NSString* const kDSfog;
+extern NSString* const kDShail;
+extern NSString* const kDSpartlyCloudyDay;
+extern NSString* const kDSpartlyCloudyNight;
+extern NSString* const kDSrain;
+extern NSString* const kDSsleet;
+extern NSString* const kDSsnow;
+extern NSString* const kDSthunderstorm;
+extern NSString* const kDStornado;
+extern NSString* const kDSwind;
 
 // TODO: Alerts Object Keys
 

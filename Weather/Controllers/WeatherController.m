@@ -7,14 +7,18 @@
 //
 
 #import "WeatherController.h"
-#import "WeatherController+WeatherController_Forecasts.h"
+
+// Views
 #import "DailyForecastCell.h"
 
+// Categories
+#import "NSDateFormatter+UnixConverter.h"
+#import "WeatherController+WeatherController_Forecasts.h"
+#import "NSString+ForecastConditions.h"
 
 @interface WeatherController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic) UIScrollView *scrollView;
-
 @property (nonatomic) UIRefreshControl *refreshControl;
 
 // Location Properties
@@ -123,7 +127,7 @@
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     [layout setSectionInset:UIEdgeInsetsMake(0, 5, 0, 5)];
     [layout setMinimumInteritemSpacing:0];
-
+    
     CGRect collectionViewFrame = CGRectMake(25, self.view.frame.size.height + 20, self.view.frame.size.width - 50, self.view.frame.size.height / 5);
     _collectionView = [[UICollectionView alloc] initWithFrame:collectionViewFrame collectionViewLayout:layout];
     _collectionView.delegate = self;
@@ -138,31 +142,22 @@
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     _scrollView.delegate = self;
     _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 1.5 * self.view.bounds.size.height);
-    
     CALayer *layer = [[CALayer alloc] init];
-    layer.frame = CGRectMake(0, -self.view.frame.size.width, self.view.frame.size.width, self.view.frame.size.width + self.view.frame.size.height - 50);
+    layer.frame = CGRectMake(0, -1000, self.view.bounds.size.width, 1000 + self.view.bounds.size.height - 50);
     layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.81 blue:0.71 alpha:1.0] CGColor];
-    
     [_scrollView.layer addSublayer:layer];
-    
-    [self setupLocationLabel];
+    [self configureLocationLabel];
     [_scrollView addSubview:self.locationLabel];
-    
-    [self setupDateLabel];
+    [self configureDateLabel];
     [_scrollView addSubview:self.dateLabel];
-    
-    [self setupTemperatureLabel];
+    [self configureTemperatureLabel];
     [_scrollView addSubview:self.temperatureLabel];
-    
     [self setupConditionsLabel];
     [_scrollView addSubview:self.conditionsLabel];
-    
     [self configureApparentTemperatureLabel];
     [_scrollView addSubview:self.apparentTemperatureLabel];
-    
     [self configureRefreshControl];
     [_scrollView addSubview:_refreshControl];
-    
     [self.view addSubview:_scrollView];
 }
 
@@ -177,82 +172,49 @@
     [sender endRefreshing];
 }
 
-- (void)setupLocationLabel {
+- (void)configureLocationLabel {
     CGRect locationLabelFrame = CGRectMake(40, 80, 0, 0);
-    self.locationLabel = [[UILabel alloc] initWithFrame: locationLabelFrame];
-    
-    // TODO: Access device location and update label accordingly.
-    NSString *locationString = @"Cupertino";
-
-    NSDictionary<NSAttributedStringKey, id> *locationStringAttributes = @{
-        NSFontAttributeName: [UIFont fontWithName:@"Futura-Bold" size:36],
-        NSForegroundColorAttributeName: UIColor.darkTextColor
-    };
-    NSAttributedString *locationAttributedString = [[NSAttributedString alloc] initWithString:locationString attributes:locationStringAttributes];
-    
-    [self.locationLabel setAttributedText:locationAttributedString];
-    [self.locationLabel sizeToFit];
+    _locationLabel = [[UILabel alloc] initWithFrame: locationLabelFrame];
+    _locationLabel.text = @"Cupertino"; // MARK: user defaults - last stored location
+    _locationLabel.font = [UIFont fontWithName:@"Futura-Bold" size:36];
+    _locationLabel.textColor = UIColor.darkTextColor;
+    [_locationLabel sizeToFit];
 }
 
-- (void)setupDateLabel {
+- (void)configureDateLabel {
     CGRect dateLabelFrame = CGRectMake(self.locationLabel.frame.origin.x, self.locationLabel.frame.origin.y + self.locationLabel.frame.size.height + 8, 0, 0);
-    self.dateLabel = [[UILabel alloc] initWithFrame:dateLabelFrame];
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    // TODO: provide different options for changing presentation style
-    [dateFormatter setDateFormat:@"E MMM d"];
-    
-    // TODO: make sure properly updates at midnight
-    NSDate *date = [NSDate date];
-    NSString *dateString = [dateFormatter stringFromDate:date];
-    
-    NSDictionary<NSAttributedStringKey, id> *dateStringAttributes = @{
-        NSFontAttributeName: [UIFont fontWithName:@"Futura-Medium" size:16],
-        NSForegroundColorAttributeName: [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1.0]
-    };
-    NSAttributedString *dateAttributedString = [[NSAttributedString alloc] initWithString:dateString attributes:dateStringAttributes];
-    
-    [self.dateLabel setAttributedText:dateAttributedString];
-    [self.dateLabel sizeToFit];
+    _dateLabel = [[UILabel alloc] initWithFrame:dateLabelFrame];
+    _dateLabel.font = [UIFont fontWithName:@"Futura-Medium" size:16];
+    _dateLabel.textColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1.0];
+    _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"];
+    [_dateLabel sizeToFit];
 }
 
-- (void)setupTemperatureLabel {
-    self.temperatureLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3, 0, 0)];
-    
-    NSDictionary<NSAttributedStringKey, id> *temperatureLabelAttributes = @{
-        NSFontAttributeName: [UIFont fontWithName:@"Futura-Bold" size:72],
-        NSForegroundColorAttributeName: UIColor.darkTextColor
-    };
-    NSAttributedString *temperatureAttributedString = [[NSAttributedString alloc] initWithString:@"13°" attributes:temperatureLabelAttributes];
-    
-    [self.temperatureLabel setAttributedText:temperatureAttributedString];
-    [self.temperatureLabel sizeToFit];
+- (void)configureTemperatureLabel {
+    CGRect temperatureLabelFrame = CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3, 0, 0);
+    _temperatureLabel = [[UILabel alloc] initWithFrame:temperatureLabelFrame];
+    _temperatureLabel.font = [UIFont fontWithName:@"Futura-Bold" size:72];
+    _temperatureLabel.textColor = UIColor.darkTextColor;
+    _temperatureLabel.text = @"13°";
+    [_temperatureLabel sizeToFit];
 }
 
 - (void)setupConditionsLabel {
-    self.conditionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3 + 90, 0, 0)];
-    
-    NSDictionary<NSAttributedStringKey, id> *conditionsLabelAttributes = @{
-        NSFontAttributeName: [UIFont fontWithName:@"Futura-Medium" size:34],
-        NSForegroundColorAttributeName: UIColor.darkTextColor
-    };
-    NSAttributedString *temperatureAttributedString = [[NSAttributedString alloc] initWithString:@"Heavy Rain" attributes:conditionsLabelAttributes];
-    
-    [self.conditionsLabel setAttributedText:temperatureAttributedString];
-    [self.conditionsLabel sizeToFit];
+    CGRect conditionsLabelFrame = CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3 + 90, 0, 0);
+    _conditionsLabel = [[UILabel alloc] initWithFrame:conditionsLabelFrame];
+    _conditionsLabel.font = [UIFont fontWithName:@"Futura-Medium" size:34];
+    _conditionsLabel.textColor = UIColor.darkTextColor;
+    _conditionsLabel.text = @"Heavy Rain";
+    [_conditionsLabel sizeToFit];
 }
 
 - (void)configureApparentTemperatureLabel {
-    self.apparentTemperatureLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3 + 135, 0, 0)];
-    
-    NSDictionary<NSAttributedStringKey, id> *feelsLikeLabelAttributes = @{
-        NSFontAttributeName: [UIFont fontWithName:@"Futura-Medium" size:20],
-        NSForegroundColorAttributeName: [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1.0]
-    };
-    NSAttributedString *temperatureAttributedString = [[NSAttributedString alloc] initWithString:@"Feels like 11°" attributes:feelsLikeLabelAttributes];
-    
-    [self.apparentTemperatureLabel setAttributedText:temperatureAttributedString];
-    [self.apparentTemperatureLabel sizeToFit];
+    CGRect apparentTemperatureLabelFrame = CGRectMake(self.dateLabel.frame.origin.x, self.scrollView.frame.size.height / 3 + 135, 0, 0);
+    _apparentTemperatureLabel = [[UILabel alloc] initWithFrame:apparentTemperatureLabelFrame];
+    _apparentTemperatureLabel.font = [UIFont fontWithName:@"Futura-Medium" size:20];
+    _apparentTemperatureLabel.textColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1.0];
+    _apparentTemperatureLabel.text = @"Feels like 11°";
+    [_apparentTemperatureLabel sizeToFit];
 }
 
 - (void)updateLocationLabelWithLocation:(CLLocation *)location {
@@ -269,6 +231,7 @@
             if (![self.locationLabel.text isEqualToString:firstLocation.locality]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.locationLabel setText:firstLocation.locality];
+                    [self.locationLabel sizeToFit];
                 });
             }
         }
@@ -278,11 +241,13 @@
 #pragma mark - Forecast Update Handling
 
 - (void)displayCurrentForecast {
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%@°F",
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%@°",
     [_currentForecast.temperature stringValue]];
     [self.temperatureLabel sizeToFit];
-    self.conditionsLabel.text = _currentForecast.icon;
-    self.apparentTemperatureLabel.text = [NSString stringWithFormat:@"%@", _currentForecast.apparentTemperature];
+    self.conditionsLabel.text = [NSString conditionsFrom:_currentForecast.icon];
+    [self.conditionsLabel sizeToFit];
+    self.apparentTemperatureLabel.text = [NSString stringWithFormat:@"Feels like %@°", _currentForecast.apparentTemperature];
+    [self.apparentTemperatureLabel sizeToFit];
 }
 
 - (void)displayDailyForecasts {
