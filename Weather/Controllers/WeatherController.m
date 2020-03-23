@@ -15,6 +15,7 @@
 #import "NSDateFormatter+UnixConverter.h"
 #import "WeatherController+WeatherController_Forecasts.h"
 #import "NSString+ForecastConditions.h"
+#import "CLGeocoder+City.h"
 
 @interface WeatherController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -218,22 +219,13 @@
 }
 
 - (void)updateLocationLabelWithLocation:(CLLocation *)location {
-    CLGeocoder *geocoder = [CLGeocoder new];
-    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> *placemarks, NSError *error) {
-        
-        if (error) {
-            NSLog(@"Geocode failed with error: %@", error);
-            return;
-        }
-        
-        if (placemarks && placemarks.count > 0) {
-            CLPlacemark *firstLocation = placemarks.firstObject;
-            if (![self.locationLabel.text isEqualToString:firstLocation.locality]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.locationLabel setText:firstLocation.locality];
-                    [self.locationLabel sizeToFit];
-                });
-            }
+    [CLGeocoder cityFromLocation:location completion:^(Placemark city) {
+        __weak typeof(self) weakSelf = self;
+        if (![weakSelf.locationLabel.text isEqualToString:city.locality]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.locationLabel setText:city.locality];
+                [weakSelf.locationLabel sizeToFit];
+            });
         }
     }];
 }

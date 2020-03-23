@@ -25,6 +25,7 @@
 		EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC4242827210031A171 /* NSDateFormatter+UnixConverter.m */; };
 		EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC724282BF30031A171 /* HourlyForecast.m */; };
 		EAAD4ECB242962370031A171 /* NSString+ForecastConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */; };
+		EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		EAAD4EC724282BF30031A171 /* HourlyForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecast.m; sourceTree = "<group>"; };
 		EAAD4EC9242962370031A171 /* NSString+ForecastConditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+ForecastConditions.h"; path = "Weather/Controllers/NSString+ForecastConditions.h"; sourceTree = SOURCE_ROOT; };
 		EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+ForecastConditions.m"; path = "Weather/Controllers/NSString+ForecastConditions.m"; sourceTree = SOURCE_ROOT; };
+		EAAD4ECC242966CA0031A171 /* CLGeocoder+City.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CLGeocoder+City.h"; path = "Weather/Controllers/CLGeocoder+City.h"; sourceTree = SOURCE_ROOT; };
+		EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CLGeocoder+City.m"; path = "Weather/Controllers/CLGeocoder+City.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +157,10 @@
 		EA73663724267D9C00CABA5C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EAAD4EBA2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.h */,
+				EAAD4EBB2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m */,
+				EAAD4ECC242966CA0031A171 /* CLGeocoder+City.h */,
+				EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */,
 				EAAD4EC9242962370031A171 /* NSString+ForecastConditions.h */,
 				EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */,
 				EAAD4EC3242827210031A171 /* NSDateFormatter+UnixConverter.h */,
@@ -167,8 +174,6 @@
 			children = (
 				EA73663C24267DE200CABA5C /* WeatherController.h */,
 				EA73663D24267DE200CABA5C /* WeatherController.m */,
-				EAAD4EBA2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.h */,
-				EAAD4EBB2427DAA80031A171 /* WeatherController+WeatherController_Forecasts.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				EA736611242677B400CABA5C /* AppDelegate.m in Sources */,
 				EA736648242681DD00CABA5C /* DarkSky.m in Sources */,
 				EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */,
+				EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */,
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
 				EA73663E24267DE200CABA5C /* WeatherController.m in Sources */,
