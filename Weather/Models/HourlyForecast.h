@@ -16,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *icon;
 
 // Temperature Properties
-@property (nonatomic, readonly) NSNumber *minTemperature;
-@property (nonatomic, readonly) NSNumber *maxTemperature;
+@property (nonatomic, readonly) NSNumber *temperature;
 
 // Precipitation Properties
 @property (nonatomic, readonly) NSNumber *precipProbability;

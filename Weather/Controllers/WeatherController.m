@@ -10,6 +10,7 @@
 
 // Views
 #import "DailyForecastCell.h"
+#import "GraphView.h"
 
 // Categories
 #import "NSDateFormatter+UnixConverter.h"
@@ -21,6 +22,8 @@
 
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIRefreshControl *refreshControl;
+
+@property (nonatomic) GraphView *graphView;
 
 // Location Properties
 @property (nonatomic) UILabel *locationLabel;
@@ -112,12 +115,18 @@
         if (hourlyForecasts == nil) { return; }
         // TODO: observe lifecycle of updatedHourlyForecasts
         NSMutableArray<HourlyForecast *> *updatedHourlyForecasts = [[NSMutableArray alloc] init];
+        NSMutableArray<NSNumber *> *hourlyTemperatures = [[NSMutableArray alloc] init];
         for (NSDictionary *forecast in hourlyForecasts) {
             HourlyForecast *hourlyForecast = [[HourlyForecast alloc] initWithDictionary:forecast];
             [updatedHourlyForecasts addObject:hourlyForecast];
+            if ([hourlyTemperatures count] < 12) {
+                [hourlyTemperatures addObject:[hourlyForecast temperature]];
+            }
         }
         weakSelf.hourlyForecasts = updatedHourlyForecasts;
-        dispatch_async(dispatch_get_main_queue(), ^{ [weakSelf displayHourlyForecast]; });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf displayHourlyForecastForTemperatures:hourlyTemperatures];
+        });
     }];
 }
 
@@ -139,14 +148,28 @@
     [self.scrollView addSubview:_collectionView];
 }
 
+- (void)configureGraphView {
+    CGRect frame = CGRectMake(0, 0.66 * self.view.frame.size.height, self.view.frame.size.width, 0.28 * self.view.frame.size.height);
+    _graphView = [[GraphView alloc] initWithFrame:frame];
+    _graphView.strokeColor = self.view.backgroundColor;
+    _graphView.showLabels = YES;
+    _graphView.drawFilledGraph = YES;
+    [_graphView plotGraphData];
+}
+
+- (CALayer *)configureScrollViewLayer {
+    CALayer *layer = [[CALayer alloc] init];
+    layer.frame = CGRectMake(0, -self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height + _graphView.frame.origin.y + _graphView.frame.size.height);
+    layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.81 blue:0.71 alpha:1.0] CGColor];
+    return layer;
+}
+
 - (void)configureScrollView {
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 1.5 * self.view.bounds.size.height);
-    CALayer *layer = [[CALayer alloc] init];
-    layer.frame = CGRectMake(0, -1000, self.view.bounds.size.width, 1000 + self.view.bounds.size.height - 50);
-    layer.backgroundColor = [[UIColor colorWithRed:0.89 green:0.81 blue:0.71 alpha:1.0] CGColor];
-    [_scrollView.layer addSublayer:layer];
+    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1.5 * self.view.frame.size.height);
+    [self configureGraphView];
+    [_scrollView addSubview:_graphView];
     [self configureLocationLabel];
     [_scrollView addSubview:self.locationLabel];
     [self configureDateLabel];
@@ -160,6 +183,9 @@
     [self configureRefreshControl];
     [_scrollView addSubview:_refreshControl];
     [self.view addSubview:_scrollView];
+    
+    CALayer * layer = [self configureScrollViewLayer];
+    [_scrollView.layer insertSublayer:layer atIndex:0];
 }
 
 - (void)configureRefreshControl {
@@ -246,8 +272,9 @@
     [_collectionView reloadData];
 }
 
-- (void)displayHourlyForecast {
-    // update charts
+- (void)displayHourlyForecastForTemperatures:(NSArray<NSNumber *> *)temperatures {
+    // This will trigger a replot of the graph's data.
+    _graphView.graphData = temperatures;
 }
 
 # pragma mark - UICollectionViewDataSource

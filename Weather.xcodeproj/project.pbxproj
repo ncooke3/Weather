@@ -26,6 +26,8 @@
 		EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EC724282BF30031A171 /* HourlyForecast.m */; };
 		EAAD4ECB242962370031A171 /* NSString+ForecastConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */; };
 		EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */; };
+		EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EED2429DDC50031A171 /* GraphPoint.m */; };
+		EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EEF2429DDC50031A171 /* GraphView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,10 @@
 		EAAD4ECA242962370031A171 /* NSString+ForecastConditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+ForecastConditions.m"; path = "Weather/Controllers/NSString+ForecastConditions.m"; sourceTree = SOURCE_ROOT; };
 		EAAD4ECC242966CA0031A171 /* CLGeocoder+City.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CLGeocoder+City.h"; path = "Weather/Controllers/CLGeocoder+City.h"; sourceTree = SOURCE_ROOT; };
 		EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CLGeocoder+City.m"; path = "Weather/Controllers/CLGeocoder+City.m"; sourceTree = SOURCE_ROOT; };
+		EAAD4EEC2429DDC50031A171 /* GraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphPoint.h; sourceTree = "<group>"; };
+		EAAD4EED2429DDC50031A171 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
+		EAAD4EEE2429DDC50031A171 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		EAAD4EEF2429DDC50031A171 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,7 @@
 				EA73663924267DA000CABA5C /* Views */,
 				EA73663824267D9E00CABA5C /* Controllers */,
 				EA73663724267D9C00CABA5C /* Utils */,
+				EAAD4EF22429DDDB0031A171 /* Graph */,
 				EA73663624267D9A00CABA5C /* Networking */,
 				EA73661B242677B800CABA5C /* Assets.xcassets */,
 				EA73661D242677B800CABA5C /* LaunchScreen.storyboard */,
@@ -211,6 +218,17 @@
 				EA736613242677B400CABA5C /* SceneDelegate.m */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		EAAD4EF22429DDDB0031A171 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				EAAD4EEC2429DDC50031A171 /* GraphPoint.h */,
+				EAAD4EED2429DDC50031A171 /* GraphPoint.m */,
+				EAAD4EEE2429DDC50031A171 /* GraphView.h */,
+				EAAD4EEF2429DDC50031A171 /* GraphView.m */,
+			);
+			path = Graph;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,9 +330,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */,
 				EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */,
 				EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */,
 				EA736611242677B400CABA5C /* AppDelegate.m in Sources */,
+				EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */,
 				EA736648242681DD00CABA5C /* DarkSky.m in Sources */,
 				EAAD4EC824282BF30031A171 /* HourlyForecast.m in Sources */,
 				EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */,

@@ -24,7 +24,7 @@
     } else if ([icon isEqualToString:kDSpartlyCloudyDay]) {
         return @"Partly Cloudy";
     } else if ([icon isEqualToString:kDSpartlyCloudyNight]) {
-        return @"Partly Cloudy Night";
+        return @"Partly Cloudy";
     } else if ([icon isEqualToString:kDSrain]) {
         return @"Rain";
     } else if ([icon isEqualToString:kDSsleet]) {
