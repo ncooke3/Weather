@@ -27,6 +27,7 @@
 
 // Location Properties
 @property (nonatomic) UILabel *locationLabel;
+@property (nonatomic) UILabel *pinnedLocationLabel;
 
 // Time & Date Properties
 @property (nonatomic) UILabel *dateLabel;
@@ -35,6 +36,7 @@
 @property (nonatomic) UILabel *temperatureLabel;
 @property (nonatomic) UILabel *conditionsLabel;
 @property (nonatomic) UILabel *apparentTemperatureLabel;
+@property (nonatomic) UILabel *pinnedTemperatureLabel;
 
 // Weekly Forecast Properties
 @property (nonatomic) UICollectionView *collectionView;
@@ -74,7 +76,32 @@
     [self updateHourlyForecasts];
     
     [self configureScrollView];
+    
+    _pinnedLocationLabel = [[UILabel alloc] init];
+    _pinnedLocationLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.scrollView addSubview:_pinnedLocationLabel]; // maybe update with didSet
+    _pinnedLocationLabel.text = _locationLabel.text;
+    _pinnedLocationLabel.font = [UIFont fontWithName:@"Futura-Bold" size:16];
+    _pinnedLocationLabel.textColor = UIColor.darkTextColor;
+    [[_pinnedLocationLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
+    [[_pinnedLocationLabel.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor] setActive:YES];
+    _pinnedLocationLabel.alpha = 0;
+    
+    
+    _pinnedTemperatureLabel = [[UILabel alloc] init];
+    _pinnedTemperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.scrollView addSubview:_pinnedTemperatureLabel]; // maybe update with didSet
+    _pinnedTemperatureLabel.text = _temperatureLabel.text;
+    _pinnedTemperatureLabel.font = [UIFont fontWithName:@"Futura-Bold" size:16];
+    _pinnedTemperatureLabel.textColor = UIColor.darkTextColor;
+    [[_pinnedTemperatureLabel.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
+    [[_pinnedTemperatureLabel.topAnchor constraintEqualToAnchor:_pinnedLocationLabel.bottomAnchor constant:5] setActive:YES];
+    _pinnedTemperatureLabel.alpha = 0;
+    
     [self configureCollectionView];
+    
+
+    [_scrollView setContentOffset:CGPointZero];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -130,6 +157,39 @@
     }];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _scrollView.contentOffset = CGPointZero;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGFloat locationLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _locationLabel.frame.origin.y)))));
+    _locationLabel.alpha = 1 - locationLabelRatio;
+    
+    CGFloat dateLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _dateLabel.frame.origin.y)))));
+    _dateLabel.alpha = 1 - dateLabelRatio;
+
+    CGFloat pinnedLocationLabelRatio = MIN(1, MAX(0, MIN(1, ((scrollView.contentOffset.y - _locationLabel.frame.origin.y + _pinnedLocationLabel.frame.size.height) / _locationLabel.frame.origin.y))));
+    _pinnedLocationLabel.alpha = pinnedLocationLabelRatio;
+
+    // whenever you are within range of the fade line
+    if ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) <= 123) {
+        _temperatureLabel.alpha = MAX(0, MIN(1, ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 53) / (123 - 53)));
+        _pinnedTemperatureLabel.alpha = (1 - _temperatureLabel.alpha) - _temperatureLabel.alpha;
+    }
+    
+    if ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) <= 125) {
+        _conditionsLabel.alpha = MAX(0, MIN(1, ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
+    }
+    
+    if ((_apparentTemperatureLabel.frame.origin.y - scrollView.contentOffset.y) <= 125) {
+        _apparentTemperatureLabel.alpha = MAX(0, MIN(1, ((_apparentTemperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
+    }
+    
+}
+
 #pragma mark - Subview Configuration
 
 - (void)configureCollectionView {
@@ -181,7 +241,7 @@
     [self configureApparentTemperatureLabel];
     [_scrollView addSubview:self.apparentTemperatureLabel];
     [self configureRefreshControl];
-    [_scrollView addSubview:_refreshControl];
+    
     [self.view addSubview:_scrollView];
     
     CALayer * layer = [self configureScrollViewLayer];
@@ -190,6 +250,10 @@
 
 - (void)configureRefreshControl {
     _refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [_scrollView addSubview:_refreshControl];
+    [[_refreshControl.topAnchor constraintEqualToAnchor:_scrollView.safeAreaLayoutGuide.topAnchor constant:25] setActive:YES];
+    [[_refreshControl.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor] setActive:YES];
     _refreshControl.tintColor = UIColor.lightTextColor;
     [_refreshControl addTarget:self action:@selector(handleRefreshCurrentForecast:) forControlEvents:UIControlEventValueChanged];
 }
@@ -251,6 +315,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.locationLabel setText:city.locality];
                 [weakSelf.locationLabel sizeToFit];
+                [weakSelf.pinnedLocationLabel setText:city.locality];
             });
         }
     }];
@@ -266,10 +331,13 @@
     [self.conditionsLabel sizeToFit];
     self.apparentTemperatureLabel.text = [NSString stringWithFormat:@"Feels like %@°", _currentForecast.apparentTemperature];
     [self.apparentTemperatureLabel sizeToFit];
+    self.pinnedTemperatureLabel.text = [NSString stringWithFormat:@"%@°",
+    [_currentForecast.temperature stringValue]];
 }
 
 - (void)displayDailyForecasts {
     [_collectionView reloadData];
+    [_scrollView setContentOffset:CGPointZero];
 }
 
 - (void)displayHourlyForecastForTemperatures:(NSArray<NSNumber *> *)temperatures {
@@ -322,7 +390,6 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if ([locations count]) {
-        NSLog(@"%@", locations.lastObject);
         [self updateLocationLabelWithLocation:locations.lastObject];
     }
 }
