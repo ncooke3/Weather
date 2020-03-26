@@ -23,8 +23,6 @@
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) UIRefreshControl *refreshControl;
 
-@property (nonatomic) GraphView *graphView;
-
 // Location Properties
 @property (nonatomic) UILabel *locationLabel;
 @property (nonatomic) UILabel *pinnedLocationLabel;
@@ -42,7 +40,9 @@
 @property (nonatomic) UICollectionView *collectionView;
 
 // Hourly Forecast Properties
-// TODO: Hourly Temperature, Humidity, & Precipitation Charts
+@property (nonatomic) GraphView *graphView;
+@property (nonatomic) UILabel *precipitationLabel;
+@property (nonatomic) GraphView *precipitationGraph;
 
 @end
 
@@ -143,16 +143,19 @@
         // TODO: observe lifecycle of updatedHourlyForecasts
         NSMutableArray<HourlyForecast *> *updatedHourlyForecasts = [[NSMutableArray alloc] init];
         NSMutableArray<NSNumber *> *hourlyTemperatures = [[NSMutableArray alloc] init];
+        NSMutableArray<NSNumber *> *hourlyPrecipitation = [[NSMutableArray alloc] init];
         for (NSDictionary *forecast in hourlyForecasts) {
             HourlyForecast *hourlyForecast = [[HourlyForecast alloc] initWithDictionary:forecast];
             [updatedHourlyForecasts addObject:hourlyForecast];
             if ([hourlyTemperatures count] < 12) {
                 [hourlyTemperatures addObject:[hourlyForecast temperature]];
+                //[hourlyPrecipitation addObject:@([hourlyForecast precipProbability].doubleValue * 100)];
             }
         }
         weakSelf.hourlyForecasts = updatedHourlyForecasts;
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf displayHourlyForecastForTemperatures:hourlyTemperatures];
+            [weakSelf displayHourlyForecastForPrecipitation:hourlyPrecipitation];
         });
     }];
 }
@@ -209,12 +212,45 @@
 }
 
 - (void)configureGraphView {
-    CGRect frame = CGRectMake(0, 0.66 * self.view.frame.size.height, self.view.frame.size.width, 0.28 * self.view.frame.size.height);
+    CGRect frame = CGRectMake(self.view.frame.size.width  * -0.01,
+                              self.view.frame.size.height * 2.0/3.0,
+                              self.view.frame.size.width  * 1.02,
+                              self.view.frame.size.height * 1.0/3.0);
     _graphView = [[GraphView alloc] initWithFrame:frame];
     _graphView.strokeColor = self.view.backgroundColor;
     _graphView.showLabels = YES;
     _graphView.drawFilledGraph = YES;
     [_graphView plotGraphData];
+}
+
+- (void)configurePrecipitationGraphView {
+    CGRect frame = CGRectMake(self.view.frame.size.width  * -0.01,
+                              self.view.frame.size.height * -0.25 + _scrollView.contentSize.height,
+                              self.view.frame.size.width  * 1.02,
+                              self.view.frame.size.height * 0.25);
+    _precipitationGraph = [[GraphView alloc] initWithFrame:frame];
+    _precipitationGraph.strokeColor = [UIColor colorWithRed:0.22 green:0.29 blue:0.38 alpha:1.00];
+    _precipitationGraph.showLabels = YES;
+    _precipitationGraph.labelFontColor = [UIColor colorWithRed:0.22 green:0.29 blue:0.38 alpha:1.00];
+    _precipitationGraph.drawFilledGraph = YES;
+    [_precipitationGraph plotGraphData];
+    
+    [_scrollView addSubview:_precipitationGraph];
+    
+    CALayer *precipitationGraphExtensionLayer = [[CALayer alloc] init];
+    precipitationGraphExtensionLayer.frame = CGRectMake(0, _precipitationGraph.frame.origin.y + _precipitationGraph.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+    precipitationGraphExtensionLayer.backgroundColor = [[UIColor colorWithRed:0.22 green:0.29 blue:0.38 alpha:1.00] CGColor];
+    precipitationGraphExtensionLayer.masksToBounds = YES;
+    [_scrollView.layer addSublayer:precipitationGraphExtensionLayer];
+    
+    _precipitationLabel = [[UILabel alloc] init];
+    _precipitationLabel.text = @"Hourly Rain Forecast"; // Dynamic based on precipitation type from hourly forecast
+    _precipitationLabel.font = [UIFont fontWithName:@"Futura-Medium" size:18];
+    _precipitationLabel.textColor = [UIColor colorWithRed:0.22 green:0.29 blue:0.38 alpha:1.00];
+    _precipitationLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [_scrollView addSubview:_precipitationLabel];
+    [[_precipitationLabel.bottomAnchor constraintEqualToAnchor:_precipitationGraph.topAnchor constant:-20] setActive:YES];
+    [[_precipitationLabel.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:30] setActive:YES];
 }
 
 - (CALayer *)configureScrollViewLayer {
@@ -227,7 +263,10 @@
 - (void)configureScrollView {
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1.5 * self.view.frame.size.height);
+    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1.6 * self.view.frame.size.height);
+    [self configurePrecipitationGraphView];
+    _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    _scrollView.showsVerticalScrollIndicator = NO;
     [self configureGraphView];
     [_scrollView addSubview:_graphView];
     [self configureLocationLabel];
@@ -343,6 +382,11 @@
 - (void)displayHourlyForecastForTemperatures:(NSArray<NSNumber *> *)temperatures {
     // This will trigger a replot of the graph's data.
     _graphView.graphData = temperatures;
+}
+
+- (void)displayHourlyForecastForPrecipitation:(NSArray<NSNumber *> *)precipitation {
+    precipitation = @[@(60), @(63), @(69), @(77), @(85), @(91), @(92), @(73), @(66), @(53), @(49), @(40)];
+    _precipitationGraph.graphData = precipitation;
 }
 
 # pragma mark - UICollectionViewDataSource

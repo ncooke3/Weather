@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super initWithFrame:frame];
     if (self) {
         _dayLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [_dayLabel setTextColor:UIColor.darkGrayColor];
+        [_dayLabel setTextColor:UIColor.grayColor];
         _dayLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_dayLabel];
         
@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
         [self.contentView addSubview:_iconImageView];
         
         _highTempLabel = [[UILabel alloc] init];
-        [_highTempLabel setTextColor:[UIColor.redColor colorWithAlphaComponent:0.5]];
+        [_highTempLabel setTextColor:UIColor.grayColor];
         _highTempLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_highTempLabel];
         
         _lowTempLabel = [[UILabel alloc] init];
-        [_lowTempLabel setTextColor:[UIColor.blueColor colorWithAlphaComponent:0.5]];
+        [_lowTempLabel setTextColor:UIColor.lightGrayColor];
         _lowTempLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_lowTempLabel];
     }

@@ -96,7 +96,7 @@ NSInteger const kPointLabelHeight = 20;
         
         NSInteger labelRelatedOffset = kPointLabelHeight + kPointLabelOffsetFromPointCenter;
         NSInteger topInset = 15;
-        NSInteger bottomInset = 15;
+        NSInteger bottomInset = 45; // This should push the graph's line up a bit.
         float graphViewHeightGraphableAreaRatio = (self.frame.size.height - labelRelatedOffset) / (self.frame.size.height + topInset + bottomInset);
         float yAxisRatio = ((self.frame.size.height * graphViewHeightGraphableAreaRatio) / range);
         NSInteger yCoordinateContributionFromDataPoint = ([[_graphData objectAtIndex:counter - 1] integerValue] * yAxisRatio);
