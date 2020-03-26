@@ -71,6 +71,9 @@
     
     [self.view setBackgroundColor:[UIColor colorWithRed:0.97 green:0.97 blue:0.95 alpha:1.0]];
     
+    [self configureNotifications];
+    
+    // Make network Calls
     [self updateCurrentForecast];
     [self updateDailyForecasts];
     [self updateHourlyForecasts];
@@ -108,6 +111,21 @@
     [super viewDidAppear:animated];
     
     [self handleLocationManagerAuthorization];
+}
+
+#pragma mark - Notification Center
+
+-(void)configureNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)willEnterBackground {
+    [[NSUserDefaults standardUserDefaults] setObject:NSStringFromCGPoint(_scrollView.contentOffset) forKey:@"scrollViewContentOffset"];
+}
+
+- (void)willEnterForeground {
+    [_scrollView setContentOffset:CGPointFromString([[NSUserDefaults standardUserDefaults] objectForKey:@"scrollViewContentOffset"]) animated:YES];
 }
 
 #pragma mark - Networking

@@ -43,21 +43,18 @@
     } else {
         NSLog(@"Significant location change monitoring is not available.");
     }
-
 }
 
 
 - (void)sceneWillEnterForeground:(UIScene *)scene {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-    
     if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
         [self.mainViewController.locationManager stopMonitoringSignificantLocationChanges];
         [self.mainViewController.locationManager startUpdatingLocation];
     } else {
         NSLog(@"Significant location change monitoring is not available.");
     }
-    
 }
 
 
