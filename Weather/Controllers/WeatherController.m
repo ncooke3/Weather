@@ -167,6 +167,7 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView != _scrollView) { return; }
     
     CGFloat locationLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _locationLabel.frame.origin.y)))));
     _locationLabel.alpha = 1 - locationLabelRatio;
@@ -176,21 +177,11 @@
 
     CGFloat pinnedLocationLabelRatio = MIN(1, MAX(0, MIN(1, ((scrollView.contentOffset.y - _locationLabel.frame.origin.y + _pinnedLocationLabel.frame.size.height) / _locationLabel.frame.origin.y))));
     _pinnedLocationLabel.alpha = pinnedLocationLabelRatio;
-
-    // whenever you are within range of the fade line
-    if ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) <= 123) {
-        _temperatureLabel.alpha = MAX(0, MIN(1, ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 53) / (123 - 53)));
-        _pinnedTemperatureLabel.alpha = (1 - _temperatureLabel.alpha) - _temperatureLabel.alpha;
-    }
     
-    if ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) <= 125) {
-        _conditionsLabel.alpha = MAX(0, MIN(1, ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
-    }
-    
-    if ((_apparentTemperatureLabel.frame.origin.y - scrollView.contentOffset.y) <= 125) {
-        _apparentTemperatureLabel.alpha = MAX(0, MIN(1, ((_apparentTemperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
-    }
-    
+    _temperatureLabel.alpha = MAX(0, MIN(1, ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 65) / (125 - 65)));
+    _pinnedTemperatureLabel.alpha = (1 - _temperatureLabel.alpha) - _temperatureLabel.alpha;
+    _conditionsLabel.alpha = MAX(0, MIN(1, ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
+    _apparentTemperatureLabel.alpha = MAX(0, MIN(1, ((_apparentTemperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
 }
 
 #pragma mark - Subview Configuration
