@@ -7,78 +7,128 @@
 //
 
 #import "GraphView.h"
+
+// Views
 #import "GraphPoint.h"
+
+// Categories
+#import "UISpringTimingParameters+Convenience.h"
 
 NSInteger const kGapBetweenBackgroundVerticalBars = 4;
 NSInteger const kPointLabelOffsetFromPointCenter = 25;
 NSInteger const kPointLabelHeight = 20;
 
-@interface GraphView ()
+@interface GraphView () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIView *graphView;
+@property (nonatomic) UIView *graphView;
+@property (nonatomic) UIPanGestureRecognizer *gestureRecognizer;
+@property (nonatomic) NSMutableArray<GraphPoint *> *graphPoints;
+@property (nonatomic) NSMutableArray<NSValue *> *dataCoordinatePoints;
+@property (nonatomic) GraphPoint *currentlyExpandedGraphPoint;
 
 @end
 
 @implementation GraphView
-
-- (void)setGraphData:(NSArray *)graphData {
-    _graphData = graphData;
-    [self plotGraphData];
-}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         _strokeColor = [UIColor colorWithRed:0.71f green: 1.0f blue: 0.196f alpha: 1.0f];
         _strokeWidth = 2;
-        _pointFillColor = [UIColor colorWithRed: 0.219f green: 0.657f blue: 0 alpha: 1.0f];
+        _pointFillColor = UIColor.redColor;
         _graphWidth = self.frame.size.width; // 2
         _labelingInterval = 1;
         _labelFont = [UIFont fontWithName:@"Futura-Medium" size:12];
         _labelFontColor = [UIColor whiteColor];
-        _showPoints = NO;
-        _showLabels = NO;
-        _drawFilledGraph = NO;
-        _animatedGraphDrawing = YES;
+        _labelUnits = @"";
+        _drawFilledGraph = YES;
+        _animated = YES;
         _graphView = [[UIView alloc] init];
         [self addSubview:_graphView];
         self.contentSize = CGSizeMake(self.graphWidth, self.frame.size.height);
-        self.userInteractionEnabled = YES;
+        
+        _gestureRecognizer = [[UIPanGestureRecognizer alloc] init];
+        [_gestureRecognizer addTarget:self action:@selector(pannedWithRecognizer:)];
+        _gestureRecognizer.delegate = self;
+        [_graphView addGestureRecognizer:_gestureRecognizer];
+        
+        _graphPoints = [[NSMutableArray alloc] init];
+    
+        self.clipsToBounds = NO;
     }
     return self;
 }
 
-- (CGSize)intrinsicContentSize {
-    return CGSizeMake(_graphWidth, self.frame.size.height);
+#pragma mark - Gesture Recongizer Delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (fabs([_gestureRecognizer translationInView:_graphView].x) < 10) {
+        return YES;
+    } else {
+        return NO;
+    }
+    
+}
+
+#pragma mark - Handlers
+
+- (void)pannedWithRecognizer:(UIPanGestureRecognizer *)recognizer {
+    if (fabs([_gestureRecognizer translationInView:_graphView].x) < 15 && _currentlyExpandedGraphPoint == nil) {
+        return;
+    }
+    
+    if (recognizer.state == 1 || recognizer.state == 2) {
+        CGPoint touchPoint = [recognizer locationInView:_graphView];
+        GraphPoint *pannedGraphPoint = [self closestGraphPointFromTouchPoint:touchPoint];
+        // User has scrubbed to a new point
+        if (pannedGraphPoint != _currentlyExpandedGraphPoint) {
+            if (_currentlyExpandedGraphPoint != nil) [_currentlyExpandedGraphPoint shrink];
+            pannedGraphPoint.backgroundColor = _pointFillColor;
+            [pannedGraphPoint expand];
+            _currentlyExpandedGraphPoint = pannedGraphPoint;
+        }
+    } else if (recognizer.state >= 3) {
+        [_currentlyExpandedGraphPoint shrink];
+        _currentlyExpandedGraphPoint = nil;
+    }
 }
 
 #pragma mark - Graph Plotting
 
-- (void)plotGraphData {
-    if (!_graphData || [_graphData count] == 0) { return; }
-    _coordinateDataPoints = [self coordinatePointsFromDataPoints:_graphData];
-    [self drawCurvedLineBetweenPoints:_coordinateDataPoints withAnimation:_animatedGraphDrawing];
-    // Now draw all the points
-    if (_showPoints) {
-        [self drawPointswithStrokeColour:_strokeColor andFill:_pointFillColor fromArray:_coordinateDataPoints];
-    }
+- (void)plotWithData:(NSArray<NSArray *> *)data {
+    if (!data || [data count] == 0) { return; }
+    _graphWidth = self.frame.size.width;
+    
+    _dataCoordinatePoints = [self coordinatePointsFromGraphData:data];
+    
+    [self drawCurvedLineBetweenPoints:_dataCoordinatePoints];
+    
+    [self addPointsAndLabelsAtPoints:_dataCoordinatePoints forData:data];
 }
 
-# pragma mark - Data Preparation
-- (NSArray<NSValue *> *)coordinatePointsFromDataPoints:(NSArray<NSNumber *> *)dataPoints {
+- (void)plotGraphData {
+    if (!_graphData || [_graphData count] == 0) { return; }
+    
+    _dataCoordinatePoints = [self coordinatePointsFromGraphData:_graphData];
+    
+    [self drawCurvedLineBetweenPoints:_dataCoordinatePoints];
+    
+    [self addPointsAndLabelsAtPoints:_dataCoordinatePoints forData:_graphData];
+}
+
+# pragma mark - Data Processing
+
+- (NSMutableArray<NSValue *> *)coordinatePointsFromGraphData:(NSArray<NSArray *> *)dataPoints {
     
     NSMutableArray *coordinatePoints = [[NSMutableArray alloc] init];
 
-    // Either the graphView needs to be instantiated with the data or we need a didSet or a prep method?
-    // Configure graphView Frame
-
-    NSInteger xCoordinateOffset = (_graphWidth / [_graphData count]) / 2;
+    NSInteger xCoordinateOffset = (_graphWidth / [dataPoints count]) / 2;
 
     _graphView.frame = CGRectMake(-2.1 * xCoordinateOffset, 0, _graphWidth, self.frame.size.height);
 //    self.frame = CGRectMake(_graphView.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height); // MARK: you can play with changing the scrollviews size
     
     // Get range and extreme values
-    NSArray *dataInformation = [self rangeAndExtremesOf:_graphData];
+    NSArray *dataInformation = [self rangeAndExtremesOf:dataPoints];
     NSInteger lowest = [dataInformation[0] integerValue];
     NSInteger highest = [dataInformation[1] integerValue];
     NSInteger range = [dataInformation[2] integerValue];
@@ -90,42 +140,47 @@ NSInteger const kPointLabelHeight = 20;
         range = highest * 2;
     }
     
-    for (NSInteger counter = 1; counter <= [_graphData count]; counter++) {
+    for (NSInteger counter = 1; counter <= [dataPoints count]; counter++) {
         
-        NSInteger xCoordinate = ((_graphWidth + (2.1 * xCoordinateOffset)) / [_graphData count]) * counter;
+        NSInteger xCoordinate = ((_graphWidth + (2.1 * xCoordinateOffset)) / [dataPoints count]) * counter;
         
         NSInteger labelRelatedOffset = kPointLabelHeight + kPointLabelOffsetFromPointCenter;
         NSInteger topInset = 15;
         NSInteger bottomInset = 45; // This should push the graph's line up a bit.
         float graphViewHeightGraphableAreaRatio = (self.frame.size.height - labelRelatedOffset) / (self.frame.size.height + topInset + bottomInset);
         float yAxisRatio = ((self.frame.size.height * graphViewHeightGraphableAreaRatio) / range);
-        NSInteger yCoordinateContributionFromDataPoint = ([[_graphData objectAtIndex:counter - 1] integerValue] * yAxisRatio);
+        NSInteger yCoordinateContributionFromDataPoint = ([[[dataPoints objectAtIndex:counter - 1] lastObject] integerValue] * yAxisRatio);
         NSInteger yCoordinateContributionFromMininumDataPoint = (lowest * yAxisRatio);
         NSInteger yCoordinate = self.frame.size.height - yCoordinateContributionFromDataPoint + yCoordinateContributionFromMininumDataPoint - bottomInset;
         
         CGPoint point = CGPointMake(xCoordinate, yCoordinate);
-        
-        if (_showLabels) {
-            if (!(counter % _labelingInterval)) {
-                if (counter != 1 && counter != [_graphData count]) {
-                    [self createPointLabelForPoint:point withLabelText:[NSString stringWithFormat:@"%@°", [[_graphData objectAtIndex:counter - 1] stringValue]]];
-                }
-            }
-        }
+
         [coordinatePoints addObject:[NSValue valueWithCGPoint:point]];
     }
     return coordinatePoints;
 }
 
+- (NSArray *)rangeAndExtremesOf:(NSArray<NSArray *> *)data {
+    NSInteger minimum = NSIntegerMax;
+    NSInteger maximum = -NSIntegerMax;
+    for (NSArray *dataPoint in data) {
+        NSInteger dataPointInt = [dataPoint.lastObject integerValue];
+        minimum = MIN(minimum, dataPointInt);
+        maximum = MAX(maximum, dataPointInt);
+    }
+    NSInteger range = maximum - minimum;
+    return @[@(minimum), @(maximum), @(range)];
+}
+
 #pragma mark - Drawing
 
 // Catmull-Rom Algorithm
-- (void)drawCurvedLineBetweenPoints:(NSArray *)points withAnimation:(BOOL)animation {
+- (void)drawCurvedLineBetweenPoints:(NSArray *)points {
     float granularity = 100;
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     
-    NSMutableArray *mutableArray = [NSMutableArray arrayWithObject:[points firstObject]];
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithObject:[[points firstObject] copy]];
     [mutableArray addObjectsFromArray:points];
     [mutableArray addObject:[points lastObject]];
     
@@ -166,8 +221,6 @@ NSInteger const kPointLabelHeight = 20;
     [path addLineToPoint:[[points lastObject] CGPointValue]];
     [path setLineCapStyle:kCGLineCapRound];
     
-    self.graphBezierPath = path;
-    
     if (_drawFilledGraph) {
         CGPoint bottomLeftPoint = CGPointMake([[points firstObject] CGPointValue].x, self.frame.size.height);
         CGPoint bottomRightPoint = CGPointMake([[points lastObject] CGPointValue].x, self.frame.size.height);
@@ -185,7 +238,7 @@ NSInteger const kPointLabelHeight = 20;
     [shapeView setLineCap:kCALineCapRound];
     [_graphView.layer addSublayer:shapeView];
     
-    if (animation) {
+    if (self.isAnimated) {
         shapeView.strokeStart = 0.0;
 
         CABasicAnimation* strokeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
@@ -207,47 +260,64 @@ NSInteger const kPointLabelHeight = 20;
     }
 }
 
-- (void)createPointLabelForPoint:(CGPoint)point withLabelText:(NSString *)text {
-    UILabel *tempLabel = [[UILabel alloc] initWithFrame:CGRectMake(point.x , point.y, 30, kPointLabelHeight)];
-    tempLabel.textAlignment = NSTextAlignmentCenter;
-    [tempLabel setTextColor:_labelFontColor];
-    [tempLabel setBackgroundColor:UIColor.clearColor];
-    [tempLabel setFont:_labelFont];
-    [tempLabel setAdjustsFontSizeToFitWidth:YES];
-    [tempLabel setMinimumScaleFactor:0.6];
-    tempLabel.alpha = 0;
-    [_graphView addSubview:tempLabel];
-    [tempLabel setCenter:CGPointMake(point.x, point.y - kPointLabelOffsetFromPointCenter)];
-    [tempLabel setText:text];
+- (UILabel *)labelForPoint:(CGPoint)point withLabelText:(NSString *)text {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(point.x , point.y, 30, -kPointLabelHeight)];
+    label.backgroundColor = UIColor.clearColor;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = _labelFontColor;
+    label.font = _labelFont;
+    label.adjustsFontSizeToFitWidth = YES;
+    label.minimumScaleFactor = 0.6;
+    label.alpha = 0;
     
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        tempLabel.alpha = 1.0;
-    } completion:nil];
+    NSString *centeredText = [NSMutableString stringWithFormat:@"%@%@%@",_labelUnits, text, _labelUnits];
+    NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:centeredText];
+    [labelText addAttribute:NSForegroundColorAttributeName value:UIColor.clearColor range:NSMakeRange(0, 1)];
+    
+    label.attributedText = labelText;
+    
+    return label;
 }
 
-- (void)drawPointswithStrokeColour:(UIColor *)strokeColor andFill:(UIColor *)fillColor fromArray:(NSArray *)pointsArray {
-    for (id point in pointsArray) {
+- (void)addPointsAndLabelsAtPoints:(NSArray<NSValue *> *)coordinatePoints forData:(NSArray<NSArray *> *)data {
+    
+    [_dataCoordinatePoints removeObjectAtIndex:0]; // cuts off first point
+    [_dataCoordinatePoints removeLastObject]; // cuts off last point
+    
+    // Loop through graph data and corresponding coordinatePoints
+    for (NSUInteger index = 0; index < [coordinatePoints count]; index++) {
+        CGPoint point = [coordinatePoints[index] CGPointValue];
+        
+        // Create data point for data item
         GraphPoint *graphPoint = [[GraphPoint alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [graphPoint setStrokeColour:strokeColor];
-        [graphPoint setFillColour:fillColor];
-        [graphPoint setCenter:[point CGPointValue]];
-        [graphPoint setBackgroundColor:UIColor.clearColor];
+        //graphPoint.backgroundColor = //UIColor.grayColor;//[UIColor colorWithRed:0.40 green:0.54 blue:0.68 alpha:1.00];
+        graphPoint.label.text = data[index].firstObject;
+        [graphPoint setCenter:point];
         [_graphView addSubview:graphPoint];
+        [_graphPoints addObject:graphPoint];
+        
+        // Add value label for data item
+        UILabel *valueLabel = [self labelForPoint:point withLabelText:data[index].lastObject];
+        [_graphView addSubview:valueLabel];
+        [valueLabel setCenter:CGPointMake(point.x, point.y - kPointLabelOffsetFromPointCenter)];
+        
+        // Assign floating label to point
+        graphPoint.associatedLabel = valueLabel;
+        
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            valueLabel.alpha = 1.0;
+        } completion:nil];
+        
     }
 }
 
-#pragma mark - Graph Data Utils
+#pragma mark - Utils
 
-- (NSArray *)rangeAndExtremesOf:(NSArray<NSNumber *> *)data {
-    NSInteger minimum = NSIntegerMax;
-    NSInteger maximum = -NSIntegerMax;
-    for (NSNumber *dataPoint in data) {
-        NSInteger dataPointInt = [dataPoint integerValue];
-        minimum = MIN(minimum, dataPointInt);
-        maximum = MAX(maximum, dataPointInt);
-    }
-    NSInteger range = maximum - minimum;
-    return @[@(minimum), @(maximum), @(range)];
+- (GraphPoint *)closestGraphPointFromTouchPoint:(CGPoint)touchPoint {
+    NSUInteger index = [_dataCoordinatePoints indexOfObject:@(touchPoint.x) inSortedRange:NSMakeRange(0, [_dataCoordinatePoints count] - 1) options:NSBinarySearchingInsertionIndex | NSBinarySearchingInsertionIndex usingComparator:^(NSNumber * dataCoordinate, NSNumber *touchPointX) {
+        return [@([dataCoordinate CGPointValue].x) compare:touchPointX];
+    }];
+    return [_graphPoints objectAtIndex:index];
 }
 
 @end

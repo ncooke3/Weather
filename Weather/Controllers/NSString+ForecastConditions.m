@@ -10,6 +10,7 @@
 
 @implementation NSString (ForecastConditions)
 
+
 + (NSString *)conditionsFrom:(NSString *)icon {
     if ([icon isEqualToString:kDSclearDay]) {
         return @"Clear";

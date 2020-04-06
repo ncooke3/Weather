@@ -1,9 +1,9 @@
 #import "SceneDelegate.h"
-#import "WeatherController.h"
+#import "WeatherViewController.h"
 
 @interface SceneDelegate ()
 
-@property (strong, nonatomic) WeatherController *mainViewController;
+@property (strong, nonatomic) WeatherViewController *weatherViewController;
 
 @end
 
@@ -13,9 +13,8 @@
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     UIWindowScene *windowScene = [[UIWindowScene alloc] initWithSession:session connectionOptions:connectionOptions];
     self.window = [[UIWindow alloc] initWithFrame:windowScene.coordinateSpace.bounds];
-    self.mainViewController = [WeatherController new];
     self.window.windowScene = windowScene;
-    self.window.rootViewController = self.mainViewController;
+    self.window.rootViewController = [[WeatherViewController alloc] init];
     [self.window makeKeyAndVisible];
 }
 
@@ -37,24 +36,12 @@
 - (void)sceneWillResignActive:(UIScene *)scene {
     // Called when the scene will move from an active state to an inactive state.
     // This may occur due to temporary interruptions (ex. an incoming phone call).
-    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
-        [self.mainViewController.locationManager stopUpdatingLocation];
-        [self.mainViewController.locationManager startMonitoringSignificantLocationChanges];
-    } else {
-        NSLog(@"Significant location change monitoring is not available.");
-    }
 }
 
 
 - (void)sceneWillEnterForeground:(UIScene *)scene {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
-    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
-        [self.mainViewController.locationManager stopMonitoringSignificantLocationChanges];
-        [self.mainViewController.locationManager startUpdatingLocation];
-    } else {
-        NSLog(@"Significant location change monitoring is not available.");
-    }
 }
 
 

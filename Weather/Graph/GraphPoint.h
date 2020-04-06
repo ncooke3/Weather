@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface GraphPoint : UIView
-{
-    UIColor *strokeColour;
-    UIColor *fillColour;
-}
 
-@property UIColor * strokeColour;
-@property UIColor *fillColour;
+@property (nonatomic) UILabel *label;
+@property (nonatomic, weak) UILabel *associatedLabel;
+
+- (void)expand;
+- (void)shrink;
 
 @end

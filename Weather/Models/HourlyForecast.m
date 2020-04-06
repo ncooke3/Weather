@@ -7,13 +7,14 @@
 //
 
 #import "HourlyForecast.h"
+#import "NSDateFormatter+UnixConverter.h"
 
 @implementation HourlyForecast
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-        _time = [dictionary[kDSTime] copy];
+        _time = [NSDateFormatter timeOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
         _icon = [dictionary[kDSIcon] copy];
         _temperature = @(round([(NSNumber*)[dictionary[kDSTemperature] copy] doubleValue]));
         _precipProbability = [dictionary[kDSPrecipProbability] copy];

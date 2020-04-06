@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DarkSkyConstants.h"
+#import <CoreLocation/CoreLocation.h>
+
+// Models
+#import "CurrentForecast.h"
+#import "HourlyForecast.h"
+#import "DailyForecast.h"
+
+// Networking
+#import "DarkSky.h"
+#import "DarkSky+CLLocation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,11 +26,30 @@ typedef NS_ENUM(NSInteger, ForecastType) {
     ForecastTypeDaily
 };
 
+typedef NSArray<DailyForecast *>  WeeklyWeather;
+typedef NSArray<HourlyForecast *> HourlyWeather;
+typedef NSArray<NSArray *> * HourlyTemperatures;
+typedef NSArray<NSArray *> * HourlyPrecipitation;
 
-/**
-* An abstract class representing a Forecast object.
-*/
 @interface Forecast : NSObject
+
+@property (nonatomic) CLLocation *location;
+
+@property (nonatomic) CurrentForecast *currentForecast;
+@property (nonatomic) WeeklyWeather *dailyForecasts;
+@property (nonatomic) HourlyWeather *hourlyForecasts;
+
+- (instancetype)initForLocation:(CLLocation *)location;
+
+- (NSString *)currentTemperature;
+- (NSString *)currentConditions;
+- (NSArray *)currentWeatherFeed;
+- (NSArray *)currentColors;
+
+- (void)updateForecasts:(void(^)(void))completion;
+- (void)updateForecast:(ForecastType)forecastType completion:(void(^)(void))completion;
+- (HourlyTemperatures)hourlyTemperatures;
+- (HourlyPrecipitation)hourlyPrecipitation;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "DailyForecast.h"
 #import "NSDateFormatter+UnixConverter.h"
+#import "DarkSkyConstants.h"
 
 @implementation DailyForecast
 

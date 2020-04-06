@@ -6,13 +6,14 @@
 //  Copyright © 2020 Nicholas Cooke. All rights reserved.
 //
 
-#import "Forecast.h"
+#import <Foundation/Foundation.h>
+#import "DarkSkyConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HourlyForecast : Forecast
+@interface HourlyForecast : NSObject<NSCoding>
 
-@property (nonatomic, readonly) NSNumber *time;
+@property (nonatomic, readonly) NSString *time;
 @property (nonatomic, readonly) NSString *icon;
 
 // Temperature Properties

@@ -7,6 +7,7 @@
 //
 
 #import "CurrentForecast.h"
+#import "DarkSkyConstants.h"
 
 @implementation CurrentForecast
 
