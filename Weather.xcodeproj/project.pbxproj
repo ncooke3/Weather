@@ -12,14 +12,18 @@
 		EA0AA8FC24339E0C0055F8EF /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA8FB24339E0C0055F8EF /* NSArray+Map.m */; };
 		EA0AA8FF2435A5150055F8EF /* UIColor+WeatherColors.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA8FE2435A5150055F8EF /* UIColor+WeatherColors.m */; };
 		EA0AA9022435C7560055F8EF /* NSLayoutAnchor+Pinto.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */; };
-		EA0AA905243843750055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA904243843750055F8EF /* ForecastCollectionViewFlowLayout.m */; };
-		EA0AA90824385D8D0055F8EF /* ForecastDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA90724385D8D0055F8EF /* ForecastDataSource.m */; };
 		EA0AA90B243867620055F8EF /* UIView+Pinto.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA90A243867620055F8EF /* UIView+Pinto.m */; };
 		EA0AA91124386A8D0055F8EF /* MoonButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91024386A8D0055F8EF /* MoonButton.m */; };
 		EA0AA9142438F87F0055F8EF /* WeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA9132438F87E0055F8EF /* WeatherViewController.m */; };
 		EA0AA91824390AE30055F8EF /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91724390AE30055F8EF /* LocationManager.m */; };
 		EA0AA91B243915050055F8EF /* DarkSky+CLLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91A243915050055F8EF /* DarkSky+CLLocation.m */; };
 		EA0AA91E2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91D2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m */; };
+		EA0AA921243C3BD40055F8EF /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA920243C3BD40055F8EF /* MenuViewController.m */; };
+		EA0AA926243C3EDE0055F8EF /* ForecastDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA924243C3EDD0055F8EF /* ForecastDataSource.m */; };
+		EA0AA929243C46410055F8EF /* Store.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA928243C46410055F8EF /* Store.m */; };
+		EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA92B243C49810055F8EF /* CityForecastCell.m */; };
+		EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */; };
+		EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */; };
 		EA736611242677B400CABA5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736610242677B400CABA5C /* AppDelegate.m */; };
 		EA736614242677B400CABA5C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736613242677B400CABA5C /* SceneDelegate.m */; };
 		EA73661C242677B800CABA5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA73661B242677B800CABA5C /* Assets.xcassets */; };
@@ -62,10 +66,6 @@
 		EA0AA8FE2435A5150055F8EF /* UIColor+WeatherColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+WeatherColors.m"; sourceTree = "<group>"; };
 		EA0AA9002435C7560055F8EF /* NSLayoutAnchor+Pinto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSLayoutAnchor+Pinto.h"; sourceTree = "<group>"; };
 		EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutAnchor+Pinto.m"; sourceTree = "<group>"; };
-		EA0AA903243843750055F8EF /* ForecastCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForecastCollectionViewFlowLayout.h; sourceTree = SOURCE_ROOT; };
-		EA0AA904243843750055F8EF /* ForecastCollectionViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForecastCollectionViewFlowLayout.m; sourceTree = SOURCE_ROOT; };
-		EA0AA90624385D8D0055F8EF /* ForecastDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForecastDataSource.h; sourceTree = SOURCE_ROOT; };
-		EA0AA90724385D8D0055F8EF /* ForecastDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForecastDataSource.m; sourceTree = SOURCE_ROOT; };
 		EA0AA909243867620055F8EF /* UIView+Pinto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Pinto.h"; sourceTree = "<group>"; };
 		EA0AA90A243867620055F8EF /* UIView+Pinto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Pinto.m"; sourceTree = "<group>"; };
 		EA0AA90F24386A8D0055F8EF /* MoonButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoonButton.h; sourceTree = "<group>"; };
@@ -76,8 +76,21 @@
 		EA0AA91724390AE30055F8EF /* LocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		EA0AA919243915050055F8EF /* DarkSky+CLLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DarkSky+CLLocation.h"; sourceTree = "<group>"; };
 		EA0AA91A243915050055F8EF /* DarkSky+CLLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DarkSky+CLLocation.m"; sourceTree = "<group>"; };
-		EA0AA91C2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "DailyForecastCell+ConfigureForForecast.h"; path = "Weather/Views/DailyForecastCell+ConfigureForForecast.h"; sourceTree = SOURCE_ROOT; };
-		EA0AA91D2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DailyForecastCell+ConfigureForForecast.m"; path = "Weather/Views/DailyForecastCell+ConfigureForForecast.m"; sourceTree = SOURCE_ROOT; };
+		EA0AA91C2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "DailyForecastCell+ConfigureForForecast.h"; path = "Weather/Views/DailyForecastCell/DailyForecastCell+ConfigureForForecast.h"; sourceTree = SOURCE_ROOT; };
+		EA0AA91D2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "DailyForecastCell+ConfigureForForecast.m"; path = "Weather/Views/DailyForecastCell/DailyForecastCell+ConfigureForForecast.m"; sourceTree = SOURCE_ROOT; };
+		EA0AA91F243C3BD40055F8EF /* MenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		EA0AA920243C3BD40055F8EF /* MenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		EA0AA924243C3EDD0055F8EF /* ForecastDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForecastDataSource.m; sourceTree = "<group>"; };
+		EA0AA925243C3EDD0055F8EF /* ForecastDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForecastDataSource.h; sourceTree = "<group>"; };
+		EA0AA927243C46410055F8EF /* Store.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Store.h; sourceTree = "<group>"; };
+		EA0AA928243C46410055F8EF /* Store.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Store.m; sourceTree = "<group>"; };
+		EA0AA92A243C49810055F8EF /* CityForecastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityForecastCell.h; sourceTree = "<group>"; };
+		EA0AA92B243C49810055F8EF /* CityForecastCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityForecastCell.m; sourceTree = "<group>"; };
+		EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForecastCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		EA0AA933243C4B380055F8EF /* ForecastCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForecastCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		EA0AA938243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CityForecastCell+ConfigureForForecast.h"; sourceTree = "<group>"; };
+		EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CityForecastCell+ConfigureForForecast.m"; sourceTree = "<group>"; };
+		EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weather-Prefix.pch"; sourceTree = "<group>"; };
 		EA73660C242677B400CABA5C /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA73660F242677B400CABA5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EA736610242677B400CABA5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -147,6 +160,79 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		EA0AA922243C3E680055F8EF /* Forecasts */ = {
+			isa = PBXGroup;
+			children = (
+				EA73663F24267FAE00CABA5C /* CurrentForecast.h */,
+				EA73664024267FAE00CABA5C /* CurrentForecast.m */,
+				EAAD4EC02427E6200031A171 /* DailyForecast.h */,
+				EAAD4EC12427E6200031A171 /* DailyForecast.m */,
+				EAAD4EC624282BF30031A171 /* HourlyForecast.h */,
+				EAAD4EC724282BF30031A171 /* HourlyForecast.m */,
+			);
+			path = Forecasts;
+			sourceTree = "<group>";
+		};
+		EA0AA923243C3E8C0055F8EF /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				EA0AA925243C3EDD0055F8EF /* ForecastDataSource.h */,
+				EA0AA924243C3EDD0055F8EF /* ForecastDataSource.m */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		EA0AA92D243C4AAA0055F8EF /* DailyForecastCell */ = {
+			isa = PBXGroup;
+			children = (
+				EA7366492426829900CABA5C /* DailyForecastCell.h */,
+				EA73664A2426829900CABA5C /* DailyForecastCell.m */,
+				EA0AA91C2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.h */,
+				EA0AA91D2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m */,
+			);
+			path = DailyForecastCell;
+			sourceTree = "<group>";
+		};
+		EA0AA92E243C4AD20055F8EF /* Pinto Layout */ = {
+			isa = PBXGroup;
+			children = (
+				EA0AA9002435C7560055F8EF /* NSLayoutAnchor+Pinto.h */,
+				EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */,
+				EA0AA909243867620055F8EF /* UIView+Pinto.h */,
+				EA0AA90A243867620055F8EF /* UIView+Pinto.m */,
+			);
+			path = "Pinto Layout";
+			sourceTree = "<group>";
+		};
+		EA0AA92F243C4AF40055F8EF /* UI Controls */ = {
+			isa = PBXGroup;
+			children = (
+				EA0AA90F24386A8D0055F8EF /* MoonButton.h */,
+				EA0AA91024386A8D0055F8EF /* MoonButton.m */,
+			);
+			path = "UI Controls";
+			sourceTree = "<group>";
+		};
+		EA0AA930243C4B0A0055F8EF /* CityForecastCell */ = {
+			isa = PBXGroup;
+			children = (
+				EA0AA92A243C49810055F8EF /* CityForecastCell.h */,
+				EA0AA92B243C49810055F8EF /* CityForecastCell.m */,
+				EA0AA938243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.h */,
+				EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */,
+			);
+			path = CityForecastCell;
+			sourceTree = "<group>";
+		};
+		EA0AA931243C4B190055F8EF /* CollectionViewLayouts */ = {
+			isa = PBXGroup;
+			children = (
+				EA0AA933243C4B380055F8EF /* ForecastCollectionViewFlowLayout.h */,
+				EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */,
+			);
+			path = CollectionViewLayouts;
+			sourceTree = "<group>";
+		};
 		EA736603242677B400CABA5C = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +266,7 @@
 				EA73661D242677B800CABA5C /* LaunchScreen.storyboard */,
 				EA736620242677B800CABA5C /* Info.plist */,
 				EA736621242677B800CABA5C /* main.m */,
+				EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -209,8 +296,6 @@
 		EA73663724267D9C00CABA5C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				EA0AA91C2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.h */,
-				EA0AA91D2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m */,
 				EA0AA8E4243173F60055F8EF /* UISpringTimingParameters+Convenience.h */,
 				EA0AA8E3243173F60055F8EF /* UISpringTimingParameters+Convenience.m */,
 				EAAD4ECC242966CA0031A171 /* CLGeocoder+City.h */,
@@ -223,10 +308,7 @@
 				EA0AA8FB24339E0C0055F8EF /* NSArray+Map.m */,
 				EA0AA8FD2435A5150055F8EF /* UIColor+WeatherColors.h */,
 				EA0AA8FE2435A5150055F8EF /* UIColor+WeatherColors.m */,
-				EA0AA9002435C7560055F8EF /* NSLayoutAnchor+Pinto.h */,
-				EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */,
-				EA0AA909243867620055F8EF /* UIView+Pinto.h */,
-				EA0AA90A243867620055F8EF /* UIView+Pinto.m */,
+				EA0AA92E243C4AD20055F8EF /* Pinto Layout */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -234,6 +316,8 @@
 		EA73663824267D9E00CABA5C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EA0AA91F243C3BD40055F8EF /* MenuViewController.h */,
+				EA0AA920243C3BD40055F8EF /* MenuViewController.m */,
 				EA0AA9122438F87E0055F8EF /* WeatherViewController.h */,
 				EA0AA9132438F87E0055F8EF /* WeatherViewController.m */,
 			);
@@ -243,14 +327,12 @@
 		EA73663924267DA000CABA5C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EA0AA903243843750055F8EF /* ForecastCollectionViewFlowLayout.h */,
-				EA0AA904243843750055F8EF /* ForecastCollectionViewFlowLayout.m */,
 				EA0AA8E82431740E0055F8EF /* WeatherScrollView.h */,
 				EA0AA8E6243173FD0055F8EF /* WeatherScrollView.m */,
-				EA7366492426829900CABA5C /* DailyForecastCell.h */,
-				EA73664A2426829900CABA5C /* DailyForecastCell.m */,
-				EA0AA90F24386A8D0055F8EF /* MoonButton.h */,
-				EA0AA91024386A8D0055F8EF /* MoonButton.m */,
+				EA0AA931243C4B190055F8EF /* CollectionViewLayouts */,
+				EA0AA930243C4B0A0055F8EF /* CityForecastCell */,
+				EA0AA92D243C4AAA0055F8EF /* DailyForecastCell */,
+				EA0AA92F243C4AF40055F8EF /* UI Controls */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,16 +340,12 @@
 		EA73663A24267DA100CABA5C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				EA0AA90624385D8D0055F8EF /* ForecastDataSource.h */,
-				EA0AA90724385D8D0055F8EF /* ForecastDataSource.m */,
+				EA0AA927243C46410055F8EF /* Store.h */,
+				EA0AA928243C46410055F8EF /* Store.m */,
 				EAAD4EB12427CDE40031A171 /* Forecast.h */,
 				EAAD4EB22427CDE40031A171 /* Forecast.m */,
-				EA73663F24267FAE00CABA5C /* CurrentForecast.h */,
-				EA73664024267FAE00CABA5C /* CurrentForecast.m */,
-				EAAD4EC02427E6200031A171 /* DailyForecast.h */,
-				EAAD4EC12427E6200031A171 /* DailyForecast.m */,
-				EAAD4EC624282BF30031A171 /* HourlyForecast.h */,
-				EAAD4EC724282BF30031A171 /* HourlyForecast.m */,
+				EA0AA922243C3E680055F8EF /* Forecasts */,
+				EA0AA923243C3E8C0055F8EF /* DataSources */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -396,11 +474,15 @@
 				EA0AA91124386A8D0055F8EF /* MoonButton.m in Sources */,
 				EA0AA8E5243173F60055F8EF /* UISpringTimingParameters+Convenience.m in Sources */,
 				EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */,
+				EA0AA929243C46410055F8EF /* Store.m in Sources */,
+				EA0AA926243C3EDE0055F8EF /* ForecastDataSource.m in Sources */,
 				EA0AA8FF2435A5150055F8EF /* UIColor+WeatherColors.m in Sources */,
+				EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */,
 				EA73664B2426829900CABA5C /* DailyForecastCell.m in Sources */,
 				EA0AA91824390AE30055F8EF /* LocationManager.m in Sources */,
 				EAAD4EC5242827210031A171 /* NSDateFormatter+UnixConverter.m in Sources */,
 				EA736611242677B400CABA5C /* AppDelegate.m in Sources */,
+				EA0AA921243C3BD40055F8EF /* MenuViewController.m in Sources */,
 				EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */,
 				EA0AA8E7243173FD0055F8EF /* WeatherScrollView.m in Sources */,
 				EA736648242681DD00CABA5C /* DarkSky.m in Sources */,
@@ -410,15 +492,15 @@
 				EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */,
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
-				EA0AA90824385D8D0055F8EF /* ForecastDataSource.m in Sources */,
+				EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */,
 				EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */,
 				EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */,
 				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,
 				EA0AA91E2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m in Sources */,
 				EA0AA91B243915050055F8EF /* DarkSky+CLLocation.m in Sources */,
-				EA0AA905243843750055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */,
 				EA0AA90B243867620055F8EF /* UIView+Pinto.m in Sources */,
 				EAAD4ECB242962370031A171 /* NSString+ForecastConditions.m in Sources */,
+				EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */,
 				EA736614242677B400CABA5C /* SceneDelegate.m in Sources */,
 				EA0AA9142438F87F0055F8EF /* WeatherViewController.m in Sources */,
 			);
@@ -571,6 +653,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -588,6 +672,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

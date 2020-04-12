@@ -12,6 +12,7 @@
 #import "NSArray+Map.h"
 #import "NSString+ForecastConditions.h"
 #import "UIColor+WeatherColors.h"
+#import "CLGeocoder+City.h"
 
 typedef NSDictionary * ForecastResponse;
 typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, NSInteger);
@@ -33,8 +34,15 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     if (self) {
         _location = location;
         [self configureForecastsConstructor];
+        [self updateLocalityForLocation];
     }
     return self;
+}
+
+- (void)updateLocalityForLocation {
+    [CLGeocoder cityFromLocation:_location completion:^(Placemark city) {
+        self.locationString = city.locality;
+    }];
 }
 
 - (void)configureForecastsConstructor {
@@ -73,6 +81,13 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
             self.dailyForecasts  = self.forecastsConstructor(forecast[kDSdailyForecast][kDSData], ForecastTypeDaily, 7);
         }
         completion();
+    }];
+}
+
+- (void)forecastLocationString:(void(^)(NSString *))completion; {
+    [CLGeocoder cityFromLocation:_location completion:^(Placemark city) {
+        self.locationString = city.locality;
+        completion(city.locality);
     }];
 }
 

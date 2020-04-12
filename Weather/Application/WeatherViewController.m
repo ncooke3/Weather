@@ -8,14 +8,6 @@
 
 #import "WeatherViewController.h"
 
-#define weakify(var) __weak typeof(var) Weak_##var = var;
-
-#define strongify(var) \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wshadow\"") \
-__strong typeof(var) var = Weak_##var; \
-_Pragma("clang diagnostic pop")
-
 // Views
 #import "WeatherScrollView.h"
 
@@ -82,7 +74,9 @@ _Pragma("clang diagnostic pop")
 - (void)startWeatherFeedWith:(NSMutableArray *)feed {
     [self.weatherScrollView.weatherTickerLabel setText:feed[0]];
     self.weatherScrollView.weatherTickerLabel.alpha = 1;
-    return;
+    
+    if (feed) { return; } // silences warning until further develoopment
+    
     if ([feed count] == 0) {
         return;
     }

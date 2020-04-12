@@ -34,6 +34,7 @@ typedef NSArray<NSArray *> * HourlyPrecipitation;
 @interface Forecast : NSObject
 
 @property (nonatomic) CLLocation *location;
+@property (nonatomic) NSString *locationString;
 
 @property (nonatomic) CurrentForecast *currentForecast;
 @property (nonatomic) WeeklyWeather *dailyForecasts;
@@ -41,6 +42,7 @@ typedef NSArray<NSArray *> * HourlyPrecipitation;
 
 - (instancetype)initForLocation:(CLLocation *)location;
 
+- (void)forecastLocationString:(void(^)(NSString *))completion;
 - (NSString *)currentTemperature;
 - (NSString *)currentConditions;
 - (NSArray *)currentWeatherFeed;
