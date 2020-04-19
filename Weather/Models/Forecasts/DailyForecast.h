@@ -21,7 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSNumber *minTemperature;
 @property (nonatomic, readonly) NSNumber *maxTemperature;
 
+// Solar/Lunar Information
+@property (nonatomic, readonly) NSDate *sunriseTime;
+@property (nonatomic, readonly) NSDate *sunsetTime;
+@property (nonatomic, assign) double moonPhase;
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+- (NSString *)formattedMoonPhase;
+
+
 
 @end
 

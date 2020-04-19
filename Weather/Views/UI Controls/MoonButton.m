@@ -28,8 +28,6 @@ typedef NS_ENUM(NSUInteger, ForceState) {
 @property (nonatomic) UIColor *moonColor;
 @property (nonatomic) UIColor *sunColor;
 
-/// Whether the button is on or off.
-@property (nonatomic, getter=isMoon) BOOL moon;
 /// The current state of the force press.
 @property (nonatomic) ForceState forceState;
 /// Whether the touch has exited the bounds of the button.
@@ -183,6 +181,7 @@ typedef NS_ENUM(NSUInteger, ForceState) {
     [newLayer setFrame:self.bounds];
     [self.layer insertSublayer:newLayer atIndex:0];
     [_confirmationFeedbackGenerator impactOccurred];
+    [_delegate buttonChanged];
 }
 
 - (void)animateToRest {

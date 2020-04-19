@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)weekdayFromDate:(NSDate *)date;
 + (NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)dateStyle;
++ (NSString *)hourOfDayFrom:(NSDate *)date;
 + (NSString *)timeOfDayFrom:(NSDate *)date;
 
 @end

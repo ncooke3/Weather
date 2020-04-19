@@ -24,6 +24,7 @@
 		EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA92B243C49810055F8EF /* CityForecastCell.m */; };
 		EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */; };
 		EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */; };
+		EA0AA93E244298EA0055F8EF /* DevelopmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */; };
 		EA736611242677B400CABA5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736610242677B400CABA5C /* AppDelegate.m */; };
 		EA736614242677B400CABA5C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736613242677B400CABA5C /* SceneDelegate.m */; };
 		EA73661C242677B800CABA5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA73661B242677B800CABA5C /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4ECD242966CA0031A171 /* CLGeocoder+City.m */; };
 		EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EED2429DDC50031A171 /* GraphPoint.m */; };
 		EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EEF2429DDC50031A171 /* GraphView.m */; };
+		EAFB7667244BA29700671CE8 /* SolarLunarView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB7666244BA29700671CE8 /* SolarLunarView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		EA0AA938243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CityForecastCell+ConfigureForForecast.h"; sourceTree = "<group>"; };
 		EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CityForecastCell+ConfigureForForecast.m"; sourceTree = "<group>"; };
 		EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weather-Prefix.pch"; sourceTree = "<group>"; };
+		EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentViewController.h; sourceTree = "<group>"; };
+		EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DevelopmentViewController.m; sourceTree = "<group>"; };
 		EA73660C242677B400CABA5C /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA73660F242677B400CABA5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EA736610242677B400CABA5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -129,6 +133,8 @@
 		EAAD4EED2429DDC50031A171 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
 		EAAD4EEE2429DDC50031A171 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		EAAD4EEF2429DDC50031A171 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		EAFB7665244BA29700671CE8 /* SolarLunarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SolarLunarView.h; path = "UI Controls/SolarLunarView.h"; sourceTree = "<group>"; };
+		EAFB7666244BA29700671CE8 /* SolarLunarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SolarLunarView.m; path = "UI Controls/SolarLunarView.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,6 +326,8 @@
 				EA0AA920243C3BD40055F8EF /* MenuViewController.m */,
 				EA0AA9122438F87E0055F8EF /* WeatherViewController.h */,
 				EA0AA9132438F87E0055F8EF /* WeatherViewController.m */,
+				EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */,
+				EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -327,6 +335,8 @@
 		EA73663924267DA000CABA5C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EAFB7665244BA29700671CE8 /* SolarLunarView.h */,
+				EAFB7666244BA29700671CE8 /* SolarLunarView.m */,
 				EA0AA8E82431740E0055F8EF /* WeatherScrollView.h */,
 				EA0AA8E6243173FD0055F8EF /* WeatherScrollView.m */,
 				EA0AA931243C4B190055F8EF /* CollectionViewLayouts */,
@@ -490,9 +500,11 @@
 				EA0AA8FC24339E0C0055F8EF /* NSArray+Map.m in Sources */,
 				EA0AA9022435C7560055F8EF /* NSLayoutAnchor+Pinto.m in Sources */,
 				EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */,
+				EA0AA93E244298EA0055F8EF /* DevelopmentViewController.m in Sources */,
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
 				EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */,
+				EAFB7667244BA29700671CE8 /* SolarLunarView.m in Sources */,
 				EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */,
 				EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */,
 				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,

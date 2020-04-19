@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateWeatherConditionsLabel:(NSString *)conditions;
 - (void)updateWeatherTicker:(NSString *)info;
 - (void)refreshTemperaturePlotWithData:(NSArray *)data;
+- (void)updateSolarLunarViewWithData:(NSDictionary *)data;
 - (void)animateLayerColorsWith:(NSArray<UIColor *> *)colors;
 
 @end

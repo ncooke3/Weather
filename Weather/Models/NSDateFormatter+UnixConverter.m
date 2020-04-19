@@ -22,11 +22,16 @@
     return [formatter stringFromDate:date];
 }
 
-+ (NSString *)timeOfDayFrom:(NSDate *)date {
++ (NSString *)hourOfDayFrom:(NSDate *)date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"ha"];
     return [formatter stringFromDate:date];
-    
+}
+
++ (NSString *)timeOfDayFrom:(NSDate *)date {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"h:mm"];
+    return [formatter stringFromDate:date];
 }
 
 @end

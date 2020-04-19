@@ -11,6 +11,8 @@
 // Views
 #import "GraphView.h"
 #import "ForecastCollectionViewFlowLayout.h"
+#import "MoonButton.h"
+#import "SolarLunarView.h"
 
 // Categories
 #import "NSDateFormatter+UnixConverter.h"
@@ -45,7 +47,7 @@
 @property (nonatomic) GraphView *precipitationPlot; // add layer if you add it
 
 // Sun/Moon View
-@property (nonatomic) UIView *sunMoonInfoView;
+@property (nonatomic) SolarLunarView *sunMoonInfoView;
 
 @end
 
@@ -184,11 +186,10 @@
     return _precipitationPlot;
 }
 
-- (UIView *)sunMoonInfoView { // GradientView from fluid interfaces?
+- (SolarLunarView *)sunMoonInfoView {
     if (!_sunMoonInfoView) {
-        _sunMoonInfoView = [[UIView alloc] init];
+        _sunMoonInfoView = [[SolarLunarView alloc] init];
         _sunMoonInfoView.translatesAutoresizingMaskIntoConstraints = NO;
-        _sunMoonInfoView.backgroundColor = [UIColor.grayColor colorWithAlphaComponent:0.2];
         _sunMoonInfoView.layer.cornerRadius = 15.0;
     }
     return _sunMoonInfoView;
@@ -273,12 +274,12 @@
         
         // Sun/Moon Info View
         [self addSubview:self.sunMoonInfoView];
-        //[_sunMoonInfoView.topAnchor pinTo:self.topAnchor withPadding:1200]; //1200
-        [_sunMoonInfoView.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:50]; //1200
-        [_sunMoonInfoView.centerXAnchor pinTo:self.centerXAnchor];
-        [[_sunMoonInfoView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:.9] setActive:YES];
+        [_sunMoonInfoView.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:10];
+        [_sunMoonInfoView.centerXAnchor pinTo:self.centerXAnchor withPadding:50];
+        [[_sunMoonInfoView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:1] setActive:YES];
         [[_sunMoonInfoView.heightAnchor constraintEqualToConstant:120] setActive:YES];
         [_sunMoonInfoView.bottomAnchor pinTo:self.bottomAnchor withPadding:-50];
+        
     }
     return self;
 }
@@ -346,13 +347,17 @@
     _temperaturePlot.pointFillColor = colors[3];
 }
 
+- (void)updateSolarLunarViewWithData:(NSDictionary *)data {
+    [_sunMoonInfoView setData:data];
+}
+
 - (void)fadeLabelsWithContentOffset:(CGFloat)contentOffset { }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // TODO: fade labels accordingly
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+
     if (scrollView != self) { return; }
     
     CGFloat locationLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _locationLabel.frame.origin.y)))));

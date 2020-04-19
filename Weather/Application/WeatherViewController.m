@@ -14,6 +14,9 @@
 // Models
 #import "ForecastDataSource.h"
 
+// Categories
+#import "NSDateFormatter+UnixConverter.h"
+
 @interface WeatherViewController ()
 
 @property (nonatomic) WeatherScrollView *weatherScrollView;
@@ -47,6 +50,7 @@
             [self configureForecastDataSource];
             [self handleCurrentForecastUpdate];
             [self handleHourlyForecastUpdate];
+            [self handleDailyForecastUpdate];
         });
     }];
     
@@ -68,6 +72,51 @@
 
 - (void)handleHourlyForecastUpdate {
     [self.weatherScrollView refreshTemperaturePlotWithData:[_forecast hourlyTemperatures]];
+}
+
+- (void)handleDailyForecastUpdate {
+    
+    NSDate *currentDate = [NSDate date];
+    DailyForecast *todayDailyForecast = [self.forecast.dailyForecasts objectAtIndex:0];
+    DailyForecast *tomorrowDailyForecast = [self.forecast.dailyForecasts objectAtIndex:1];
+    
+    NSString *sunrisePhrase;
+    NSString *sunsetPhrase;
+    NSNumber *isCurrentlyNight = @NO;
+    
+    if ([currentDate compare:todayDailyForecast.sunriseTime] == NSOrderedAscending ||
+        [currentDate compare:todayDailyForecast.sunsetTime] == NSOrderedSame) {
+        // It is early morning so show moon + sunrise time and today's sun + sunset time.
+        sunrisePhrase = [NSString stringWithFormat:@"Sunrise at %@", [NSDateFormatter timeOfDayFrom:todayDailyForecast.sunriseTime]];
+        sunsetPhrase = [NSString stringWithFormat:@"Sunset at %@", [NSDateFormatter timeOfDayFrom:todayDailyForecast.sunsetTime]];
+        
+    } else if ([currentDate compare:todayDailyForecast.sunsetTime] == NSOrderedAscending ||
+               [currentDate compare:todayDailyForecast.sunsetTime] == NSOrderedSame) {
+        // It is day time so show sun + sunset time and moon + tomorrow's sunrise time.
+        sunrisePhrase = [NSString stringWithFormat:@"Sunrise was at %@", [NSDateFormatter timeOfDayFrom:tomorrowDailyForecast.sunriseTime]];
+        sunsetPhrase = [NSString stringWithFormat:@"Sunset at %@", [NSDateFormatter timeOfDayFrom:todayDailyForecast.sunsetTime]];
+        
+        isCurrentlyNight = @YES;
+        
+    } else {
+        // It is in the evening so show moon + tomorrow's sunrise time and tomorrow's sunset time.
+        sunrisePhrase = [NSString stringWithFormat:@"Sunrise at %@", [NSDateFormatter timeOfDayFrom:tomorrowDailyForecast.sunriseTime]];
+        sunsetPhrase = [NSString stringWithFormat:@"Sunset was at %@", [NSDateFormatter timeOfDayFrom:tomorrowDailyForecast.sunsetTime]];
+    }
+    
+    NSString *humidityPhrase = [NSString stringWithFormat:@"Currently %@%% humidity", [_forecast.currentForecast.humidity stringValue]];
+    NSString *moonPhaseString = [todayDailyForecast formattedMoonPhase];
+    
+    NSDictionary *solarLunarData = @{
+        @"sunrisePhrase": sunrisePhrase,
+        @"sunsetPhrase": sunsetPhrase,
+        @"humidityPhrase": humidityPhrase,
+        @"moonPhasePhrase": moonPhaseString,
+        @"currentlyNight": isCurrentlyNight
+    };
+    
+    [_weatherScrollView updateSolarLunarViewWithData:solarLunarData];
+    
 }
 
 // TODO: create that UIControl subclass

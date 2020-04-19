@@ -14,7 +14,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-        _time = [NSDateFormatter timeOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
+        _time = [NSDateFormatter hourOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
         _icon = [dictionary[kDSIcon] copy];
         _temperature = @(round([(NSNumber*)[dictionary[kDSTemperature] copy] doubleValue]));
         _precipProbability = [dictionary[kDSPrecipProbability] copy];

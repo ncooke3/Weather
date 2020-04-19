@@ -3,6 +3,7 @@
 
 // Development
 #import "MenuViewController.h"
+#import "DevelopmentViewController.h"
 
 @interface SceneDelegate ()
 
@@ -18,8 +19,9 @@
     self.window = [[UIWindow alloc] initWithFrame:windowScene.coordinateSpace.bounds];
     self.window.windowScene = windowScene;
     self.window.rootViewController = [[WeatherViewController alloc] init];
-    UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:MenuViewController.new];
-    self.window.rootViewController = menuNavigationController;
+    //UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:MenuViewController.new];
+    //self.window.rootViewController = menuNavigationController;
+    //self.window.rootViewController = [[DevelopmentViewController alloc] init];
     [self.window makeKeyAndVisible];
 }
 
