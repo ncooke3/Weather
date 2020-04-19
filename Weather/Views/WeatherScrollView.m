@@ -48,6 +48,7 @@
 
 // Sun/Moon View
 @property (nonatomic) SolarLunarView *sunMoonInfoView;
+@property (nonatomic) NSLayoutConstraint *sunMoonInfoViewBottomConstraint;
 
 @end
 
@@ -181,7 +182,9 @@
 - (GraphView *)precipitationPlot {
     if (!_precipitationPlot) {
         _precipitationPlot = [[GraphView alloc] init];
-        _precipitationPlot.backgroundColor = UIColor.blueColor;
+        _precipitationPlot.strokeColor = UIColor.rainColor;
+        _precipitationPlot.labelFontColor = UIColor.rainColor;
+        _precipitationPlot.labelUnits = @"%";
     }
     return _precipitationPlot;
 }
@@ -275,10 +278,14 @@
         // Sun/Moon Info View
         [self addSubview:self.sunMoonInfoView];
         [_sunMoonInfoView.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:10];
-        [_sunMoonInfoView.centerXAnchor pinTo:self.centerXAnchor withPadding:50];
+        //[_sunMoonInfoView.centerXAnchor pinTo:self.centerXAnchor withPadding:50];
+        [_sunMoonInfoView.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor];
         [[_sunMoonInfoView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:1] setActive:YES];
         [[_sunMoonInfoView.heightAnchor constraintEqualToConstant:120] setActive:YES];
-        [_sunMoonInfoView.bottomAnchor pinTo:self.bottomAnchor withPadding:-50];
+        //[_sunMoonInfoView.bottomAnchor pinTo:self.bottomAnchor withPadding:-50];
+        
+        _sunMoonInfoViewBottomConstraint = [_sunMoonInfoView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-50];
+        [_sunMoonInfoViewBottomConstraint setActive:YES];
         
     }
     return self;
@@ -291,11 +298,6 @@
                                         self.frame.size.height * 2.0 / 3.0,
                                         self.frame.size.width  * 1.02,
                                         self.frame.size.height * 1.0/3.0);
-    
-//    _precipitationPlot.frame = CGRectMake(self.frame.size.width  * -0.01,
-//                                          _forecastCollectionView.frame.size.height * 6.75,
-//                                          self.frame.size.width  * 1.02,
-//                                          self.frame.size.height * 0.25);
     
     _animatingGradientLayer.frame = CGRectMake(0, -1000, self.frame.size.width, 1000 + self.frame.size.height);
 }
@@ -326,29 +328,73 @@
     [_weatherTickerLabel setText:info];
 }
 
+- (void)updateApparentTemperatureLabel:(NSString *)apparentTemperature {
+    _weatherTickerLabel.text = [NSString stringWithFormat:@"Feels like %@°", apparentTemperature];
+}
+
 - (void)refreshTemperaturePlotWithData:(NSArray *)data {
     [_temperaturePlot plotWithData:data];
 }
 
 - (void)animateLayerColorsWith:(NSArray<UIColor *> *)colors {
-    _animatingGradientLayer.colors = @[(id)colors[0].CGColor, (id)colors[1].CGColor];
+    _animatingGradientLayer.colors = @[(id)colors[0].CGColor, (id)colors[0].CGColor];
     _animatingGradientLayer.startPoint = CGPointZero;
     _animatingGradientLayer.endPoint = CGPointMake(0, 1);
     
     CABasicAnimation *colorsAnimation = [CABasicAnimation animationWithKeyPath:@"colors"];
     colorsAnimation.fromValue = _animatingGradientLayer.colors;
-    colorsAnimation.toValue = @[(id)colors[2].CGColor, (id)colors[3].CGColor];;
+    colorsAnimation.toValue = @[(id)colors[1].CGColor, (id)colors[1].CGColor];
     colorsAnimation.duration = 10;
     colorsAnimation.repeatCount = INFINITY;
     colorsAnimation.autoreverses = YES;
     
     [_animatingGradientLayer addAnimation:colorsAnimation forKey:@"colorAnimation"];
     
-    _temperaturePlot.pointFillColor = colors[3];
+    _temperaturePlot.pointFillColor = [UIColor darkGrayColor];
 }
 
 - (void)updateSolarLunarViewWithData:(NSDictionary *)data {
     [_sunMoonInfoView setData:data];
+}
+
+- (void)showPrecipitationView {
+    [self addSubview:self.precipitationPlot];
+    
+    _precipitationPlot.translatesAutoresizingMaskIntoConstraints = NO;
+    [_sunMoonInfoViewBottomConstraint setActive:NO];
+
+    [_precipitationPlot.topAnchor pinTo:_sunMoonInfoView.bottomAnchor withPadding:50];
+    [[_precipitationPlot.widthAnchor constraintEqualToConstant:self.frame.size.width * 1.02] setActive:YES];
+    [[_precipitationPlot.heightAnchor constraintEqualToConstant:self.frame.size.height * 0.20] setActive:YES];
+    [_precipitationPlot.centerXAnchor pinTo:self.centerXAnchor];
+    
+    [_precipitationPlot layoutIfNeeded];
+    
+    UIView *precipitationFooterView = [[UIView alloc] init];
+    precipitationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:precipitationFooterView];
+    [precipitationFooterView.topAnchor pinTo:_precipitationPlot.bottomAnchor];
+    [precipitationFooterView.widthAnchor pinTo:self.widthAnchor];
+    [precipitationFooterView.centerXAnchor pinTo:self.centerXAnchor];
+    [[precipitationFooterView.heightAnchor constraintEqualToConstant:1000] setActive:YES];
+    [precipitationFooterView.bottomAnchor pinTo:self.bottomAnchor withPadding:950];
+    precipitationFooterView.backgroundColor = [UIColor rainColor];
+    
+    UILabel *precipitationLabel = [[UILabel alloc] init];
+    precipitationLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    precipitationLabel.text = @"Rain Forecast";
+    precipitationLabel.font = [UIFont fontWithName:@"Futura-Medium" size:22];
+    precipitationLabel.textColor = UIColor.grayColor;
+    precipitationLabel.alpha = 1;
+    
+    [precipitationFooterView addSubview:precipitationLabel];
+    [precipitationLabel.bottomAnchor pinTo:precipitationFooterView.topAnchor];
+    [precipitationLabel.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor];
+    
+}
+
+- (void)refreshPrecipitationPlotWithData:(NSArray *)data {
+    [_precipitationPlot plotWithData:data];
 }
 
 - (void)fadeLabelsWithContentOffset:(CGFloat)contentOffset { }
@@ -371,6 +417,12 @@
     
     _temperatureLabel.alpha = MAX(0, MIN(1, ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 65) / (125 - 65)));
     _pinnedTemperatureLabel.alpha = (1 - _temperatureLabel.alpha) - _temperatureLabel.alpha;
+    
+    if (_temperatureLabel.alpha == 0) {
+        _pinnedLocationLabel.alpha = 1 - MAX(0, MIN(1, ((scrollView.contentOffset.y) - 450) / (20)));
+        _pinnedTemperatureLabel.alpha = 1 - MAX(0, MIN(1, ((scrollView.contentOffset.y) - 440) / (20)));
+    }
+    
     _conditionsLabel.alpha = MAX(0, MIN(1, ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
     _weatherTickerLabel.alpha = MAX(0, MIN(1, ((_weatherTickerLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
     

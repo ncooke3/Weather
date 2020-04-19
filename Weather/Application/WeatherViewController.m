@@ -66,12 +66,27 @@
 - (void)handleCurrentForecastUpdate {
     [self.weatherScrollView updateTemperatureLabel:[_forecast currentTemperature]];
     [self.weatherScrollView updateWeatherConditionsLabel:[_forecast currentConditions]];
-    [self startWeatherFeedWith:[[_forecast currentWeatherFeed] mutableCopy]];
+    [self.weatherScrollView updateApparentTemperatureLabel:[_forecast currentFeelsLikeTemperature]];
+    //[self startWeatherFeedWith:[[_forecast currentWeatherFeed] mutableCopy]];
     [self.weatherScrollView animateLayerColorsWith:[_forecast currentColors]];
 }
 
 - (void)handleHourlyForecastUpdate {
     [self.weatherScrollView refreshTemperaturePlotWithData:[_forecast hourlyTemperatures]];
+    
+    DailyForecast *todaysForecast = [[_forecast dailyForecasts] firstObject];
+    if ([todaysForecast hasPrecipitation]) {
+        [self.weatherScrollView showPrecipitationView];
+        [self.weatherScrollView refreshPrecipitationPlotWithData:[_forecast hourlyPrecipitation]];
+    }
+}
+
+- (void)handlePrecipitationForecast {
+    DailyForecast *todaysForecast = [[_forecast dailyForecasts] firstObject];
+    if ([todaysForecast hasPrecipitation]) {
+        [self.weatherScrollView showPrecipitationView];
+        [self.weatherScrollView refreshPrecipitationPlotWithData:[_forecast hourlyPrecipitation]];
+    }
 }
 
 - (void)handleDailyForecastUpdate {

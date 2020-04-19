@@ -35,7 +35,7 @@ NSInteger const kPointLabelHeight = 20;
     if (self) {
         _strokeColor = [UIColor colorWithRed:0.71f green: 1.0f blue: 0.196f alpha: 1.0f];
         _strokeWidth = 2;
-        _pointFillColor = UIColor.redColor;
+        _pointFillColor = UIColor.darkGrayColor;
         _graphWidth = self.frame.size.width; // 2
         _labelingInterval = 1;
         _labelFont = [UIFont fontWithName:@"Futura-Medium" size:12];
@@ -280,7 +280,6 @@ NSInteger const kPointLabelHeight = 20;
 }
 
 - (void)addPointsAndLabelsAtPoints:(NSArray<NSValue *> *)coordinatePoints forData:(NSArray<NSArray *> *)data {
-    
     [_dataCoordinatePoints removeObjectAtIndex:0]; // cuts off first point
     [_dataCoordinatePoints removeLastObject]; // cuts off last point
     
@@ -291,13 +290,13 @@ NSInteger const kPointLabelHeight = 20;
         // Create data point for data item
         GraphPoint *graphPoint = [[GraphPoint alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         //graphPoint.backgroundColor = //UIColor.grayColor;//[UIColor colorWithRed:0.40 green:0.54 blue:0.68 alpha:1.00];
-        graphPoint.label.text = data[index].firstObject;
+        graphPoint.label.text = data[index + 1].firstObject;
         [graphPoint setCenter:point];
         [_graphView addSubview:graphPoint];
         [_graphPoints addObject:graphPoint];
         
         // Add value label for data item
-        UILabel *valueLabel = [self labelForPoint:point withLabelText:data[index].lastObject];
+        UILabel *valueLabel = [self labelForPoint:point withLabelText:data[index + 1].lastObject];
         [_graphView addSubview:valueLabel];
         [valueLabel setCenter:CGPointMake(point.x, point.y - kPointLabelOffsetFromPointCenter)];
         

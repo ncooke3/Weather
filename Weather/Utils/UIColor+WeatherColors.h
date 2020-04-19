@@ -20,12 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<UIColor *> *)foggyColor;
 + (UIColor *)hailShowersColor;
 + (UIColor *)partlyCloudyColor;
-+ (UIColor *)rainyColor;
++ (NSArray<UIColor *> *)rainyColor;
 + (UIColor *)sleetColor;
 + (UIColor *)snowColor;
 + (UIColor *)thunderstormColor;
 + (UIColor *)tornadoColor;
 + (UIColor *)windyColor;
++ (UIColor *)rainColor;
 
 // Moon & Sun Colors
 + (UIColor *)moonColor;

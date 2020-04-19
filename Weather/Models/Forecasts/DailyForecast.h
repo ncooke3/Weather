@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 - (NSString *)formattedMoonPhase;
+- (BOOL)hasPrecipitation;
 
 
 

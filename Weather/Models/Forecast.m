@@ -95,6 +95,10 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     return [self.currentForecast.temperature stringValue];
 }
 
+- (NSString *)currentFeelsLikeTemperature {
+    return [self.currentForecast.apparentTemperature stringValue];
+}
+
 - (NSString *)currentConditions {
     return [NSString conditionsFrom:self.currentForecast.icon];
 }
@@ -109,14 +113,14 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
 
 - (HourlyTemperatures)hourlyTemperatures {
     return [_hourlyForecasts map:^(HourlyForecast *forecast) {
-        NSLog(@"forecast time: %@ and temp: %@ \n",forecast.time, forecast.temperature.stringValue);
+        //NSLog(@"forecast time: %@ and temp: %@ \n",forecast.time, forecast.temperature.stringValue);
         return @[forecast.time, forecast.temperature];
     }];
 }
 
 - (HourlyPrecipitation)hourlyPrecipitation {
     return [_hourlyForecasts map:^(HourlyForecast *forecast) {
-        NSLog(@"forecast time: %@ and precipitation: %@ \n",forecast.time, forecast.precipProbability.stringValue);
+        //NSLog(@"forecast time: %@ and precipitation: %@ \n",forecast.time, forecast.precipProbability.stringValue);
         return @[forecast.time, forecast.precipProbability];
     }];
 }

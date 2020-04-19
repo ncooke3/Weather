@@ -65,8 +65,19 @@
     return UIColor.new;
 }
 
-+ (UIColor *)rainyColor {
-    return UIColor.new;
++ (NSArray<UIColor *> *)rainyColor {
+    return @[
+    [UIColor colorWithRed: 0.81 green: 0.85 blue: 0.87 alpha: 1.00], // heavy rain gray
+    [UIColor colorWithRed: 0.89 green: 0.92 blue: 0.94 alpha: 1.00], // heavier rain
+//    [UIColor colorWithRed: 0.22 green: 0.29 blue: 0.38 alpha: 1.00], // dark blue
+  //  [UIColor colorWithRed: 0.36 green: 0.58 blue: 0.77 alpha: 1.00], // medium blue
+    [UIColor colorWithRed: 0.75 green: 0.85 blue: 0.98 alpha: 1.00], // light blue
+    //[UIColor colorWithRed: 0.97 green: 0.97 blue: 0.95 alpha: 1.00]  // whitish
+    ];
+}
+
++ (UIColor *)rainColor {
+    return [UIColor colorWithRed: 0.81 green: 0.85 blue: 0.87 alpha: 1.00];
 }
 
 + (UIColor *)sleetColor {
@@ -104,7 +115,7 @@
 
 + (NSArray<UIColor *> *)colorsForForecast:(NSString *)forecastString {
 
-    return [UIColor foggyColor];
+    return [UIColor rainyColor];
     
 
 }

@@ -23,7 +23,7 @@
         _precipProbability = [dictionary[kDSPrecipProbability] copy];
         _precipIntensity = [dictionary[kDSPrecipIntensity] copy];
         _precipType = [dictionary[kDSPrecipType] copy];
-        _humidity = @([[dictionary[kDSHumidity] copy] integerValue]);
+        _humidity = @([[dictionary[kDSHumidity] copy] doubleValue] * 100);
         _pressure = [dictionary[kDSPressure] copy];
         _windSpeed = [dictionary[kDSWindSpeed] copy];
     }

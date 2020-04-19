@@ -80,4 +80,8 @@
     return formattedMoonPhase;
 }
 
+- (BOOL)hasPrecipitation {
+    return [@[@"rain", @"snow", @"sleet", @"hail", @"thunderstorm"] containsObject:_icon];
+}
+
 @end

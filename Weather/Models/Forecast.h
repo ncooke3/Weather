@@ -44,6 +44,7 @@ typedef NSArray<NSArray *> * HourlyPrecipitation;
 
 - (void)forecastLocationString:(void(^)(NSString *))completion;
 - (NSString *)currentTemperature;
+- (NSString *)currentFeelsLikeTemperature;
 - (NSString *)currentConditions;
 - (NSArray *)currentWeatherFeed;
 - (NSArray *)currentColors;

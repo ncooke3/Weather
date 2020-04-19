@@ -17,7 +17,7 @@
         _time = [NSDateFormatter hourOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
         _icon = [dictionary[kDSIcon] copy];
         _temperature = @(round([(NSNumber*)[dictionary[kDSTemperature] copy] doubleValue]));
-        _precipProbability = [dictionary[kDSPrecipProbability] copy];
+        _precipProbability = @([[dictionary[kDSPrecipProbability] copy] doubleValue] * 100);
         _precipType = [dictionary[kDSPrecipType] copy];
         _humidity = [dictionary[kDSHumidity] copy];
     }

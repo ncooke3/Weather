@@ -68,7 +68,7 @@
     if (self) {
         
         [self addSubview:self.button];
-        [_button.leadingAnchor pinTo:self.leadingAnchor withPadding:30];
+        [_button.leadingAnchor pinTo:self.leadingAnchor withPadding:0];
         [_button.centerYAnchor pinTo:self.centerYAnchor];
         
         [self addSubview:self.primaryLabel];
