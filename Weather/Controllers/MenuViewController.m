@@ -15,6 +15,9 @@
 // View Controllers
 #import "WeatherViewController.h"
 
+// Transition Delegates
+#import "WeatherTransitioningDelegate.h"
+
 // Views
 #import "CityForecastCell+ConfigureForForecast.h"
 
@@ -27,6 +30,8 @@
 @property (nonatomic) UICollectionView *collectionView;
 
 @property (nonatomic) ForecastDataSource *dataSource;
+
+@property (nonatomic) WeatherTransitioningDelegate *weatherTransitioningDelegate;
 
 @end
 
@@ -58,6 +63,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _weatherTransitioningDelegate = [[WeatherTransitioningDelegate alloc] init];
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.05 alpha:1.0];
     
@@ -94,12 +101,12 @@
     [selectedCell setHighlighted:YES];
     
     //NSArray<Forecast *> * cityForecasts = [[Store forecasts] copy];
-    
     WeatherViewController *weatherViewController = [[WeatherViewController alloc] init];
-    //weatherViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:weatherViewController animated:YES completion:nil];
+    weatherViewController.transitioningDelegate = _weatherTransitioningDelegate;
+    _weatherTransitioningDelegate.startingCenter = [selectedCell convertPoint:selectedCell.center toView:self.view];
+    weatherViewController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:weatherViewController animated:YES completion:^{ [selectedCell setHighlighted:NO]; }];
     
-    [selectedCell setHighlighted:NO];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
