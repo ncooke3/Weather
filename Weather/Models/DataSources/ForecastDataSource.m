@@ -10,7 +10,7 @@
 
 @interface ForecastDataSource ()
 
-@property (nonatomic) NSArray *items;
+
 @property (nonatomic, assign) NSString *cellIdentifier;
 @property (nonatomic, copy) CollectionCellConfigureBlock configureCellBlock;
 

@@ -11,10 +11,9 @@
 @implementation CityForecastCell (ConfigureForForecast)
 
 - (void)configureForForecast:(Forecast *)forecast {
-    
-    self.circleView.backgroundColor = [forecast currentColors][0];
+
     self.cityLabel.text = [forecast locationString];
-    
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%@°", [forecast currentTemperature]];
 }
 
 @end

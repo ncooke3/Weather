@@ -15,13 +15,9 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    UIWindowScene *windowScene = [[UIWindowScene alloc] initWithSession:session connectionOptions:connectionOptions];
-    self.window = [[UIWindow alloc] initWithFrame:windowScene.coordinateSpace.bounds];
-    self.window.windowScene = windowScene;
-    self.window.rootViewController = [[WeatherViewController alloc] init];
+    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
     UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:MenuViewController.new];
     self.window.rootViewController = menuNavigationController;
-    //self.window.rootViewController = [[DevelopmentViewController alloc] init];
     [self.window makeKeyAndVisible];
 }
 

@@ -44,7 +44,7 @@
 
 // Weather Plots
 @property (nonatomic) GraphView *temperaturePlot;
-@property (nonatomic) GraphView *precipitationPlot; // add layer if you add it
+@property (nonatomic) GraphView *precipitationPlot;
 
 // Sun/Moon View
 @property (nonatomic) SolarLunarView *sunMoonInfoView;
@@ -58,9 +58,9 @@
     if (!_pinnedLocationLabel) {
         _pinnedLocationLabel = [[UILabel alloc] init];
         _pinnedLocationLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _pinnedLocationLabel.text = @"Atlanta";//_locationLabel.text;
+        _pinnedLocationLabel.text = _locationLabel.text;
         _pinnedLocationLabel.textColor = UIColor.darkTextColor;
-        _pinnedLocationLabel.font = [UIFont fontWithName:@"Futura-Bold" size:16];
+        _pinnedLocationLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightBold];
         _pinnedLocationLabel.alpha = 0;
     }
     return _pinnedLocationLabel;
@@ -70,7 +70,7 @@
     if (!_pinnedTemperatureLabel) {
         _pinnedTemperatureLabel = [[UILabel alloc] init];
         _pinnedTemperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _pinnedTemperatureLabel.font = [UIFont fontWithName:@"Futura-Bold" size:16];
+        _pinnedTemperatureLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightBold];
         _pinnedTemperatureLabel.textColor = UIColor.darkTextColor;
         _pinnedTemperatureLabel.alpha = 0;
     }
@@ -82,8 +82,7 @@
         _locationLabel = [[UILabel alloc] init];
         _locationLabel.translatesAutoresizingMaskIntoConstraints = NO;
         // TODO: user defaults - last stored location
-        _locationLabel.text = @"Atlanta";
-        _locationLabel.font = [UIFont fontWithName:@"Futura-Bold" size:36];
+        _locationLabel.font = [UIFont systemFontOfSize:36 weight:UIFontWeightBold];
         _locationLabel.textColor = UIColor.darkTextColor;
         _locationLabel.adjustsFontSizeToFitWidth = YES;
         _locationLabel.minimumScaleFactor = 0.50;
@@ -95,10 +94,9 @@
     if (!_dateLabel) {
         _dateLabel = [[UILabel alloc] init];
         _dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _dateLabel.font = [UIFont fontWithName:@"Futura-Medium" size:16];
-        _dateLabel.textColor = UIColor.darkGrayColor;
-        // TODO: format based on user prefs
-        _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"];
+        _dateLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
+        _dateLabel.textColor = UIColor.darkTextColor;
+        _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"]; // MARK: add to settings userdefaults!
     }
     return _dateLabel;
 }
@@ -107,7 +105,7 @@
     if (!_temperatureLabel) {
         _temperatureLabel = [[UILabel alloc] init];
         _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _temperatureLabel.font = [UIFont fontWithName:@"Futura-Bold" size:72];
+        _temperatureLabel.font = [UIFont systemFontOfSize:72 weight:UIFontWeightBold];
         _temperatureLabel.textColor = UIColor.darkTextColor;
     }
     return _temperatureLabel;
@@ -117,7 +115,7 @@
     if (!_conditionsLabel) {
         _conditionsLabel = [[UILabel alloc] init];
         _conditionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _conditionsLabel.font = [UIFont fontWithName:@"Futura-Medium" size:34];
+        _conditionsLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightMedium];
         _conditionsLabel.textColor = UIColor.darkTextColor;
     }
     return _conditionsLabel;
@@ -127,8 +125,8 @@
     if (!_weatherTickerLabel) {
         _weatherTickerLabel = [[UILabel alloc] init];
         _weatherTickerLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _weatherTickerLabel.font = [UIFont fontWithName:@"Futura-Medium" size:20];
-        _weatherTickerLabel.textColor = UIColor.darkGrayColor;
+        _weatherTickerLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
+        _weatherTickerLabel.textColor = UIColor.darkTextColor;
     }
     return _weatherTickerLabel;
 }
@@ -136,11 +134,6 @@
 - (CAGradientLayer *)animatingGradientLayer {
     if (!_animatingGradientLayer) {
         _animatingGradientLayer = [[CAGradientLayer alloc] init];
-        _animatingGradientLayer.startPoint = CGPointZero;
-        _animatingGradientLayer.endPoint = CGPointMake(1, 1);
-        UIColor *darkerBlue = [UIColor colorWithRed:0.63 green:0.77 blue:0.99 alpha:1.00];
-        UIColor *lightBlue = [UIColor colorWithRed:0.76 green:0.91 blue:0.98 alpha:1.00];
-        _animatingGradientLayer.colors = @[(id)darkerBlue.CGColor, (id)lightBlue.CGColor];
     }
     return _animatingGradientLayer;
 }
@@ -148,9 +141,10 @@
 - (GraphView *)temperaturePlot {
     if (!_temperaturePlot) {
         _temperaturePlot = [[GraphView alloc] init];
-        _temperaturePlot.labelUnits = @"°"; // set to user defaults settings!
-        _temperaturePlot.strokeColor = self.backgroundColor;
-        _temperaturePlot.labelFontColor = self.backgroundColor;
+        _temperaturePlot.labelUnits = @"°";
+        _temperaturePlot.strokeColor = [UIColor colorNamed:@"weatherBackgroundColor"];
+        _temperaturePlot.labelFontColor = [UIColor colorNamed:@"weatherBackgroundColor"];
+        _temperaturePlot.pointFillColor = [UIColor systemGray5Color];
     }
     return _temperaturePlot;
 }
@@ -160,8 +154,8 @@
         _forecastCollectionViewLabel = [[UILabel alloc] init];
         _forecastCollectionViewLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _forecastCollectionViewLabel.text = @"Weekly Forecast";
-        _forecastCollectionViewLabel.font = [UIFont fontWithName:@"Futura-Medium" size:22];
-        _forecastCollectionViewLabel.textColor = UIColor.grayColor;
+        _forecastCollectionViewLabel.font = [UIFont systemFontOfSize:22 weight:UIFontWeightMedium];
+        _forecastCollectionViewLabel.textColor = UIColor.secondaryLabelColor;
         _forecastCollectionViewLabel.alpha = 0;
     }
     return _forecastCollectionViewLabel;
@@ -182,9 +176,11 @@
 - (GraphView *)precipitationPlot {
     if (!_precipitationPlot) {
         _precipitationPlot = [[GraphView alloc] init];
-        _precipitationPlot.strokeColor = UIColor.rainColor;
-        _precipitationPlot.labelFontColor = UIColor.rainColor;
         _precipitationPlot.labelUnits = @"%";
+        _precipitationPlot.labelFontColor = UIColor.secondaryLabelColor;
+        _precipitationPlot.strokeColor = UIColor.systemGray3Color;
+        _precipitationPlot.strokeFillColor = UIColor.systemGray3Color;
+        _precipitationPlot.pointFillColor = [UIColor systemGray5Color];
     }
     return _precipitationPlot;
 }
@@ -200,18 +196,13 @@
 
 #pragma mark - Init
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
     
-        self.backgroundColor = [UIColor colorWithWhite:0.05 alpha:1.0];//[UIColor whitishBackgroundColor];
+        self.backgroundColor = [UIColor colorNamed:@"weatherBackgroundColor"];
+        
         self.userInteractionEnabled = YES;
-        /// POTENTIAL REFACTOR:
-        ///
-        /// WeatherViewController.m
-        ///     viewDidLoad { self.weatherScrollView.delegate = self; }
-        ///     ...
-        ///     viewDidScroll { _weatherScrollView fadeLablesWithContentOffset: _weatherScrollView.contentOffset }
         self.delegate = self;
         self.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         self.showsVerticalScrollIndicator = NO;
@@ -259,6 +250,10 @@
         
         /// Temperature Plot
         [self addSubview:self.temperaturePlot];
+        _temperaturePlot.frame = CGRectMake(self.frame.size.width  * -0.01,
+                                            self.frame.size.height * 2.0 / 3.0,
+                                            self.frame.size.width  * 1.02,
+                                            self.frame.size.height * 1.0/3.0);
         
         /// Forecast CollectionView & Label
         [self addSubview:self.forecastCollectionViewLabel];
@@ -271,21 +266,16 @@
         [[_forecastCollectionView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:.85] setActive:YES];
         [[_forecastCollectionView.heightAnchor constraintEqualToAnchor:self.heightAnchor multiplier:0.2 constant:0] setActive:YES];
         
-        // Precipitation Plot
-        // [self addSubview:self.precipitationPlot];
-        // MARK: Set top left positition of plot so if you display it, it will size accordingly from there
-        
         // Sun/Moon Info View
         [self addSubview:self.sunMoonInfoView];
         [_sunMoonInfoView.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:10];
-        //[_sunMoonInfoView.centerXAnchor pinTo:self.centerXAnchor withPadding:50];
         [_sunMoonInfoView.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor];
         [[_sunMoonInfoView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:1] setActive:YES];
         [[_sunMoonInfoView.heightAnchor constraintEqualToConstant:120] setActive:YES];
-        //[_sunMoonInfoView.bottomAnchor pinTo:self.bottomAnchor withPadding:-50];
-        
         _sunMoonInfoViewBottomConstraint = [_sunMoonInfoView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-50];
         [_sunMoonInfoViewBottomConstraint setActive:YES];
+        
+        // MARK: precipitation plot is handled by showPrecipitationView: method
         
     }
     return self;
@@ -293,13 +283,10 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-
-    _temperaturePlot.frame = CGRectMake(self.frame.size.width  * -0.01,
-                                        self.frame.size.height * 2.0 / 3.0,
-                                        self.frame.size.width  * 1.02,
-                                        self.frame.size.height * 1.0/3.0);
     
-    _animatingGradientLayer.frame = CGRectMake(0, -1000, self.frame.size.width, 1000 + self.frame.size.height);
+    if (CGRectIsEmpty(_animatingGradientLayer.frame)) {
+        _animatingGradientLayer.frame = CGRectMake(0, -1000, self.frame.size.width, 1000 + self.frame.size.height);
+    }
 }
 
 #pragma mark - Utils
@@ -312,7 +299,10 @@
 
 # pragma mark - Public Methods
 
-- (void)displayLocationLabelsWithLocation:(NSString *)location { }
+- (void)updateLocationLabelsWithLocation:(NSString *)location {
+    [_locationLabel setText:location];
+    [_pinnedLocationLabel setText:location];
+}
 
 - (void)updateTemperatureLabel:(NSString *)temperature {
     NSString *formattedTemperatureString = [NSString stringWithFormat:@"%@°", temperature];
@@ -337,20 +327,19 @@
 }
 
 - (void)animateLayerColorsWith:(NSArray<UIColor *> *)colors {
-    _animatingGradientLayer.colors = @[(id)colors[0].CGColor, (id)colors[0].CGColor];
+    _animatingGradientLayer.colors = @[(id)colors[1].CGColor, (id)colors[0].CGColor];
     _animatingGradientLayer.startPoint = CGPointZero;
     _animatingGradientLayer.endPoint = CGPointMake(0, 1);
     
     CABasicAnimation *colorsAnimation = [CABasicAnimation animationWithKeyPath:@"colors"];
     colorsAnimation.fromValue = _animatingGradientLayer.colors;
-    colorsAnimation.toValue = @[(id)colors[1].CGColor, (id)colors[1].CGColor];
+    colorsAnimation.toValue = @[(id)colors[0].CGColor, (id)colors[1].CGColor];
     colorsAnimation.duration = 10;
     colorsAnimation.repeatCount = INFINITY;
     colorsAnimation.autoreverses = YES;
     
     [_animatingGradientLayer addAnimation:colorsAnimation forKey:@"colorAnimation"];
     
-    _temperaturePlot.pointFillColor = [UIColor darkGrayColor];
 }
 
 - (void)updateSolarLunarViewWithData:(NSDictionary *)data {
@@ -363,7 +352,7 @@
     _precipitationPlot.translatesAutoresizingMaskIntoConstraints = NO;
     [_sunMoonInfoViewBottomConstraint setActive:NO];
 
-    [_precipitationPlot.topAnchor pinTo:_sunMoonInfoView.bottomAnchor withPadding:50];
+    [_precipitationPlot.topAnchor pinTo:_sunMoonInfoView.bottomAnchor withPadding:20];
     [[_precipitationPlot.widthAnchor constraintEqualToConstant:self.frame.size.width * 1.02] setActive:YES];
     [[_precipitationPlot.heightAnchor constraintEqualToConstant:self.frame.size.height * 0.20] setActive:YES];
     [_precipitationPlot.centerXAnchor pinTo:self.centerXAnchor];
@@ -378,13 +367,13 @@
     [precipitationFooterView.centerXAnchor pinTo:self.centerXAnchor];
     [[precipitationFooterView.heightAnchor constraintEqualToConstant:1000] setActive:YES];
     [precipitationFooterView.bottomAnchor pinTo:self.bottomAnchor withPadding:950];
-    precipitationFooterView.backgroundColor = [UIColor rainColor];
+    precipitationFooterView.backgroundColor = _precipitationPlot.strokeFillColor;
     
     UILabel *precipitationLabel = [[UILabel alloc] init];
     precipitationLabel.translatesAutoresizingMaskIntoConstraints = NO;
     precipitationLabel.text = @"Rain Forecast";
-    precipitationLabel.font = [UIFont fontWithName:@"Futura-Medium" size:22];
-    precipitationLabel.textColor = UIColor.grayColor;
+    precipitationLabel.font = [UIFont systemFontOfSize:22 weight:UIFontWeightMedium];
+    precipitationLabel.textColor = UIColor.secondaryLabelColor;;
     precipitationLabel.alpha = 1;
     
     [precipitationFooterView addSubview:precipitationLabel];
@@ -397,37 +386,45 @@
     [_precipitationPlot plotWithData:data];
 }
 
-- (void)fadeLabelsWithContentOffset:(CGFloat)contentOffset { }
+- (CGFloat)slidingValueWithx0:(CGFloat)x0 x1:(CGFloat)x1 y0:(CGFloat)y0 y1:(CGFloat)y1 x:(CGFloat)x {
+    CGFloat m = (y1-y0)/(x1-x0);
+    CGFloat b = y1 - m * x1;
+    CGFloat maxY = y1 > y0 ? y1 : y0;
+    CGFloat minY = y1 > y0 ? y0 : y1;
+    CGFloat y = m * x + b;
+    return MAX(MIN(y, maxY), minY);
+}
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    // TODO: fade labels accordingly
-
+    
     if (scrollView != self) { return; }
-    
-    CGFloat locationLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _locationLabel.frame.origin.y)))));
-    _locationLabel.alpha = 1 - locationLabelRatio;
-    
-    CGFloat dateLabelRatio = MIN(1, (2 * MAX(0, MIN(1, (scrollView.contentOffset.y / _dateLabel.frame.origin.y)))));
-    _dateLabel.alpha = 1 - dateLabelRatio;
 
-    CGFloat pinnedLocationLabelRatio = MIN(1, MAX(0, MIN(1, ((scrollView.contentOffset.y - _locationLabel.frame.origin.y + _pinnedLocationLabel.frame.size.height) / _locationLabel.frame.origin.y))));
-    _pinnedLocationLabel.alpha = pinnedLocationLabelRatio;
+    CGFloat offset = 25;
     
-    _temperatureLabel.alpha = MAX(0, MIN(1, ((_temperatureLabel.frame.origin.y - scrollView.contentOffset.y) - 65) / (125 - 65)));
+    _pinnedLocationLabel.alpha = [self slidingValueWithx0:CGRectGetMinY(_locationLabel.frame) - offset x1:CGRectGetMinY(_locationLabel.frame) + offset y0:0 y1:1 x:scrollView.contentOffset.y];
+    _locationLabel.alpha = [self slidingValueWithx0:0 x1:50 y0:1 y1:0 x:scrollView.contentOffset.y];
+    _dateLabel.alpha = [self slidingValueWithx0:10 x1:60 y0:1 y1:0 x:scrollView.contentOffset.y];
+    
+    _temperatureLabel.alpha = [self slidingValueWithx0:CGRectGetMaxY(_dateLabel.frame) - offset x1:CGRectGetMaxY(_dateLabel.frame) + offset y0:1 y1:0 x:scrollView.contentOffset.y];
     _pinnedTemperatureLabel.alpha = (1 - _temperatureLabel.alpha) - _temperatureLabel.alpha;
     
     if (_temperatureLabel.alpha == 0) {
-        _pinnedLocationLabel.alpha = 1 - MAX(0, MIN(1, ((scrollView.contentOffset.y) - 450) / (20)));
-        _pinnedTemperatureLabel.alpha = 1 - MAX(0, MIN(1, ((scrollView.contentOffset.y) - 440) / (20)));
+        _pinnedLocationLabel.alpha = [self slidingValueWithx0:CGRectGetMinY(_temperaturePlot.frame) - 150 x1:CGRectGetMinY(_temperaturePlot.frame) - 80 y0:1 y1:0 x:scrollView.contentOffset.y];
+        _pinnedTemperatureLabel.alpha = [self slidingValueWithx0:CGRectGetMinY(_temperaturePlot.frame) - 140 x1:CGRectGetMinY(_temperaturePlot.frame) - 90 y0:1 y1:0 x:scrollView.contentOffset.y];
     }
     
-    _conditionsLabel.alpha = MAX(0, MIN(1, ((_conditionsLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
-    _weatherTickerLabel.alpha = MAX(0, MIN(1, ((_weatherTickerLabel.frame.origin.y - scrollView.contentOffset.y) - 85) / (125 - 85)));
+    _conditionsLabel.alpha = [self slidingValueWithx0:CGRectGetMaxY(_dateLabel.frame) x1:CGRectGetMaxY(_dateLabel.frame) + 4 * offset y0:1 y1:0 x:scrollView.contentOffset.y];
+    _weatherTickerLabel.alpha = [self slidingValueWithx0:CGRectGetMaxY(_dateLabel.frame) + 2 * offset x1:CGRectGetMaxY(_dateLabel.frame) + 5 * offset y0:1 y1:0 x:scrollView.contentOffset.y];
     
-    _forecastCollectionViewLabel.alpha = 1 - MAX(0, MIN(1, ((_forecastCollectionViewLabel.frame.origin.y - scrollView.contentOffset.y) - 600) / (800 - 600)));
-//    _precipitationLabel.alpha = 1 - MAX(0, MIN(1, ((_precipitationLabel.frame.origin.y - scrollView.contentOffset.y) - 760) / (800 - 760)));
+    _forecastCollectionViewLabel.alpha = [self slidingValueWithx0:0 x1:200 y0:0 y1:1 x:scrollView.contentOffset.y];
+    _forecastCollectionView.alpha = [self slidingValueWithx0:0 x1:200 y0:0 y1:1 x:scrollView.contentOffset.y];
+    
+    _sunMoonInfoView.alpha = [self slidingValueWithx0:250 x1:400 y0:0 y1:1 x:scrollView.contentOffset.y];
+    
+    //_precipitationPlot.alpha = [self slidingValueWithx0:500 x1:600 y0:0 y1:1 x:scrollView.contentOffset.y];
+    
 }
 
 # pragma mark - UICollectionViewDelegate

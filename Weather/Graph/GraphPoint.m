@@ -23,9 +23,9 @@
         
         _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
         _label.textAlignment = NSTextAlignmentCenter;
-        _label.textColor = UIColor.whiteColor;
+        _label.textColor = [UIColor labelColor];
         _label.backgroundColor = UIColor.clearColor;
-        _label.font = [UIFont fontWithName:@"Futura-Medium" size:10];
+        _label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];[UIFont fontWithName:@"Futura-Medium" size:10];
         _label.alpha = 1;
         [self addSubview:_label];
         [_label setCenter:CGPointMake(self.center.x, self.center.y)];
@@ -42,7 +42,6 @@
 }
 
 - (void)expand {
-    //[_animator stopAnimation:YES];
     UISpringTimingParameters *timingParameters = [[UISpringTimingParameters alloc] initWithDamping:0.7 response:0.3];
     UIViewPropertyAnimator *animator = [[UIViewPropertyAnimator alloc] initWithDuration:10.0 timingParameters:timingParameters];
     __weak typeof(self) weakSelf = self;

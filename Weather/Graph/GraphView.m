@@ -20,11 +20,13 @@ NSInteger const kPointLabelHeight = 20;
 
 @interface GraphView () <UIGestureRecognizerDelegate>
 
+@property (nonatomic) CAShapeLayer *shapeView;
 @property (nonatomic) UIView *graphView;
 @property (nonatomic) UIPanGestureRecognizer *gestureRecognizer;
 @property (nonatomic) NSMutableArray<GraphPoint *> *graphPoints;
 @property (nonatomic) NSMutableArray<NSValue *> *dataCoordinatePoints;
 @property (nonatomic) GraphPoint *currentlyExpandedGraphPoint;
+@property (nonatomic) UIImpactFeedbackGenerator *feedbackGenerator;
 
 @end
 
@@ -33,7 +35,7 @@ NSInteger const kPointLabelHeight = 20;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _strokeColor = [UIColor colorWithRed:0.71f green: 1.0f blue: 0.196f alpha: 1.0f];
+        _strokeColor = UIColor.systemIndigoColor;
         _strokeWidth = 2;
         _pointFillColor = UIColor.darkGrayColor;
         _graphWidth = self.frame.size.width; // 2
@@ -47,6 +49,8 @@ NSInteger const kPointLabelHeight = 20;
         [self addSubview:_graphView];
         self.contentSize = CGSizeMake(self.graphWidth, self.frame.size.height);
         
+        _feedbackGenerator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+        
         _gestureRecognizer = [[UIPanGestureRecognizer alloc] init];
         [_gestureRecognizer addTarget:self action:@selector(pannedWithRecognizer:)];
         _gestureRecognizer.delegate = self;
@@ -57,6 +61,13 @@ NSInteger const kPointLabelHeight = 20;
         self.clipsToBounds = NO;
     }
     return self;
+}
+
+#pragma mark - UITraitCollection
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    _shapeView.fillColor = _strokeColor.CGColor;
+    _shapeView.strokeColor = _strokeColor.CGColor;
 }
 
 #pragma mark - Gesture Recongizer Delegate
@@ -86,6 +97,7 @@ NSInteger const kPointLabelHeight = 20;
             pannedGraphPoint.backgroundColor = _pointFillColor;
             [pannedGraphPoint expand];
             _currentlyExpandedGraphPoint = pannedGraphPoint;
+            [_feedbackGenerator impactOccurred];
         }
     } else if (recognizer.state >= 3) {
         [_currentlyExpandedGraphPoint shrink];
@@ -230,34 +242,14 @@ NSInteger const kPointLabelHeight = 20;
         [path closePath];
     }
     
-    CAShapeLayer *shapeView = [[CAShapeLayer alloc] init];
-    shapeView.path = [path CGPath];
-    shapeView.strokeColor = _strokeColor.CGColor;
-    shapeView.fillColor = _drawFilledGraph ? _strokeColor.CGColor : UIColor.clearColor.CGColor;
-    shapeView.lineWidth = _strokeWidth;
-    [shapeView setLineCap:kCALineCapRound];
-    [_graphView.layer addSublayer:shapeView];
-    
-    if (self.isAnimated) {
-        shapeView.strokeStart = 0.0;
-
-        CABasicAnimation* strokeAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        strokeAnimation.fillMode = kCAFillModeForwards;
-        strokeAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        strokeAnimation.duration = 1.0;
-        strokeAnimation.fromValue = @(0.0);
-        strokeAnimation.toValue = @(1.0);
-        [shapeView addAnimation:strokeAnimation forKey:@"strokeAnim"];
-
-        CABasicAnimation *fillColorAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
-        fillColorAnimation.duration = 1.0;
-        fillColorAnimation.fromValue = (id)[[UIColor clearColor] CGColor];
-        fillColorAnimation.toValue = (id)[_strokeColor CGColor];
-        [fillColorAnimation setRemovedOnCompletion:NO];
-        [fillColorAnimation setFillMode:kCAFillModeBoth];
-
-        [shapeView addAnimation:fillColorAnimation forKey:@"fillColor"];
-    }
+    _shapeView = [[CAShapeLayer alloc] init];
+    _shapeView.path = [path CGPath];
+    _shapeView.strokeColor = _strokeColor.CGColor;
+    _shapeView.fillColor = _drawFilledGraph ? _strokeColor.CGColor : UIColor.clearColor.CGColor;
+    _shapeView.lineWidth = _strokeWidth;
+    [_shapeView setLineCap:kCALineCapRound];
+    [_graphView.layer addSublayer:_shapeView];
+        
 }
 
 - (UILabel *)labelForPoint:(CGPoint)point withLabelText:(NSString *)text {
@@ -270,11 +262,21 @@ NSInteger const kPointLabelHeight = 20;
     label.minimumScaleFactor = 0.6;
     label.alpha = 0;
     
-    NSString *centeredText = [NSMutableString stringWithFormat:@"%@%@%@",_labelUnits, text, _labelUnits];
-    NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:centeredText];
-    [labelText addAttribute:NSForegroundColorAttributeName value:UIColor.clearColor range:NSMakeRange(0, 1)];
-    
-    label.attributedText = labelText;
+    // MARK: This is not really how we should be doing this
+    if ([_labelUnits isEqualToString:@"%"]) {
+        NSAttributedString *smallerPercent = [[NSAttributedString alloc] initWithString:_labelUnits attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10], NSBaselineOffsetAttributeName:@(1)}];
+        NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] init];
+        [labelText appendAttributedString:smallerPercent];
+        [labelText appendAttributedString:[[NSAttributedString alloc] initWithString:[(NSNumber*)text stringValue]]];
+        [labelText appendAttributedString:smallerPercent];
+        [labelText addAttribute:NSForegroundColorAttributeName value:UIColor.clearColor range:NSMakeRange(0, 1)];
+        label.attributedText = labelText;
+    } else {
+        NSString *centeredText = [NSMutableString stringWithFormat:@"%@%@%@",_labelUnits, text, _labelUnits];
+        NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:centeredText];
+        [labelText addAttribute:NSForegroundColorAttributeName value:UIColor.clearColor range:NSMakeRange(0, 1)];
+        label.attributedText = labelText;
+    }
     
     return label;
 }
@@ -289,7 +291,6 @@ NSInteger const kPointLabelHeight = 20;
         
         // Create data point for data item
         GraphPoint *graphPoint = [[GraphPoint alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        //graphPoint.backgroundColor = //UIColor.grayColor;//[UIColor colorWithRed:0.40 green:0.54 blue:0.68 alpha:1.00];
         graphPoint.label.text = data[index + 1].firstObject;
         [graphPoint setCenter:point];
         [_graphView addSubview:graphPoint];

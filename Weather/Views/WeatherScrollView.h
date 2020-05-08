@@ -17,13 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WeatherScrollView : UIScrollView
 
-//@property (nonatomic) ForecastDataSource *dataSource;
 @property (nonatomic) UICollectionView *forecastCollectionView;
-
 @property (nonatomic, copy) void (^configureCell)(DailyForecastCell *, DailyForecast *);
-
 @property (nonatomic) UILabel *weatherTickerLabel;
 
+- (void)updateLocationLabelsWithLocation:(NSString *)location;
 - (void)updateTemperatureLabel:(NSString *)temperature;
 - (void)updateWeatherConditionsLabel:(NSString *)conditions;
 - (void)updateWeatherTicker:(NSString *)info;
@@ -33,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)animateLayerColorsWith:(NSArray<UIColor *> *)colors;
 - (void)showPrecipitationView;
 - (void)refreshPrecipitationPlotWithData:(NSArray *)data;
-
 
 @end
 

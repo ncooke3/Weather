@@ -41,12 +41,12 @@ typedef NSArray<NSArray *> * HourlyPrecipitation;
 @property (nonatomic) HourlyWeather *hourlyForecasts;
 
 - (instancetype)initForLocation:(CLLocation *)location;
+- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location;
 
 - (void)forecastLocationString:(void(^)(NSString *))completion;
 - (NSString *)currentTemperature;
 - (NSString *)currentFeelsLikeTemperature;
 - (NSString *)currentConditions;
-- (NSArray *)currentWeatherFeed;
 - (NSArray *)currentColors;
 
 - (void)updateForecasts:(void(^)(void))completion;

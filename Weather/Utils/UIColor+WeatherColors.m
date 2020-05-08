@@ -8,20 +8,14 @@
 
 #import "UIColor+WeatherColors.h"
 
-
 @implementation UIColor (WeatherColors)
 
 #pragma mark - Background Colors
 
 + (UIColor *)whitishBackgroundColor {
     return [UIColor colorWithRed:0.97 green:0.97 blue:0.95 alpha:1.0];
+    
 }
-
-// TODO: light mode subview
-
-// TODO: dark mode background color should be the color sets from fluid interfaces
-
-// TODO: dark mode subview
 
 #pragma mark - Text Colors
 
@@ -40,8 +34,11 @@
     return @[reddish, orangeish, whitish, yellowish];
 }
 
-+ (UIColor *)cloudyColor {
-    return UIColor.new;
++ (NSArray<UIColor *> *)cloudyColor {
+    return @[
+        [UIColor colorNamed:@"Clear Color 1"],
+        [UIColor colorNamed:@"Clear Color 2"]
+    ];
 }
 
 + (NSArray<UIColor *> *)foggyColor {
@@ -57,8 +54,11 @@
     ];
 }
 
-+ (UIColor *)hailShowersColor {
-    return UIColor.new;
++ (NSArray<UIColor *> *)hailShowersColor {
+    return @[
+        [UIColor colorNamed:@"hail.dark"],
+        [UIColor colorNamed:@"hail.light"],
+    ];
 }
 
 + (UIColor *)partlyCloudyColor {
@@ -88,12 +88,18 @@
     return UIColor.new;
 }
 
-+ (UIColor *)thunderstormColor {
-    return UIColor.new;
++ (NSArray<UIColor *> *)thunderstormColor {
+    return @[
+        [UIColor colorNamed:@"thunderstorm.dark"],
+        [UIColor colorNamed:@"thunderstorm.light"]
+    ];
 }
 
-+ (UIColor *)tornadoColor {
-    return UIColor.new;
++ (NSArray<UIColor *> *)tornadoColor {
+    return @[
+        [UIColor colorNamed:@"tornado.dark"],
+        [UIColor colorNamed:@"tornado.light"],
+    ];
 }
 
 + (UIColor *)windyColor {
@@ -114,10 +120,84 @@
 #pragma mark - For gradients
 
 + (NSArray<UIColor *> *)colorsForForecast:(NSString *)forecastString {
-
-    return [UIColor rainyColor];
+    if ([forecastString isEqualToString:@"Clear"]) {
+        return [self colorsForForecastCondition:WeatherConditionClear];
+    } else if ([forecastString isEqualToString:@"Clear Night"]) {
+        return [self colorsForForecastCondition:WeatherConditionClearNight];
+    } else if ([forecastString isEqualToString:@"Cloudy"]) {
+        return [self colorsForForecastCondition:WeatherConditionCloudy];
+    } else if ([forecastString isEqualToString:@"Foggy"]) {
+        return [self colorsForForecastCondition:WeatherConditionFoggy];
+    } else if ([forecastString isEqualToString:@"Hail Showers"]) {
+        return [self colorsForForecastCondition:WeatherConditionHailShowers];
+    } else if ([forecastString isEqualToString:@"Partly Cloudy"]) {
+        return [self colorsForForecastCondition:WeatherConditionPartlyCloudy];
+    } else if ([forecastString isEqualToString:@"Partly Cloudy"]) { // MARK: handle night man
+        return [self colorsForForecastCondition:WeatherConditionPartlyCloudyNight];
+    } else if ([forecastString isEqualToString:@"Rain"]) {
+        return [self colorsForForecastCondition:WeatherConditionRain];
+    } else if ([forecastString isEqualToString:@"Sleet"]) {
+        return [self colorsForForecastCondition:WeatherConditionSleet];
+    } else if ([forecastString isEqualToString:@"Snow"]) {
+        return [self colorsForForecastCondition:WeatherConditionSnow];
+    } else if ([forecastString isEqualToString:@"Thunderstorm"]) {
+        return [self colorsForForecastCondition:WeatherConditionThunderstorm];
+    } else if ([forecastString isEqualToString:@"Tornado"]) {
+        return [self colorsForForecastCondition:WeatherConditionTornado];
+    } else if ([forecastString isEqualToString:@"Windy"]) {
+        return [self colorsForForecastCondition:WeatherConditionWindy];
+    }
     
+    return @[[UIColor secondarySystemBackgroundColor],
+             [UIColor secondarySystemBackgroundColor]];
+}
 
++ (NSArray<UIColor *> *)colorsForForecastCondition:(WeatherCondition)weatherCondition {
+    switch (weatherCondition) {
+        case WeatherConditionClear:
+            return @[[UIColor colorNamed:@"clear.dark"],
+                     [UIColor colorNamed:@"clear.light"]];
+        case WeatherConditionClearNight:
+            return @[[UIColor colorNamed:@"clear.dark"],
+                     [UIColor colorNamed:@"clear.light"]];
+        case WeatherConditionCloudy:
+            return @[[UIColor colorNamed:@"cloudy.dark"],
+                     [UIColor colorNamed:@"cloudy.light"]];
+        case WeatherConditionFoggy:
+            return @[[UIColor colorNamed:@"fog.dark"],
+                     [UIColor colorNamed:@"fog.light"]];
+        case WeatherConditionHailShowers:
+            return @[[UIColor colorNamed:@"hail.dark"],
+                     [UIColor colorNamed:@"hail.light"]];
+        case WeatherConditionPartlyCloudy:
+            return @[[UIColor colorNamed:@"partlyCloudy.dark"],
+                     [UIColor colorNamed:@"partlyCloudy.light"]];
+        case WeatherConditionPartlyCloudyNight:
+            return @[[UIColor colorNamed:@"partlyCloudy.dark"],
+                     [UIColor colorNamed:@"partlyCloudy.light"]];
+        case WeatherConditionRain:
+            return @[[UIColor colorNamed:@"rain.dark"],
+                     [UIColor colorNamed:@"rain.light"]];
+        case WeatherConditionSleet:
+            return @[[UIColor colorNamed:@"sleet.dark"],
+                     [UIColor colorNamed:@"sleet.light"]];
+        case WeatherConditionSnow:
+            return @[[UIColor colorNamed:@"snow.dark"],
+                     [UIColor colorNamed:@"snow.light"]];
+        case WeatherConditionThunderstorm:
+            return @[[UIColor colorNamed:@"thunderstorm.dark"],
+                     [UIColor colorNamed:@"thunderstorm.light"]];
+        case WeatherConditionTornado:
+            return @[[UIColor colorNamed:@"tornado.dark"],
+                     [UIColor colorNamed:@"tornado.light"]];
+        case WeatherConditionWindy:
+            return @[[UIColor colorNamed:@"windy.dark"],
+                     [UIColor colorNamed:@"windy.light"]];
+        case WeatherConditionUnknown:
+            return @[[UIColor secondarySystemBackgroundColor],
+                     [UIColor secondarySystemBackgroundColor]];
+    }
+    
 }
 
 @end

@@ -25,6 +25,11 @@
 		EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */; };
 		EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */; };
 		EA0AA93E244298EA0055F8EF /* DevelopmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */; };
+		EA561D06246070A800F8617D /* Cashier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; };
+		EA561D07246070A900F8617D /* Cashier.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EA6B82A9245134AC002021AB /* SearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B82A8245134AC002021AB /* SearchResultsController.m */; };
+		EA6B82AC2453BEA3002021AB /* RoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B82AB2453BEA3002021AB /* RoundButton.m */; };
+		EA6B82AF2453C84C002021AB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B82AE2453C84C002021AB /* MapViewController.m */; };
 		EA736611242677B400CABA5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736610242677B400CABA5C /* AppDelegate.m */; };
 		EA736614242677B400CABA5C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA736613242677B400CABA5C /* SceneDelegate.m */; };
 		EA73661C242677B800CABA5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA73661B242677B800CABA5C /* Assets.xcassets */; };
@@ -58,6 +63,20 @@
 			remoteInfo = Weather;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EA561CFA24606D5A00F8617D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EA561D07246070A900F8617D /* Cashier.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		EA0AA8E3243173F60055F8EF /* UISpringTimingParameters+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISpringTimingParameters+Convenience.m"; sourceTree = "<group>"; };
@@ -97,6 +116,13 @@
 		EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weather-Prefix.pch"; sourceTree = "<group>"; };
 		EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentViewController.h; sourceTree = "<group>"; };
 		EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DevelopmentViewController.m; sourceTree = "<group>"; };
+		EA561D05246070A800F8617D /* Cashier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cashier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA6B82A7245134AC002021AB /* SearchResultsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultsController.h; sourceTree = "<group>"; };
+		EA6B82A8245134AC002021AB /* SearchResultsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultsController.m; sourceTree = "<group>"; };
+		EA6B82AA2453BEA3002021AB /* RoundButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundButton.h; sourceTree = "<group>"; };
+		EA6B82AB2453BEA3002021AB /* RoundButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundButton.m; sourceTree = "<group>"; };
+		EA6B82AD2453C84C002021AB /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		EA6B82AE2453C84C002021AB /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		EA73660C242677B400CABA5C /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA73660F242677B400CABA5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EA736610242677B400CABA5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -148,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA561D06246070A800F8617D /* Cashier.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +188,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BEBB45D1560F77797879DEE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA561D05246070A800F8617D /* Cashier.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D773BFEB8B75EFEBAA17C97D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EA0AA91524390ABF0055F8EF /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +263,8 @@
 			children = (
 				EA0AA90F24386A8D0055F8EF /* MoonButton.h */,
 				EA0AA91024386A8D0055F8EF /* MoonButton.m */,
+				EA6B82AA2453BEA3002021AB /* RoundButton.h */,
+				EA6B82AB2453BEA3002021AB /* RoundButton.m */,
 			);
 			path = "UI Controls";
 			sourceTree = "<group>";
@@ -245,12 +289,36 @@
 			path = CollectionViewLayouts;
 			sourceTree = "<group>";
 		};
+		EA561CC1245BA79A00F8617D /* Add Forecast Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EA6B82AD2453C84C002021AB /* MapViewController.h */,
+				EA6B82AE2453C84C002021AB /* MapViewController.m */,
+				EA6B82A7245134AC002021AB /* SearchResultsController.h */,
+				EA6B82A8245134AC002021AB /* SearchResultsController.m */,
+			);
+			path = "Add Forecast Controllers";
+			sourceTree = "<group>";
+		};
+		EA561CC2245BA7C400F8617D /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				EAFB7668244DE05900671CE8 /* WeatherTransitioningDelegate.h */,
+				EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */,
+				EAFB766B244DE47400671CE8 /* WeatherControllerAnimator.h */,
+				EAFB766C244DE47400671CE8 /* WeatherControllerAnimator.m */,
+			);
+			path = Transitions;
+			sourceTree = "<group>";
+		};
 		EA736603242677B400CABA5C = {
 			isa = PBXGroup;
 			children = (
 				EA73660E242677B400CABA5C /* Weather */,
 				EA73662A242677B800CABA5C /* WeatherTests */,
 				EA73660D242677B400CABA5C /* Products */,
+				D773BFEB8B75EFEBAA17C97D /* Pods */,
+				9BEBB45D1560F77797879DEE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,12 +396,10 @@
 		EA73663824267D9E00CABA5C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EA561CC2245BA7C400F8617D /* Transitions */,
+				EA561CC1245BA79A00F8617D /* Add Forecast Controllers */,
 				EA0AA91F243C3BD40055F8EF /* MenuViewController.h */,
 				EA0AA920243C3BD40055F8EF /* MenuViewController.m */,
-				EAFB7668244DE05900671CE8 /* WeatherTransitioningDelegate.h */,
-				EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */,
-				EAFB766B244DE47400671CE8 /* WeatherControllerAnimator.h */,
-				EAFB766C244DE47400671CE8 /* WeatherControllerAnimator.m */,
 				EA0AA9122438F87E0055F8EF /* WeatherViewController.h */,
 				EA0AA9132438F87E0055F8EF /* WeatherViewController.m */,
 				EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */,
@@ -402,6 +468,7 @@
 				EA736608242677B400CABA5C /* Sources */,
 				EA736609242677B400CABA5C /* Frameworks */,
 				EA73660A242677B400CABA5C /* Resources */,
+				EA561CFA24606D5A00F8617D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -492,6 +559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA0AA91124386A8D0055F8EF /* MoonButton.m in Sources */,
+				EA6B82AF2453C84C002021AB /* MapViewController.m in Sources */,
 				EA0AA8E5243173F60055F8EF /* UISpringTimingParameters+Convenience.m in Sources */,
 				EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */,
 				EA0AA929243C46410055F8EF /* Store.m in Sources */,
@@ -517,7 +585,9 @@
 				EA736622242677B800CABA5C /* main.m in Sources */,
 				EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */,
 				EAFB7667244BA29700671CE8 /* SolarLunarView.m in Sources */,
+				EA6B82A9245134AC002021AB /* SearchResultsController.m in Sources */,
 				EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */,
+				EA6B82AC2453BEA3002021AB /* RoundButton.m in Sources */,
 				EAAD4EC22427E6200031A171 /* DailyForecast.m in Sources */,
 				EA73664124267FAE00CABA5C /* CurrentForecast.m in Sources */,
 				EA0AA91E2439919C0055F8EF /* DailyForecastCell+ConfigureForForecast.m in Sources */,
@@ -677,6 +747,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
@@ -686,7 +760,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ncooke.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -696,6 +770,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
@@ -705,7 +783,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ncooke.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

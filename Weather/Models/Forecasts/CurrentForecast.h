@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CurrentForecast : NSObject<NSCoding>
+@interface CurrentForecast : NSObject <NSCoding, NSSecureCoding>
 
 @property (nonatomic, readonly) NSNumber *time;
 @property (nonatomic, readonly) NSString *icon;

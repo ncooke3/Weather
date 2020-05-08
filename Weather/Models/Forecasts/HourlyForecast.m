@@ -17,7 +17,7 @@
         _time = [NSDateFormatter hourOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
         _icon = [dictionary[kDSIcon] copy];
         _temperature = @(round([(NSNumber*)[dictionary[kDSTemperature] copy] doubleValue]));
-        _precipProbability = @([[dictionary[kDSPrecipProbability] copy] doubleValue] * 100);
+        _precipProbability = @(round([[dictionary[kDSPrecipProbability] copy] doubleValue] * 100));
         _precipType = [dictionary[kDSPrecipType] copy];
         _humidity = [dictionary[kDSHumidity] copy];
     }
@@ -40,14 +40,18 @@
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
     if (self.time != nil) [coder encodeObject:self.time forKey:kDSTime];
     if (self.icon != nil) [coder encodeObject:self.icon forKey:kDSIcon];
-    if (self.temperature) [coder encodeObject:self.temperature];
-    if (self.precipProbability) [coder encodeObject:self.precipProbability];
-    if (self.precipType) [coder encodeObject:self.precipType];
-    if (self.humidity) [coder encodeObject:self.humidity];
+    if (self.temperature) [coder encodeObject:self.temperature forKey:kDSTemperature];
+    if (self.precipProbability) [coder encodeObject:self.precipProbability forKey:kDSPrecipProbability];
+    if (self.precipType) [coder encodeObject:self.precipType forKey:kDSPrecipType];
+    if (self.humidity) [coder encodeObject:self.humidity forKey:kDSHumidity];
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@ - \n\t time: %@; \n\t icon: %@", [super description], _time, _icon];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 @end

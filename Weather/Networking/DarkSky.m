@@ -9,12 +9,18 @@
 #import "DarkSky.h"
 #import "NSArray+URLValidExclusionsParameter.h"
 
+// Frameworks
+#import <Cashier/Cashier.h>
+
+@interface DarkSky ()
+
+@property (nonatomic) Cashier *cache;
+
+@end
 
 @implementation DarkSky {
     NSUserDefaults *userDefaults;
-    //dispatch_queue_t queue;
 }
-
 
 # pragma mark - Singleton Methods
 
@@ -31,14 +37,13 @@
     self = [super init];
     if (self) {
         userDefaults = [NSUserDefaults standardUserDefaults];
-
+        _cache = [Cashier cacheWithId:@"network"];
+        _cache.lifespan = 60 * 30;
+        _cache.returnsExpiredData = NO;
         self.apiKey = @"0e7f5038c7db684db9d0cafe2ad2ee69"; // ⚠️ API KEY exposed
-        
         self.cacheEnabled = YES;
         self.cacheExpirationInMinutes = 30;
-        
         self.cacheQueue = dispatch_queue_create("com.ncooke.DSCacheQueue", NULL);
-        
     }
     return self;
 }
@@ -67,14 +72,11 @@
     } error:^(NSError *error) {
         
         NSURL *url = [NSURL URLWithString:urlString];
-         
         NSMutableURLRequest *mutablRequest = [NSMutableURLRequest requestWithURL:url];
         mutablRequest.HTTPMethod = @"GET";
         NSURLRequest *request = [mutablRequest copy];
-         
-
+        
         NSURLSession *sharedSession = [NSURLSession sharedSession];
-         
         NSURLSessionDataTask *task;
         
         task = [sharedSession dataTaskWithRequest:request completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
@@ -83,9 +85,8 @@
                 failure(error, response);
             }
             
-            
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-
+            
             if (self.cacheEnabled) {
                 [self cacheForecast:json withURLString:urlCacheKey];
             }
@@ -100,26 +101,15 @@
 }
 
 - (void)clearCache {
-    [userDefaults removeObjectForKey:kDSCacheKey];
+//    [userDefaults removeObjectForKey:kDSCacheKey];
+    [_cache clearAllData];
 }
 
 # pragma mark - Private Methods
 
-// MARK: migrate to third party cacheing library before launching
 - (void)cacheForecast:(id)forecast withURLString:(NSString *)urlString {
-
     dispatch_async(self.cacheQueue, ^{
-        NSMutableDictionary *cachedForecasts = [[self->userDefaults objectForKey:kDSCacheKey] mutableCopy];
-        if (!cachedForecasts) {
-            cachedForecasts = [[NSMutableDictionary alloc] initWithCapacity:1];
-        }
-        
-        NSDate *expirationDate = [[NSDate date] dateByAddingTimeInterval:self.cacheExpirationInMinutes * 60];
-        
-        NSDictionary<NSString *, id>*cacheItem = @{kDSCacheForecastKey:forecast, kDSCacheExpiresKey:expirationDate};
-
-        [cachedForecasts setObject:cacheItem forKeyedSubscript:urlString];
-        [self->userDefaults setObject:cachedForecasts forKey:kDSCacheKey];
+        [self.cache setObject:forecast forKey:urlString];
     });
 }
 
@@ -127,44 +117,19 @@
 - (void)checkCacheForCachedForecastWithUrlCacheKey:(NSString *)urlCacheKey
                                          success:(void (^)(NSDictionary *cachedForecast))success
                                            error:(void (^)(NSError *error))failure {
-    
-    if (!self.cacheEnabled) {
-        failure([NSError errorWithDomain:kDSErrorDomain code:kDSCacheNotEnabled userInfo:nil]);
-    }
-
     dispatch_async(self.cacheQueue, ^{
-        
-        BOOL cacheItemWasFound = NO;
-        
-        // TODO: ask Jonathan about warning below
-        // TODO: would any of this need to be wrapped in a try catch?
-        NSDictionary<NSString *, id> *cachedForecasts = [self->userDefaults objectForKey:kDSCacheKey];
-        if (cachedForecasts) {
-            
-            NSDictionary<NSString *, id> *archivedCacheData = [cachedForecasts objectForKey:urlCacheKey];
-            if (archivedCacheData) {
-                
-                NSDate *expirationDate = (NSDate *)[archivedCacheData objectForKey:kDSCacheExpiresKey];
-                NSDate *currentDate = [NSDate date];
-                
-                if ([currentDate compare:expirationDate] == NSOrderedAscending) {
-                    cacheItemWasFound = YES;
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        success([archivedCacheData objectForKey:kDSCacheForecastKey]);
-                    });
-                }
-            }
-            
-        }
-        
-        if (!cacheItemWasFound) {
-            dispatch_async(self.cacheQueue, ^{
-                failure([NSError errorWithDomain:kDSErrorDomain code:kDSCacheItemNotFound userInfo:nil]);
-            });
-        }
-        
+       if (!self.cacheEnabled) {
+           failure([NSError errorWithDomain:kDSErrorDomain code:kDSCacheNotEnabled userInfo:nil]);
+       }
+         
+       NSDictionary *cachedForecast = [self.cache objectForKey:urlCacheKey];
+       if (cachedForecast) {
+           success(cachedForecast);
+       } else {
+           failure([NSError errorWithDomain:kDSErrorDomain code:kDSCacheItemNotFound userInfo:nil]);
+       }
     });
-
+    
 }
 
 

@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CityForecastCell : UICollectionViewCell
 
 @property (nonatomic) UILabel *cityLabel;
-@property (nonatomic) UIView *circleView;
+@property (nonatomic) UILabel *timeLabel;
+@property (nonatomic) UILabel *temperatureLabel;
 
 @end
 

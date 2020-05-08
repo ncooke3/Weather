@@ -15,6 +15,7 @@ NSString* const darkSkyBaseURL = @"https://api.darksky.net/forecast/";
 
 // TODO: Caches Keys
 NSString* const kDSCacheKey = @"Cached Forecasts";
+NSString* const kDSNetworkCacheKey = @"Network Cache";
 NSString* const kDSCacheExpiresKey = @"ExpiresAt";
 NSString* const kDSCacheForecastKey = @"Forecast";
 

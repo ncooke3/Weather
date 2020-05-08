@@ -31,5 +31,25 @@
     return new;
 }
 
+- (NSArray *)compactMap:(id (^)(id obj))transform  {
+    NSMutableArray *array = [NSMutableArray new];
+    for (id element in self) {
+        id transformedElement = transform(element);
+        if (transformedElement) {
+            [array addObject:transformedElement];
+        }
+    }
+    return [array copy];
+}
+    
+- (NSArray *)filter:(BOOL (^)(id obj))block {
+    NSMutableArray *array = [NSMutableArray new];
+    for (id element in self) {
+        if (block(element)) {
+            [array addObject:element];
+        }
+    }
+    return [array copy];
+}
 
 @end

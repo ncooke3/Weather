@@ -8,56 +8,127 @@
 
 #import "DevelopmentViewController.h"
 
-// Views
-#import "MoonButton.h"
+// Controllers
+#import "SearchResultsController.h"
 
 // Categories
 #import "UIView+Pinto.h"
 #import "NSLayoutAnchor+Pinto.h"
-#import "UIColor+WeatherColors.h"
 
-@interface DevelopmentViewController ()
+// Frameworks
+#import <MapKit/MapKit.h>
 
-@property (nonatomic) UIView *sunMoonView;
+@interface DevelopmentViewController () <MKLocalSearchCompleterDelegate, UISearchBarDelegate>
+
+@property (nonatomic) MKLocalSearchCompleter *completer;
+@property (nonatomic) UISearchController *searchController;
 
 @end
 
 @implementation DevelopmentViewController
 
-- (UIView *)sunMoonView { // GradientView from fluid interfaces?
-    if (!_sunMoonView) {
-        _sunMoonView = [[UIView alloc] init];
-        _sunMoonView.translatesAutoresizingMaskIntoConstraints = NO;
-        _sunMoonView.backgroundColor = [UIColor.grayColor colorWithAlphaComponent:0.2];
-        _sunMoonView.layer.cornerRadius = 15.0;
+- (MKLocalSearchCompleter *)completer {
+    if (!_completer) {
+        _completer = [MKLocalSearchCompleter new];
+        _completer.delegate = self;
     }
-    return _sunMoonView;
+    return _completer;
+}
+
+- (UISearchController *)searchController {
+    if (!_searchController) {
+        SearchResultsController *searchResultsController = [[SearchResultsController alloc] initWithStyle:UITableViewStylePlain];
+        _searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+        _searchController.searchResultsUpdater = searchResultsController;
+        _searchController.obscuresBackgroundDuringPresentation = NO;
+    }
+    return _searchController;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view addSubview:self.sunMoonView];
-    [_sunMoonView pinToCenterOfView:self.view];
-    [[_sunMoonView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor multiplier:0.9] setActive:YES];
-    [[_sunMoonView.heightAnchor constraintEqualToConstant:120] setActive:YES];
+    UIView *searchBarContainerView = [UIView new];
+    [self.view addSubview:searchBarContainerView];
+    searchBarContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [searchBarContainerView.leadingAnchor pinTo:self.view.leadingAnchor];
+    [[searchBarContainerView.heightAnchor constraintEqualToConstant:50] setActive:YES];
+    [searchBarContainerView.topAnchor pinTo:self.view.topAnchor withPadding:100];
+    [searchBarContainerView.centerXAnchor pinTo:self.view.centerXAnchor];
     
-    MoonButton *moonButton = [[MoonButton alloc] init];
+    [self.searchController.searchBar sizeToFit];
+    UISearchBar *searchbar = self.searchController.searchBar;
+    searchbar.placeholder = @"Add a location";
+    [searchBarContainerView addSubview:searchbar];
+    //[self.view addSubview:searchbar];
     
-    [_sunMoonView addSubview:moonButton];
-    [moonButton.leadingAnchor pinTo:_sunMoonView.leadingAnchor withPadding:30];
-    //[moonButton.topAnchor pinTo:_sunMoonView.topAnchor withPadding:20];
-    [moonButton.centerYAnchor pinTo:_sunMoonView.centerYAnchor];
+    self.definesPresentationContext = YES;
     
-    UILabel *label = [[UILabel alloc] init];
-    label.textColor = [UIColor moonColor];
-    label.text = @"Sunrise in 5 hours.";
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    [_sunMoonView addSubview:label];
-    [label.centerYAnchor pinTo:_sunMoonView.centerYAnchor];
-    [label.leadingAnchor pinTo:moonButton.trailingAnchor withPadding:30];
+    UIView *box = [UIView new];
+    box.frame = CGRectMake(0, 0, 100, 100);
+    box.center = self.view.center;
+    box.backgroundColor = UIColor.systemPinkColor;
+    [self.view addSubview:box];
+
     
 }
+
+- (void)completerDidUpdateResults:(MKLocalSearchCompleter *)completer {
+    
+    // results  = filtering logic below
+    NSMutableArray<MKLocalSearchCompletion *> *filteredResults = [[NSMutableArray alloc] init];
+    for (MKLocalSearchCompletion *result in completer.results) {
+        if (![result.title containsString:@","]) {
+            continue;
+        }
+        
+        if ([result.title rangeOfCharacterFromSet:NSCharacterSet.decimalDigitCharacterSet].location != NSNotFound) {
+            continue;
+        }
+
+        if ([result.subtitle rangeOfCharacterFromSet:NSCharacterSet.decimalDigitCharacterSet].location != NSNotFound) {
+            continue;
+        }
+        
+        NSLog(@"%@", [result description]);
+        [filteredResults addObject:result];
+    }
+    
+    // after we get the results
+    
+    // do we need to refresh the table? maybe in the future you can use the diffing the get some nice animations here
+    
+    // update tableview with the results being the datasource
+    // use the highlighting range in each cell's text of the title.
+    
+}
+
+//  method to perform search with chosen city: [[MKLocalSearchRequest alloc] initWithCompletion:filteredResults[0]]
+
+// tableview delegateDidSelect -> create a forecast object. geocode the place and then fetch and store the data, add to
+//      the main collectionview
+
+- (void)completer:(MKLocalSearchCompleter *)completer didFailWithError:(NSError *)error {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+//    return YES;
+//}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.completer.queryFragment = searchText;
+}
+
+// called when text ends editing
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    return;
+}
+
 
 
 @end

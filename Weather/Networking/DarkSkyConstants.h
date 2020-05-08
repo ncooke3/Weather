@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, kDSErrors) {
 
 // TODO: Caches Keys
 extern NSString* const kDSCacheKey;
+extern NSString* const kDSNetworkCacheKey;
 extern NSString* const kDSCacheExpiresKey;
 extern NSString* const kDSCacheForecastKey;
 

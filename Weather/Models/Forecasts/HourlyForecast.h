@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HourlyForecast : NSObject<NSCoding>
+@interface HourlyForecast : NSObject <NSCoding, NSSecureCoding>
 
 @property (nonatomic, readonly) NSString *time;
 @property (nonatomic, readonly) NSString *icon;
@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSNumber *humidity;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
 
 @end
 

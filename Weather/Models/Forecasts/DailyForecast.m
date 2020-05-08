@@ -35,22 +35,26 @@
         _dayOfTheWeek =  [[decoder decodeObjectForKey:@"dayOfTheWeek"] copy];
         _minTemperature = [[decoder decodeObjectForKey:kDSTemperatureMin] copy];
         _maxTemperature = [[decoder decodeObjectForKey:kDSTemperatureMax] copy];
-        _sunriseTime = [[decoder decodeObjectForKey:kDSSunriseTime] copy];
-        _sunsetTime = [[decoder decodeObjectForKey:kDSSunsetTime] copy];
+        _sunriseTime = [[decoder decodeObjectOfClass:NSDate.class forKey:kDSSunriseTime] copy];
+        _sunsetTime = [[decoder decodeObjectOfClass:NSDate.class  forKey:kDSSunsetTime] copy];
         _moonPhase = [[[decoder decodeObjectForKey:kDSMoonPhase] copy] doubleValue];
     }
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
     if (self.time != nil) [coder encodeObject:self.time forKey:kDSTime];
     if (self.icon != nil) [coder encodeObject:self.icon forKey:kDSIcon];
     if (self.dayOfTheWeek) [coder encodeObject:self.dayOfTheWeek forKey:@"dayOfTheWeek"];
-    if (self.minTemperature) [coder encodeObject:self.minTemperature];
-    if (self.maxTemperature) [coder encodeObject:self.maxTemperature];
-    if (self.sunriseTime) [coder encodeObject:self.sunriseTime];
-    if (self.sunsetTime) [coder encodeObject:self.sunsetTime];
-    if (self.moonPhase) [coder encodeObject:@(self.moonPhase)];
+    if (self.minTemperature) [coder encodeObject:self.minTemperature forKey:kDSTemperatureMin];
+    if (self.maxTemperature) [coder encodeObject:self.maxTemperature forKey:kDSTemperatureMax];
+    if (self.sunriseTime) [coder encodeObject:self.sunriseTime forKey:kDSSunriseTime];
+    if (self.sunsetTime) [coder encodeObject:self.sunsetTime forKey:kDSSunsetTime];
+    if (self.moonPhase) [coder encodeObject:@(self.moonPhase) forKey:kDSMoonPhase];
 
 }
 

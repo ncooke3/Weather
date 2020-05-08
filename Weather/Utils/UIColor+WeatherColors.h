@@ -8,6 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, WeatherCondition) {
+    WeatherConditionClear,
+    WeatherConditionClearNight,
+    WeatherConditionCloudy,
+    WeatherConditionFoggy,
+    WeatherConditionHailShowers,
+    WeatherConditionPartlyCloudy,
+    WeatherConditionPartlyCloudyNight,
+    WeatherConditionRain,
+    WeatherConditionSleet,
+    WeatherConditionSnow,
+    WeatherConditionThunderstorm,
+    WeatherConditionTornado,
+    WeatherConditionWindy,
+    WeatherConditionUnknown
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (WeatherColors)
@@ -16,15 +33,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Weather Conditions
 + (NSArray<UIColor *> *)clearWeatherColor;
-+ (UIColor *)cloudyColor;
++ (NSArray<UIColor *> *)cloudyColor;
 + (NSArray<UIColor *> *)foggyColor;
-+ (UIColor *)hailShowersColor;
++ (NSArray<UIColor *> *)hailShowersColor;
 + (UIColor *)partlyCloudyColor;
 + (NSArray<UIColor *> *)rainyColor;
 + (UIColor *)sleetColor;
 + (UIColor *)snowColor;
-+ (UIColor *)thunderstormColor;
-+ (UIColor *)tornadoColor;
++ (NSArray<UIColor *> *)thunderstormColor;
++ (NSArray<UIColor *> *)tornadoColor;
 + (UIColor *)windyColor;
 + (UIColor *)rainColor;
 
@@ -33,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIColor *)sunColor;
 
 + (NSArray<UIColor *> *)colorsForForecast:(NSString *)forecastString;
++ (NSArray<UIColor *> *)colorsForForecastCondition:(WeatherCondition)weatherCondition;
 
 @end
 

@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)map: (id (^)(id obj))block;
 - (NSArray *)map: (id (^)(id obj))block toSize:(NSInteger)size;
+- (NSArray *)compactMap:(id (^)(id obj))transform;
+- (NSArray *)filter:(BOOL (^)(id obj))block;
 
 @end
 

@@ -33,26 +33,34 @@
     return _weatherScrollView;
 }
 
-- (void)loadView {
-    self.view = self.weatherScrollView;
+- (void)dismissVC {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    UIUserInterfaceStyle currentUIStyle = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+    if (currentUIStyle == UIUserInterfaceStyleDark) {
+        return UIStatusBarStyleDarkContent;
+    } else {
+        return UIStatusBarStyleLightContent;
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    CLLocation *atl = [[CLLocation alloc] initWithLatitude:33.7490 longitude:-84.3880];
-    _forecast = [[Forecast alloc] initForLocation:atl];
-
-    weakify(self)
-    [_forecast updateForecasts:^{
-        strongify(self)
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self configureForecastDataSource];
-            [self handleCurrentForecastUpdate];
-            [self handleHourlyForecastUpdate];
-            [self handleDailyForecastUpdate];
-        });
-    }];
+    
+    self.modalPresentationCapturesStatusBarAppearance = YES;
+    
+    UITapGestureRecognizer *developmentTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissVC)];
+    [self.view addGestureRecognizer:developmentTapRecognizer];
+    
+    self.weatherScrollView = [[WeatherScrollView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:self.weatherScrollView];
+    
+    [self configureForecastDataSource];
+    [self handleCurrentForecastUpdate];
+    [self handleHourlyForecastUpdate];
+    [self handleDailyForecastUpdate];
     
 }
 
@@ -64,10 +72,10 @@
 #pragma mark - Handlers
 
 - (void)handleCurrentForecastUpdate {
+    [self.weatherScrollView updateLocationLabelsWithLocation:[_forecast locationString]];
     [self.weatherScrollView updateTemperatureLabel:[_forecast currentTemperature]];
     [self.weatherScrollView updateWeatherConditionsLabel:[_forecast currentConditions]];
     [self.weatherScrollView updateApparentTemperatureLabel:[_forecast currentFeelsLikeTemperature]];
-    //[self startWeatherFeedWith:[[_forecast currentWeatherFeed] mutableCopy]];
     [self.weatherScrollView animateLayerColorsWith:[_forecast currentColors]];
 }
 

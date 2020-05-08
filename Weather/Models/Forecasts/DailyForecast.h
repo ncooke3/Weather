@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DailyForecast : NSObject<NSCoding>
+@interface DailyForecast : NSObject <NSCoding, NSSecureCoding>
 
 @property (nonatomic, readonly) NSNumber *time;
 @property (nonatomic, readonly) NSString *icon;
@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)formattedMoonPhase;
 - (BOOL)hasPrecipitation;
-
-
 
 @end
 

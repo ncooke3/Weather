@@ -17,7 +17,7 @@
 typedef NSDictionary * ForecastResponse;
 typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, NSInteger);
 
-@interface Forecast ()
+@interface Forecast () <NSCoding, NSSecureCoding>
 
 @property (nonatomic, copy) ForecastsConstructorBlock forecastsConstructor;
 
@@ -29,6 +29,22 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     return nil;
 }
 
+- (ForecastsConstructorBlock)forecastsConstructor {
+    if (!_forecastsConstructor) {
+        [self configureForecastsConstructor];
+    }
+    return _forecastsConstructor;
+}
+
+- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location {
+    self = [super init];
+    if (self) {
+        _locationString = placeName;
+        _location = location;
+    }
+    return self;
+}
+
 - (instancetype)initForLocation:(CLLocation *)location {
     self = [super init];
     if (self) {
@@ -37,6 +53,10 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
         [self updateLocalityForLocation];
     }
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (void)updateLocalityForLocation {
@@ -61,7 +81,7 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
 
 - (void)updateForecasts:(void(^)(void))completion {
     DarkSky *darsky = [DarkSky sharedManagager];
-    [darsky clearCache];
+    //[darsky clearCache];
     [darsky getForecastForLocation:self.location completion:^(ForecastResponse forecast) {
         self.currentForecast = [[CurrentForecast alloc] initWithDictionary:forecast[kDScurrentlyForecast]];
         self.hourlyForecasts = self.forecastsConstructor(forecast[kDShourlyForecast][kDSData], ForecastTypeHourly, 12);
@@ -103,26 +123,40 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     return [NSString conditionsFrom:self.currentForecast.icon];
 }
 
-- (NSArray *)currentWeatherFeed {
-    return @[@"Feels like 66°", @"Current humidity is 69%", @"Storm is approaching"];
-}
-
 - (NSArray *)currentColors {
-    return [UIColor colorsForForecast:_currentForecast.icon];
+    return [UIColor colorsForForecast:[self currentConditions]];
 }
 
 - (HourlyTemperatures)hourlyTemperatures {
     return [_hourlyForecasts map:^(HourlyForecast *forecast) {
-        //NSLog(@"forecast time: %@ and temp: %@ \n",forecast.time, forecast.temperature.stringValue);
         return @[forecast.time, forecast.temperature];
     }];
 }
 
 - (HourlyPrecipitation)hourlyPrecipitation {
     return [_hourlyForecasts map:^(HourlyForecast *forecast) {
-        //NSLog(@"forecast time: %@ and precipitation: %@ \n",forecast.time, forecast.precipProbability.stringValue);
         return @[forecast.time, forecast.precipProbability];
     }];
+}
+
+- (void)encodeWithCoder:(nonnull NSCoder *)encoder {
+    [encoder encodeObject:self.location forKey:@"location"];
+    [encoder encodeObject:self.locationString forKey:@"locationString"];
+    [encoder encodeObject:self.currentForecast forKey:@"currentForecast"];
+    [encoder encodeObject:self.dailyForecasts forKey:@"dailyForecast"];
+    [encoder encodeObject:self.hourlyForecasts forKey:@"hourlyForecast"];
+}
+
+- (nullable instancetype)initWithCoder:(nonnull NSCoder *)decoder {
+    self = [super init];
+    if (self) {
+        self.location = [decoder decodeObjectOfClass:CLLocation.class forKey:@"location"];
+        self.locationString = [decoder decodeObjectForKey:@"locationString"];
+        self.currentForecast = [decoder decodeObjectOfClass:CurrentForecast.class forKey:@"currentForecast"];
+        self.dailyForecasts = [decoder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, DailyForecast.class]] forKey:@"dailyForecast"];
+        self.hourlyForecasts = [decoder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, HourlyForecast.class]] forKey:@"hourlyForecast"];
+    }
+    return self;
 }
 
 @end
