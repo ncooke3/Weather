@@ -74,6 +74,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self registerForNotifications];
 
     self.view.backgroundColor = UIColor.systemBackgroundColor;
     
@@ -95,8 +97,9 @@
     // Configure data source
     self.dataSource = [[ForecastDataSource alloc] initWithItems:_cityForecasts cellIdentifier:@"cityCell" configureCellBlock:^(CityForecastCell *cell, Forecast *forecast) { [cell configureForForecast:forecast]; }];
     self.collectionView.dataSource = self.dataSource;
-
-    for (NSInteger index = 0; index < self.dataSource.items.count; index++) { 
+    
+    // Forecast Updating Code
+    for (NSInteger index = 0; index < self.dataSource.items.count; index++) {
         Forecast *forecast = [self.dataSource itemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
         dispatch_group_enter(forecastGroup);
         [forecast updateForecasts:^{
@@ -108,7 +111,7 @@
             dispatch_group_leave(forecastGroup);
         }];
     }
-    
+
     dispatch_group_notify(forecastGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self.weatherCache setObject:self.dataSource.items forKey:@"forecasts"];
     });
@@ -135,6 +138,25 @@
 
 - (void)handleSettingsButton {
     
+}
+
+#pragma mark - NSNotificationCenter
+
+- (void)registerForNotifications {
+    [NSNotificationCenter.defaultCenter addObserverForName:@"com.ncooke.newForecastFetched" object:nil queue:nil usingBlock:^(NSNotification * notification) {
+        NSLog(@"notification received");
+        NSDictionary *info = notification.userInfo;
+        if (info) {
+            Forecast *updatedForecast = (Forecast *)info[@"forecast"];
+            NSInteger index = [info[@"index"] integerValue];
+            [self.dataSource.items replaceObjectAtIndex:index withObject:updatedForecast];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView performBatchUpdates:^{
+                    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
+                } completion:nil];
+            });
+        }
+    }];
 }
 
 #pragma mark - UICollectionViewDelegate

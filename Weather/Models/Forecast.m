@@ -81,7 +81,6 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
 
 - (void)updateForecasts:(void(^)(void))completion {
     DarkSky *darsky = [DarkSky sharedManagager];
-    //[darsky clearCache];
     [darsky getForecastForLocation:self.location completion:^(ForecastResponse forecast) {
         self.currentForecast = [[CurrentForecast alloc] initWithDictionary:forecast[kDScurrentlyForecast]];
         self.hourlyForecasts = self.forecastsConstructor(forecast[kDShourlyForecast][kDSData], ForecastTypeHourly, 12);

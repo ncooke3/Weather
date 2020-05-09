@@ -22,10 +22,10 @@
     return nil;
 }
 
-- (id)initWithItems:(NSArray *)anItems cellIdentifier:(NSString *)aCellIdentifier configureCellBlock:(CollectionCellConfigureBlock)aConfigureCellBlock {
+- (id)initWithItems:(NSMutableArray *)anItems cellIdentifier:(NSString *)aCellIdentifier configureCellBlock:(CollectionCellConfigureBlock)aConfigureCellBlock {
     self = [super init];
     if (self) {
-        _items = anItems;
+        _items = [anItems mutableCopy];
         _cellIdentifier = aCellIdentifier;
         _configureCellBlock = [aConfigureCellBlock copy];
     }

@@ -59,6 +59,8 @@
 
 - (void)clearCache;
 
+- (void)cancelAllRequests;
+
 - (void)checkCacheForCachedForecastWithUrlCacheKey:(NSString *)urlCacheKey
                                            success:(void (^)(NSDictionary *cachedForecast))success
                                              error:(void (^)(NSError *error))failure;

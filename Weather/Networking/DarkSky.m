@@ -105,6 +105,10 @@
     [_cache clearAllData];
 }
 
+- (void)cancelAllRequests {
+    [[NSURLSession sharedSession] invalidateAndCancel];
+}
+
 # pragma mark - Private Methods
 
 - (void)cacheForecast:(id)forecast withURLString:(NSString *)urlString {

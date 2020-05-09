@@ -10,6 +10,7 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+- (void)scheduleAppRefresh;
 
 @end
 
