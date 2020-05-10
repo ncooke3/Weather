@@ -299,13 +299,14 @@
 #pragma mark - SearchResultsDelegate
 
 - (void)searchResultSelected:(NSDictionary *)searchResult {
-    NSLog(@"Adding Place: %@ with location: %@", [searchResult objectForKey:@"placeName"], [searchResult objectForKey:@"location"]);
+//    NSLog(@"Adding Place: %@ with location: %@", [searchResult objectForKey:@"placeName"], [searchResult objectForKey:@"location"]);
     
+    if (searchResult && searchResult[@"placeName"] && searchResult[@"location"]) {
+        [_delegate addForecastWithInfo:searchResult];
+    }
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    // In completion handler, add the selected city to the forecasts
-    
-    
+        
 }
 
 @end

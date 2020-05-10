@@ -180,8 +180,9 @@
             return;
         }
 
+        NSString *formattedQuery = [query componentsSeparatedByString:@","][0];
         MKPlacemark *placemark = mapItem.placemark;
-        completion(@{ @"placeName": query, @"location": placemark.location });
+        completion(@{ @"placeName": formattedQuery, @"location": placemark.location });
         
     }];
 }

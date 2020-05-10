@@ -24,7 +24,6 @@
 		EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA92B243C49810055F8EF /* CityForecastCell.m */; };
 		EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */; };
 		EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */; };
-		EA0AA93E244298EA0055F8EF /* DevelopmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */; };
 		EA561D06246070A800F8617D /* Cashier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; };
 		EA561D07246070A900F8617D /* Cashier.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA6B82A9245134AC002021AB /* SearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B82A8245134AC002021AB /* SearchResultsController.m */; };
@@ -114,8 +113,6 @@
 		EA0AA938243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CityForecastCell+ConfigureForForecast.h"; sourceTree = "<group>"; };
 		EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CityForecastCell+ConfigureForForecast.m"; sourceTree = "<group>"; };
 		EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weather-Prefix.pch"; sourceTree = "<group>"; };
-		EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DevelopmentViewController.h; sourceTree = "<group>"; };
-		EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DevelopmentViewController.m; sourceTree = "<group>"; };
 		EA561D05246070A800F8617D /* Cashier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cashier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6B82A7245134AC002021AB /* SearchResultsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultsController.h; sourceTree = "<group>"; };
 		EA6B82A8245134AC002021AB /* SearchResultsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultsController.m; sourceTree = "<group>"; };
@@ -402,8 +399,6 @@
 				EA0AA920243C3BD40055F8EF /* MenuViewController.m */,
 				EA0AA9122438F87E0055F8EF /* WeatherViewController.h */,
 				EA0AA9132438F87E0055F8EF /* WeatherViewController.m */,
-				EA0AA93C244298EA0055F8EF /* DevelopmentViewController.h */,
-				EA0AA93D244298EA0055F8EF /* DevelopmentViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -579,7 +574,6 @@
 				EA0AA8FC24339E0C0055F8EF /* NSArray+Map.m in Sources */,
 				EA0AA9022435C7560055F8EF /* NSLayoutAnchor+Pinto.m in Sources */,
 				EAAD4ECE242966CA0031A171 /* CLGeocoder+City.m in Sources */,
-				EA0AA93E244298EA0055F8EF /* DevelopmentViewController.m in Sources */,
 				EAFB766D244DE47400671CE8 /* WeatherControllerAnimator.m in Sources */,
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,

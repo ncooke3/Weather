@@ -111,7 +111,11 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
 }
 
 - (NSString *)currentTemperature {
-    return [self.currentForecast.temperature stringValue];
+    NSString *currentTemperatureString = [self.currentForecast.temperature stringValue];
+    if (currentTemperatureString == nil) {
+        currentTemperatureString = @"0";
+    }
+    return currentTemperatureString;
 }
 
 - (NSString *)currentFeelsLikeTemperature {

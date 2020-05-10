@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NOPersistentStore *weatherCache;
 
+- (void)refreshDisplayedForecasts;
+
 @end
 
 NS_ASSUME_NONNULL_END

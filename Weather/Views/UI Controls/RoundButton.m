@@ -16,10 +16,19 @@
 @property (nonatomic) UIViewPropertyAnimator *animator;
 @property (nonatomic) CALayer *dimmingLayer;
 @property (nonatomic) UIVisualEffectView *backgroundBlurView;
+@property (nonatomic) UIImageView *imageView;
+@property (nonatomic) UIColor *imageTintColor;
 
 @end
 
 @implementation RoundButton
+
+- (UIColor *)imageTintColor {
+    if (!_imageTintColor) {
+        _imageTintColor = [UIColor labelColor];
+    }
+    return _imageTintColor;
+}
 
 - (CALayer *)dimmingLayer {
     _dimmingLayer.backgroundColor = UIColor.systemBackgroundColor.CGColor;
@@ -36,21 +45,28 @@
     return _backgroundBlurView;
 }
 
++ (instancetype)buttonWithSystemImageNamed:(NSString *)name andTintColor:(UIColor *)color {
+    RoundButton *button = [[RoundButton alloc] initWithSystemImageNamed:name];
+    button.imageTintColor = color;
+    button.imageView.image = [button configureSymbolImage:button.imageView.image];
+    return button;
+}
+
 - (instancetype)initWithSystemImageNamed:(NSString *)name {
     self = [super init];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         [self insertSubview:self.backgroundBlurView atIndex:0];
         
-        UIImageView *imageView = [UIImageView new];
-        imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:imageView];
-        [imageView pinToCenterOfView:self];
+        _imageView = [UIImageView new];
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_imageView];
+        [_imageView pinToCenterOfView:self];
         
         UIImage *image = [UIImage systemImageNamed:name];
         if (!image) image = [UIImage new];
         
-        imageView.image = [self configureSymbolImage:image];
+        _imageView.image = [self configureSymbolImage:image];
         
         _dimmingLayer = [CALayer new];
         _dimmingLayer.opacity = 0.0;
@@ -78,10 +94,6 @@
     return CGSizeMake(45, 45);
 }
 
-//+ (BOOL)requiresConstraintBasedLayout {
-//    return YES;
-//}
-
 #pragma mark - Utilities
 
 - (UIImage *)configureSymbolImage:(UIImage *)image {
@@ -90,7 +102,7 @@
     UIImageSymbolConfiguration *weightConfig = [UIImageSymbolConfiguration configurationWithWeight:UIImageSymbolWeightSemibold];
     config = [config configurationByApplyingConfiguration:weightConfig];
     image = [image imageByApplyingSymbolConfiguration:config];
-    image = [image imageWithTintColor:UIColor.labelColor renderingMode:UIImageRenderingModeAlwaysOriginal];
+    image = [image imageWithTintColor:self.imageTintColor renderingMode:UIImageRenderingModeAlwaysOriginal];
     return image;
 }
 

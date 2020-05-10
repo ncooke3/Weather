@@ -10,9 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol AddForecastDelegate <NSObject>
+
+- (void)addForecastWithInfo:(id)info;
+
+@end
+
 @interface MapViewController : UIViewController
 
 @property (nonatomic) UISearchController *searchController;
+@property (nonatomic, weak) id<AddForecastDelegate> delegate;
 
 @end
 

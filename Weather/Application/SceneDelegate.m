@@ -3,22 +3,28 @@
 
 // Development
 #import "MenuViewController.h"
-#import "DevelopmentViewController.h"
 
 #import "AppDelegate.h"
 
 @interface SceneDelegate ()
 
-@property (strong, nonatomic) WeatherViewController *weatherViewController;
+@property (strong, nonatomic) MenuViewController *menuViewController;
 
 @end
 
 @implementation SceneDelegate
 
+- (MenuViewController *)menuViewController {
+    if (!_menuViewController) {
+        _menuViewController = [MenuViewController new];
+    }
+    return _menuViewController;
+}
+
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
-    UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:MenuViewController.new];
+    UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:self.menuViewController];
     self.window.rootViewController = menuNavigationController;
     [self.window makeKeyAndVisible];
 }
@@ -35,6 +41,9 @@
 - (void)sceneDidBecomeActive:(UIScene *)scene {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    
+    [self.menuViewController refreshDisplayedForecasts];
+    
 }
 
 

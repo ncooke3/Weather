@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RoundButton : UIControl
 
++ (instancetype)buttonWithSystemImageNamed:(NSString *)name andTintColor:(UIColor *)color;
+
 // Convenience Initializer
 - (instancetype)initWithSystemImageNamed:(NSString *)name;
 
