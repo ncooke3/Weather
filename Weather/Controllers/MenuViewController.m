@@ -15,6 +15,7 @@
 // View Controllers
 #import "WeatherViewController.h"
 #import "MapViewController.h"
+#import "SettingsViewController.h"
 
 // Transition Delegates
 #import "WeatherTransitioningDelegate.h"
@@ -268,7 +269,9 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 }
 
 - (void)handleSettingsButton {
-    
+    SettingsViewController *settingsViewController = [SettingsViewController new];
+    UINavigationController *settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    [self.navigationController presentViewController:settingsNavController animated:YES completion:nil];
 }
 
 #pragma mark - NSNotificationCenter
