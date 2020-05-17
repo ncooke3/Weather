@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     MenuControllerStateEditing,
 };
 
-@interface MenuViewController () <UICollectionViewDelegate, AddForecastDelegate>
+@interface MenuViewController () <UICollectionViewDelegate, AddForecastDelegate, SettingsDelegate>
 
 @property (nonatomic) MenuControllerState state;
 @property (nonatomic) UICollectionView *collectionView;
@@ -270,8 +270,21 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 
 - (void)handleSettingsButton {
     SettingsViewController *settingsViewController = [SettingsViewController new];
+    settingsViewController.delegate = self;
     UINavigationController *settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     [self.navigationController presentViewController:settingsNavController animated:YES completion:nil];
+}
+
+#pragma mark - SettingsDelegate
+
+- (void)settingsDidChange {
+    for (NSInteger index = 0; index < self.dataSource.items.count; index++) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView performBatchUpdates:^{
+                    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
+                } completion:nil];
+            });
+    }
 }
 
 #pragma mark - NSNotificationCenter

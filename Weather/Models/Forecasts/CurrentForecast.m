@@ -11,8 +11,17 @@
 
 @implementation CurrentForecast
 
+@synthesize temperature = _temperature;
+
 + (BOOL)supportsSecureCoding {
     return YES;
+}
+
+- (NSNumber *)temperature {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"units"]) {
+        return @(round(([_temperature doubleValue] - 32.0) * .5556));
+    }
+    return _temperature;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

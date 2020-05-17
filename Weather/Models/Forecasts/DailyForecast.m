@@ -12,6 +12,23 @@
 
 @implementation DailyForecast
 
+@synthesize minTemperature = _minTemperature;
+@synthesize maxTemperature = _maxTemperature;
+
+- (NSNumber *)minTemperature {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"units"]) {
+        return @(round(([_minTemperature doubleValue] - 32.0) * .5556));
+    }
+    return _minTemperature;
+}
+
+- (NSNumber *)maxTemperature {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"units"]) {
+        return @(round(([_maxTemperature doubleValue] - 32.0) * .5556));
+    }
+    return _maxTemperature;
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {

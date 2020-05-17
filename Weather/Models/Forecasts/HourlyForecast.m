@@ -11,6 +11,15 @@
 
 @implementation HourlyForecast
 
+@synthesize temperature = _temperature;
+
+- (NSNumber *)temperature {
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"units"]) {
+        return @(round(([_temperature doubleValue] - 32.0) * .5556));
+    }
+    return _temperature;
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {

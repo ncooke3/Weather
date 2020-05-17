@@ -53,6 +53,7 @@
 - (void)handleDone {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [[NSUserDefaults standardUserDefaults] setInteger:self.units forKey:@"units"];
+        [self.delegate settingsDidChange];
         [[NSUserDefaults standardUserDefaults] setInteger:self.forecastColors forKey:@"forecastColors"];
     }];
 }

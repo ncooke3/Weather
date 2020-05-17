@@ -10,7 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SettingsDelegate <NSObject>
+
+- (void)settingsDidChange;
+
+@end
+
 @interface SettingsViewController : UIViewController
+
+@property (nonatomic, weak) id<SettingsDelegate> delegate;
 
 @end
 
