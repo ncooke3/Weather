@@ -13,6 +13,16 @@
 
 @implementation CityForecastCell
 
+- (UIImageView *)imageView {
+    if (!_imageView) {
+        _imageView = [UIImageView new];
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView.tintColor = UIColor.secondaryLabelColor;
+    }
+    return _imageView;
+}
+
 - (UILabel *)cityLabel {
     if (!_cityLabel) {
         _cityLabel = [[UILabel alloc] init];
@@ -45,8 +55,14 @@
     self = [super initWithFrame:frame];
     if (self) {
 
+        [self.contentView addSubview:self.imageView];
+        [_imageView.leadingAnchor pinTo:self.contentView.safeAreaLayoutGuide.leadingAnchor withPadding:18.0];
+        [[_imageView.widthAnchor constraintEqualToConstant:40.0] setActive:YES];
+        [[_imageView.heightAnchor constraintEqualToConstant:40.0] setActive:YES];
+        [_imageView.centerYAnchor pinTo:self.contentView.centerYAnchor];
+
         [self.contentView addSubview:self.cityLabel];
-        [_cityLabel.leadingAnchor pinTo:self.contentView.safeAreaLayoutGuide.leadingAnchor withPadding:20];
+        [_cityLabel.leadingAnchor pinTo:self.imageView.trailingAnchor withPadding:20];
         [_cityLabel.bottomAnchor pinTo:self.contentView.centerYAnchor];
         
         [self.contentView addSubview:self.timeLabel];

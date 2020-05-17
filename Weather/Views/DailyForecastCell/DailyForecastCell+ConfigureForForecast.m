@@ -52,7 +52,7 @@
     } else if ([conditions isEqualToString:kDSthunderstorm]) {
         systemImageName = @"cloud.bolt.rain.fill";
     } else if ([conditions isEqualToString:kDStornado]) {
-        systemImageName = @"ornado";
+        systemImageName = @"tornado";
     } else if ([conditions isEqualToString:kDSwind]) {
         systemImageName = @"wind";
     } else {

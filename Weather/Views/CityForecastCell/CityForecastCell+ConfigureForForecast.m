@@ -12,8 +12,46 @@
 
 - (void)configureForForecast:(Forecast *)forecast {
 
+    self.imageView.image = [self imageForConditions:forecast.currentForecast.icon];
+    self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.cityLabel.text = [forecast locationString];
     self.temperatureLabel.text = [NSString stringWithFormat:@"%@°", [forecast currentTemperature]];
 }
+
+- (UIImage *)imageForConditions:(NSString *)conditions {
+    NSString *systemImageName;
+    if ([conditions isEqualToString:kDSclearDay]) {
+        systemImageName = @"sun.max.fill";
+    } else if ([conditions isEqualToString:kDSclearNight]) {
+        systemImageName = @"moon.fill";
+    } else if ([conditions isEqualToString:kDScloudy]) {
+        systemImageName = @"cloud.fill";
+    } else if ([conditions isEqualToString:kDSfog]) {
+        systemImageName = @"cloud.fog.fill";
+    } else if ([conditions isEqualToString:kDShail]) {
+        systemImageName = @"cloud.hail.fill";
+    } else if ([conditions isEqualToString:kDSpartlyCloudyDay]) {
+        systemImageName = @"cloud.sun.fill";
+    } else if ([conditions isEqualToString:kDSpartlyCloudyNight]) {
+        systemImageName = @"cloud.moon.fill";
+    } else if ([conditions isEqualToString:kDSrain]) {
+        systemImageName = @"cloud.rain.fill";
+    } else if ([conditions isEqualToString:kDSsleet]) {
+        systemImageName = @"cloud.sleet.fill";
+    } else if ([conditions isEqualToString:kDSsnow]) {
+        systemImageName = @"snow";
+    } else if ([conditions isEqualToString:kDSthunderstorm]) {
+        systemImageName = @"cloud.bolt.rain.fill";
+    } else if ([conditions isEqualToString:kDStornado]) {
+        systemImageName = @"tornado";
+    } else if ([conditions isEqualToString:kDSwind]) {
+        systemImageName = @"wind";
+    } else {
+        systemImageName = @"Unknown";
+    }
+    
+    return [UIImage systemImageNamed:systemImageName];
+}
+
 
 @end

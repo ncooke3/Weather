@@ -12,9 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CityForecastCell : UICollectionViewCell
 
+@property (nonatomic) UIImageView *imageView;
 @property (nonatomic) UILabel *cityLabel;
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) UILabel *temperatureLabel;
+
 
 @end
 
