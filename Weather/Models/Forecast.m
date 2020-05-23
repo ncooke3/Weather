@@ -17,7 +17,7 @@
 typedef NSDictionary * ForecastResponse;
 typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, NSInteger);
 
-@interface Forecast () <NSCoding, NSSecureCoding>
+@interface Forecast () <NSCoding>
 
 @property (nonatomic, copy) ForecastsConstructorBlock forecastsConstructor;
 

@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     MenuControllerStateEditing,
 };
 
-@interface MenuViewController () <UICollectionViewDelegate, AddForecastDelegate, SettingsDelegate>
+@interface MenuViewController () <UICollectionViewDelegate, UICollectionViewDragDelegate, UICollectionViewDropDelegate, AddForecastDelegate, SettingsDelegate, UIDragInteractionDelegate>
 
 @property (nonatomic) MenuControllerState state;
 @property (nonatomic) UICollectionView *collectionView;
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     [self layoutCollectionView];
     
 
-    _cityForecasts = [self.weatherCache objectForKey:@"forecasts"];
+    _cityForecasts = [Store forecasts];//[self.weatherCache objectForKey:@"forecasts"];
     if (_cityForecasts == nil) {
         _cityForecasts = [NSArray new];
     }
@@ -132,6 +132,11 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     [_deleteButton addTarget:self action:@selector(handleDeleteButton) forControlEvents:UIControlEventTouchUpInside];
     _deleteButton.userInteractionEnabled = NO;
     _deleteButton.alpha = 0;
+    
+    
+    self.collectionView.dragInteractionEnabled = YES;
+    self.collectionView.dragDelegate = self;
+    self.collectionView.dropDelegate = self;
 
 }
 
@@ -349,5 +354,51 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     
     
 }
+
+#pragma mark - UICollectionViewDragDelegate & UICollectionViewDropDelegate
+
+- (NSArray<UIDragItem *> *)collectionView:(UICollectionView *)collectionView itemsForBeginningDragSession:(id<UIDragSession>)session atIndexPath:(NSIndexPath *)indexPath {
+    
+    Forecast *item = [self.dataSource.items objectAtIndex:indexPath.row];
+    NSItemProvider *itemProvider = [[NSItemProvider alloc] initWithItem:item typeIdentifier:@"forecast"];
+    UIDragItem *dragItem = [[UIDragItem alloc] initWithItemProvider:itemProvider];
+    dragItem.localObject = (Forecast *)item;
+  
+    return @[dragItem];
+    
+}
+
+- (UICollectionViewDropProposal *)collectionView:(UICollectionView *)collectionView dropSessionDidUpdate:(id<UIDropSession>)session withDestinationIndexPath:(NSIndexPath *)destinationIndexPath {
+  
+    if (collectionView.hasActiveDrag) {
+      if (destinationIndexPath.row == 0) {
+        return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove];
+      } else {
+        return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove intent:UICollectionViewDropIntentInsertAtDestinationIndexPath];
+      }
+        
+    }
+    return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationForbidden];
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView performDropWithCoordinator:(id<UICollectionViewDropCoordinator>)coordinator {
+    id<UICollectionViewDropItem> item = coordinator.items.firstObject;
+    
+    [self.collectionView performBatchUpdates:^{
+        [self.dataSource.items removeObjectAtIndex:item.sourceIndexPath.item];
+        [self.dataSource.items insertObject:(Forecast *)item.dragItem.localObject atIndex:coordinator.destinationIndexPath.item];
+
+        [self.collectionView deleteItemsAtIndexPaths:@[item.sourceIndexPath]];
+        [self.collectionView insertItemsAtIndexPaths:@[coordinator.destinationIndexPath]];
+                
+    } completion:nil];
+    
+
+    
+    [coordinator dropItem:item.dragItem toItemAtIndexPath:coordinator.destinationIndexPath];
+    
+}
+
 
 @end

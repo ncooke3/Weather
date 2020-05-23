@@ -11,6 +11,12 @@
 // Categories
 #import "NSLayoutAnchor+Pinto.h"
 
+@interface CityForecastCell ()
+
+@property (nonatomic) UIViewPropertyAnimator *animator;
+
+@end
+
 @implementation CityForecastCell
 
 - (UIImageView *)imageView {
@@ -87,6 +93,19 @@
 - (void) setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     self.backgroundColor = highlighted ? [UIColor tertiarySystemBackgroundColor] : [UIColor secondarySystemBackgroundColor];
+}
+
+- (void)dragStateDidChange:(UICollectionViewCellDragState)dragState {
+  switch (dragState) {
+    case UICollectionViewCellDragStateNone:
+      self.layer.opacity = 1;
+      break;
+    case UICollectionViewCellDragStateLifting:
+      break;
+    case UICollectionViewCellDragStateDragging:
+      self.layer.opacity = 0;
+      break;
+  }
 }
 
 @end

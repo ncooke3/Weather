@@ -31,7 +31,7 @@ typedef NSArray<HourlyForecast *> HourlyWeather;
 typedef NSArray<NSArray *> * HourlyTemperatures;
 typedef NSArray<NSArray *> * HourlyPrecipitation;
 
-@interface Forecast : NSObject
+@interface Forecast : NSObject <NSSecureCoding>
 
 @property (nonatomic) CLLocation *location;
 @property (nonatomic) NSString *locationString;
