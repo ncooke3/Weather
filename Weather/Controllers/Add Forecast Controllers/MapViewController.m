@@ -269,7 +269,7 @@
             placeName = [placeName componentsSeparatedByString:@","][0];
             
             if (placeName) {
-                self.selectedLocationInfo = @{ @"placeName": placeName, @"location": placemark.location };
+                self.selectedLocationInfo = @{ @"placeName": placeName, @"location": placemark.location, @"timezone": placemark.timeZone };
 
                 // Enable selectButton since a location has been selected 
                 self.selectButton.enabled = YES;
@@ -301,8 +301,10 @@
 - (void)searchResultSelected:(NSDictionary *)searchResult {
 //    NSLog(@"Adding Place: %@ with location: %@", [searchResult objectForKey:@"placeName"], [searchResult objectForKey:@"location"]);
     
-    if (searchResult && searchResult[@"placeName"] && searchResult[@"location"]) {
+    if (searchResult && searchResult[@"placeName"] && searchResult[@"location"] && searchResult[@"timezone"]) {
         [_delegate addForecastWithInfo:searchResult];
+    } else {
+        
     }
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];

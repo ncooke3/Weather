@@ -17,10 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WeatherScrollView : UIScrollView
 
+@property (nonatomic) UILabel *locationLabel;
+@property (nonatomic) UILabel *dateLabel;
+@property (nonatomic) UILabel *temperatureLabel;
+
 @property (nonatomic) UICollectionView *forecastCollectionView;
 @property (nonatomic, copy) void (^configureCell)(DailyForecastCell *, DailyForecast *);
 @property (nonatomic) UILabel *weatherTickerLabel;
 
+@property (nonatomic) UILabel *conditionsLabel;
+
+- (void)fadeOutLabels;
+- (void)fadeInLabels;
 - (void)updateLocationLabelsWithLocation:(NSString *)location;
 - (void)updateTemperatureLabel:(NSString *)temperature;
 - (void)updateWeatherConditionsLabel:(NSString *)conditions;

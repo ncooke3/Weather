@@ -23,15 +23,15 @@
 @interface WeatherScrollView () <UIScrollViewDelegate, UICollectionViewDelegate>
 
 // Location Properties
-@property (nonatomic) UILabel *locationLabel;
+
 @property (nonatomic) UILabel *pinnedLocationLabel;
 
 // Time & Date Properties
-@property (nonatomic) UILabel *dateLabel;
+
 
 // Current Forecast Properties
-@property (nonatomic) UILabel *temperatureLabel;
-@property (nonatomic) UILabel *conditionsLabel;
+
+
 
 @property (nonatomic) UILabel *pinnedTemperatureLabel;
 
@@ -81,11 +81,12 @@
     if (!_locationLabel) {
         _locationLabel = [[UILabel alloc] init];
         _locationLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        // TODO: user defaults - last stored location
         _locationLabel.font = [UIFont systemFontOfSize:36 weight:UIFontWeightBold];
         _locationLabel.textColor = UIColor.darkTextColor;
         _locationLabel.adjustsFontSizeToFitWidth = YES;
         _locationLabel.minimumScaleFactor = 0.50;
+      
+      _locationLabel.alpha = 0;
     }
     return _locationLabel;
 }
@@ -96,7 +97,9 @@
         _dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _dateLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
         _dateLabel.textColor = UIColor.darkTextColor;
-        _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"]; // MARK: add to settings userdefaults!
+        _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"]; // MARK: add to settings userdefaults
+        
+        _dateLabel.alpha = 0;
     }
     return _dateLabel;
 }
@@ -107,6 +110,7 @@
         _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _temperatureLabel.font = [UIFont systemFontOfSize:72 weight:UIFontWeightBold];
         _temperatureLabel.textColor = UIColor.darkTextColor;
+      _temperatureLabel.alpha = 0;
     }
     return _temperatureLabel;
 }
@@ -117,6 +121,8 @@
         _conditionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _conditionsLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightMedium];
         _conditionsLabel.textColor = UIColor.darkTextColor;
+      
+      _conditionsLabel.alpha = 0;
     }
     return _conditionsLabel;
 }
@@ -127,6 +133,8 @@
         _weatherTickerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _weatherTickerLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
         _weatherTickerLabel.textColor = UIColor.darkTextColor;
+      
+      _weatherTickerLabel.alpha = 0;
     }
     return _weatherTickerLabel;
 }
@@ -298,6 +306,28 @@
 }
 
 # pragma mark - Public Methods
+
+- (void)fadeOutLabels {
+  weakify(self)
+  [UIView animateWithDuration:0.3 animations:^{
+    strongify(self)
+    self.locationLabel.alpha = -0;
+    self.temperatureLabel.alpha = -0;
+    self.dateLabel.alpha = -0;
+    self.conditionsLabel.alpha = -0;
+    self.weatherTickerLabel.alpha = -0;
+  }];
+}
+
+- (void)fadeInLabels {
+
+    self.locationLabel.alpha = 1;
+    self.temperatureLabel.alpha = 1;
+    self.dateLabel.alpha = 1;
+    self.conditionsLabel.alpha = 1;
+    self.weatherTickerLabel.alpha = 1;
+
+}
 
 - (void)updateLocationLabelsWithLocation:(NSString *)location {
     [_locationLabel setText:location];

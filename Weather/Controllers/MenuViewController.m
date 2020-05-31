@@ -17,8 +17,9 @@
 #import "MapViewController.h"
 #import "SettingsViewController.h"
 
-// Transition Delegates
+// View Controller Transitions
 #import "WeatherTransitioningDelegate.h"
+#import "WeatherControllerAnimator.h"
 
 // Views
 #import "CityForecastCell+ConfigureForForecast.h"
@@ -27,16 +28,23 @@
 // Categories
 #import "UIView+Pinto.h"
 #import "NSLayoutAnchor+Pinto.h"
+#import "UICollectionView+Additions.h"
+
+#import <CoreLocation/CoreLocation.h>
+
+// Utils
+#import "NSArray+Map.h"
 
 typedef NS_ENUM(NSUInteger, MenuControllerState) {
     MenuControllerStateNormal,
     MenuControllerStateEditing,
 };
 
-@interface MenuViewController () <UICollectionViewDelegate, UICollectionViewDragDelegate, UICollectionViewDropDelegate, AddForecastDelegate, SettingsDelegate, UIDragInteractionDelegate>
+
+@interface MenuViewController () <UICollectionViewDelegate, UICollectionViewDragDelegate, UICollectionViewDropDelegate, AddForecastDelegate, SettingsDelegate>
 
 @property (nonatomic) MenuControllerState state;
-@property (nonatomic) UICollectionView *collectionView;
+
 @property (nonatomic) ForecastDataSource *dataSource;
 @property (nonatomic) WeatherTransitioningDelegate *weatherTransitioningDelegate;
 @property (nonatomic) NSArray<Forecast *> *cityForecasts;
@@ -46,6 +54,10 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 
 @property (nonatomic) RoundButton *addCityButton;
 @property (nonatomic) UIButton *doneButton;
+
+@property (nonatomic) CGRect openingFrame;
+
+@property (nonatomic) NSTimer *timer;
 
 @end
 
@@ -64,6 +76,7 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.alwaysBounceVertical = YES;
+        _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         [_collectionView registerClass:CityForecastCell.class forCellWithReuseIdentifier:@"cityCell"];
     }
@@ -137,7 +150,29 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     self.collectionView.dragInteractionEnabled = YES;
     self.collectionView.dragDelegate = self;
     self.collectionView.dropDelegate = self;
+    
+    NSInteger currentSeconds = [NSCalendar.currentCalendar component:NSCalendarUnitSecond fromDate:[NSDate now]];
+    NSTimeInterval initialInterval = 60 - fmod((double)currentSeconds, 60);
+    NSDate *fireDate = [[NSDate now] dateByAddingTimeInterval:initialInterval];
+    NSTimer *timer = [[NSTimer alloc] initWithFireDate:fireDate interval:60 target:self selector:@selector(updateDisplayedCellTimeLabels) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
 
+- (void)updateDisplayedCellTimeLabels {
+    for (NSInteger index = 0; index < self.dataSource.items.count; index++) {
+        Forecast *forecast = [self.dataSource itemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        CityForecastCell *cell = (CityForecastCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        cell.timeLabel.text = [self currentDateStringWithTimeZone:forecast.timeZone];
+    }
+}
+
+- (NSString *)currentDateStringWithTimeZone:(NSTimeZone *)timezone {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = timezone;
+    formatter.dateFormat = @"h:mm a";
+    NSString *stringDate = [formatter stringFromDate:[NSDate date]];
+    NSLog(@"It is %@ in %@", stringDate, timezone.name);
+    return stringDate;
 }
 
 - (void)refreshDisplayedForecasts {
@@ -194,8 +229,9 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 }
 
 #pragma mark - State
+
 - (void)toggleState {
-    self.state ^= 1; // toggle state
+    self.state ^= 1; // Toggle state.
     
     switch (self.state) {
         case MenuControllerStateNormal:
@@ -211,7 +247,10 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 }
 
 - (void)updateUIForNewState:(MenuControllerState)newState {
-    [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.4
+                                                          delay:0
+                                                        options:UIViewAnimationOptionCurveEaseOut
+                                                     animations:^{
         self.deleteButton.alpha = newState;
         self.doneButton.alpha = newState;
         self.addCityButton.alpha = newState ? -1 : 1;
@@ -224,29 +263,49 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     }];
 }
 
-#pragma mark - Control Handlers
+- (UIAlertController *)actionController {
+    UIAlertController *actionController =
+        [UIAlertController alertControllerWithTitle:nil
+                                            message:nil
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
 
-- (void)handleEllipsisButton {
-    UIAlertController *actionController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) { }];
+    UIAlertAction *cancelAction =
+        [UIAlertAction actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleCancel
+                               handler:nil];
     [actionController addAction:cancelAction];
-    
-    UIAlertAction *selectForecasts = [UIAlertAction actionWithTitle:@"Select Forecasts" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) { [self toggleState]; }];
+
+    UIAlertAction *selectForecasts =
+        [UIAlertAction actionWithTitle:@"Select Forecasts"
+                                 style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+            [self toggleState];
+        }];
     [actionController addAction:selectForecasts];
 
-    UIAlertAction *addForecast = [UIAlertAction actionWithTitle:@"Add Forecast" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [self presentMapViewController]; }];
+    UIAlertAction *addForecast =
+        [UIAlertAction actionWithTitle:@"Add Forecast"
+                                 style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+            [self presentMapViewController];
+        }];
     [actionController addAction:addForecast];
-    
+    return actionController;
+}
+
+#pragma mark - UIControl Handlers
+
+- (void)handleEllipsisButton {
+    UIAlertController *actionController = [self actionController];
     [self.navigationController presentViewController:actionController animated:YES completion:nil];
 }
 
+// MARK: Refactor
 - (void)handleDeleteButton {
     NSMutableIndexSet *indicesToBeRemoved = [NSMutableIndexSet indexSet];
     for (NSIndexPath *indexPath in [self.collectionView indexPathsForSelectedItems]) {
         [indicesToBeRemoved addIndex:indexPath.row];
     }
-    
     [self.dataSource.items removeObjectsAtIndexes:indicesToBeRemoved];
     [self.collectionView performBatchUpdates:^{
         [self.collectionView deleteItemsAtIndexPaths:[self.collectionView indexPathsForSelectedItems]];
@@ -254,30 +313,45 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     [self.weatherCache setObject:self.dataSource.items forKey:@"forecasts"];
     
     [self toggleState];
-
 }
 
 - (void)handleDoneButton {
+    [self.collectionView unhighlightVisibleCells];
     [self toggleState];
-    
-    // Unhighlight any & all currently highlighted cells
-    for (__kindof UICollectionViewCell *cell in self.collectionView.visibleCells) {
-        cell.highlighted = NO;
-    }
-}
-
-- (void)presentMapViewController {
-    MapViewController *mapViewController = [MapViewController new];
-    mapViewController.delegate = self;
-    UINavigationController *addCityNavController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
-    [self.navigationController presentViewController:addCityNavController animated:YES completion:nil];
 }
 
 - (void)handleSettingsButton {
+    [self presentSettingViewController];
+}
+
+#pragma mark - Presentation Flow
+
+- (void)presentSettingViewController {
     SettingsViewController *settingsViewController = [SettingsViewController new];
     settingsViewController.delegate = self;
-    UINavigationController *settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-    [self.navigationController presentViewController:settingsNavController animated:YES completion:nil];
+    // TODO: Can this be done with just [self presentViewController: animated: completion:]
+    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    [self.navigationController presentViewController:settingsNavigationController animated:YES completion:nil];
+}
+
+- (void)presentWeatherControllerWithForecast:(Forecast *)forecast {
+    WeatherViewController *weatherController = [[WeatherViewController alloc] initWithForecast:forecast];
+    weatherController.transitioningDelegate = self.weatherTransitioningDelegate;
+    weatherController.modalPresentationStyle = UIModalPresentationCustom;
+    
+    weakify(self);
+    [self presentViewController:weatherController animated:YES completion:^{
+        strongify(self);
+       [self.collectionView unhighlightVisibleCells];
+    }];
+}
+
+- (void)presentMapViewController {
+    MapViewController *mapController = [MapViewController new];
+    mapController.delegate = self;
+    // TODO: Can this be done with just [self presentViewController: animated: completion:]
+    UINavigationController *mapNavigationController = [[UINavigationController alloc] initWithRootViewController:mapController];
+    [self.navigationController presentViewController:mapNavigationController animated:YES completion:nil];
 }
 
 #pragma mark - SettingsDelegate
@@ -311,23 +385,21 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     }];
 }
 
+
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
     UICollectionViewCell *selectedCell = [collectionView cellForItemAtIndexPath:indexPath];
     [selectedCell setHighlighted:YES];
     
-    if (self.collectionView.allowsMultipleSelection == 0) {//(self.state == MenuControllerStateNormal) {
-        WeatherViewController *weatherViewController = [[WeatherViewController alloc] init];
-        weatherViewController.forecast = [self.dataSource itemAtIndexPath:indexPath];
-        weatherViewController.transitioningDelegate = _weatherTransitioningDelegate;
-        _weatherTransitioningDelegate.startingCenter = [selectedCell convertPoint:selectedCell.center toView:self.view];
-        weatherViewController.modalPresentationStyle = UIModalPresentationCustom;
-        [self presentViewController:weatherViewController animated:YES completion:^{ [selectedCell setHighlighted:NO]; }];
+    if (_state == MenuControllerStateNormal) {
+        _selectedCell = (CityForecastCell *)selectedCell;
+        Forecast *forecast = [self.dataSource itemAtIndexPath:indexPath];
+        [self presentWeatherControllerWithForecast: forecast];
     } else {
         selectedCell.selected = YES;
     }
-
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -340,7 +412,7 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 
 - (void)addForecastWithInfo:(NSDictionary *)info {
     if (info) {
-        Forecast *newForecast = [[Forecast alloc] initForPlaceNamed:info[@"placeName"] atLocation:info[@"location"]];
+        Forecast *newForecast = [[Forecast alloc] initForPlaceNamed:info[@"placeName"] atLocation:info[@"location"] withTimeZone:info[@"timezone"]];
         [self.dataSource.items addObject:newForecast];
         [newForecast updateForecasts:^{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -357,48 +429,47 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 
 #pragma mark - UICollectionViewDragDelegate & UICollectionViewDropDelegate
 
-- (NSArray<UIDragItem *> *)collectionView:(UICollectionView *)collectionView itemsForBeginningDragSession:(id<UIDragSession>)session atIndexPath:(NSIndexPath *)indexPath {
+- (NSArray<UIDragItem *> *)collectionView:(UICollectionView *)collectionView
+             itemsForBeginningDragSession:(id<UIDragSession>)session
+                              atIndexPath:(NSIndexPath *)indexPath {
     
     Forecast *item = [self.dataSource.items objectAtIndex:indexPath.row];
     NSItemProvider *itemProvider = [[NSItemProvider alloc] initWithItem:item typeIdentifier:@"forecast"];
     UIDragItem *dragItem = [[UIDragItem alloc] initWithItemProvider:itemProvider];
     dragItem.localObject = (Forecast *)item;
-  
     return @[dragItem];
-    
 }
 
-- (UICollectionViewDropProposal *)collectionView:(UICollectionView *)collectionView dropSessionDidUpdate:(id<UIDropSession>)session withDestinationIndexPath:(NSIndexPath *)destinationIndexPath {
-  
+- (UICollectionViewDropProposal *)collectionView:(UICollectionView *)collectionView
+                            dropSessionDidUpdate:(id<UIDropSession>)session
+                        withDestinationIndexPath:(NSIndexPath *)destinationIndexPath {
+    
     if (collectionView.hasActiveDrag) {
-      if (destinationIndexPath.row == 0) {
-        return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove];
-      } else {
-        return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove intent:UICollectionViewDropIntentInsertAtDestinationIndexPath];
-      }
-        
+//        if (destinationIndexPath.row == 0) {
+//            return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove];
+//        } else {
+            return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove
+                                                                        intent:UICollectionViewDropIntentInsertAtDestinationIndexPath];
+//        }
     }
+  
     return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationForbidden];
 }
 
 
 - (void)collectionView:(UICollectionView *)collectionView performDropWithCoordinator:(id<UICollectionViewDropCoordinator>)coordinator {
-    id<UICollectionViewDropItem> item = coordinator.items.firstObject;
-    
-    [self.collectionView performBatchUpdates:^{
-        [self.dataSource.items removeObjectAtIndex:item.sourceIndexPath.item];
-        [self.dataSource.items insertObject:(Forecast *)item.dragItem.localObject atIndex:coordinator.destinationIndexPath.item];
+  
+  id<UICollectionViewDropItem> item = coordinator.items.firstObject;
 
-        [self.collectionView deleteItemsAtIndexPaths:@[item.sourceIndexPath]];
-        [self.collectionView insertItemsAtIndexPaths:@[coordinator.destinationIndexPath]];
-                
-    } completion:nil];
-    
+  [self.collectionView performBatchUpdates:^{
+    [self.dataSource.items removeObjectAtIndex:item.sourceIndexPath.item];
+    [self.dataSource.items insertObject:(Forecast *)item.dragItem.localObject atIndex:coordinator.destinationIndexPath.item];
 
-    
-    [coordinator dropItem:item.dragItem toItemAtIndexPath:coordinator.destinationIndexPath];
-    
+    [self.collectionView deleteItemsAtIndexPaths:@[item.sourceIndexPath]];
+    [self.collectionView insertItemsAtIndexPaths:@[coordinator.destinationIndexPath]];
+  } completion:nil];
+
+  [coordinator dropItem:item.dragItem toItemAtIndexPath:coordinator.destinationIndexPath];
 }
-
 
 @end

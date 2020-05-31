@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSArray (Map)
 
+- (void)forEach:(void(^)(id item))block;
 - (NSArray *)map: (id (^)(id obj))block;
 - (NSArray *)map: (id (^)(id obj))block toSize:(NSInteger)size;
 - (NSArray *)compactMap:(id (^)(id obj))transform;

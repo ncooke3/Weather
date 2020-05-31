@@ -11,11 +11,18 @@
 // Frameworks
 #import <Cashier/NOPersistentStore.h>
 
+// Views
+#import "CityForecastCell.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MenuViewController : UIViewController
 
 @property (nonatomic) NOPersistentStore *weatherCache;
+
+@property (nonatomic) CityForecastCell *selectedCell;
+
+@property (nonatomic) UICollectionView *collectionView;
 
 - (void)refreshDisplayedForecasts;
 

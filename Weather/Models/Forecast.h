@@ -35,13 +35,14 @@ typedef NSArray<NSArray *> * HourlyPrecipitation;
 
 @property (nonatomic) CLLocation *location;
 @property (nonatomic) NSString *locationString;
+@property (nonatomic) NSTimeZone *timeZone;
 
 @property (nonatomic) CurrentForecast *currentForecast;
 @property (nonatomic) WeeklyWeather *dailyForecasts;
 @property (nonatomic) HourlyWeather *hourlyForecasts;
 
 - (instancetype)initForLocation:(CLLocation *)location;
-- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location;
+- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location withTimeZone:(nullable NSTimeZone *)timeZone;
 
 - (void)forecastLocationString:(void(^)(NSString *))completion;
 - (NSString *)currentTemperature;

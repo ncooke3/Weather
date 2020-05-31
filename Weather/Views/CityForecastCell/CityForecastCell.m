@@ -95,17 +95,4 @@
     self.backgroundColor = highlighted ? [UIColor tertiarySystemBackgroundColor] : [UIColor secondarySystemBackgroundColor];
 }
 
-- (void)dragStateDidChange:(UICollectionViewCellDragState)dragState {
-  switch (dragState) {
-    case UICollectionViewCellDragStateNone:
-      self.layer.opacity = 1;
-      break;
-    case UICollectionViewCellDragStateLifting:
-      break;
-    case UICollectionViewCellDragStateDragging:
-      self.layer.opacity = 0;
-      break;
-  }
-}
-
 @end

@@ -15,6 +15,7 @@
     self.imageView.image = [self imageForConditions:forecast.currentForecast.icon];
     self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.cityLabel.text = [forecast locationString];
+    self.timeLabel.text = [self currentDateStringWithTimeZone:forecast.timeZone];
     self.temperatureLabel.text = [NSString stringWithFormat:@"%@°", [forecast currentTemperature]];
 }
 
@@ -53,5 +54,16 @@
     return [UIImage systemImageNamed:systemImageName];
 }
 
+
+# pragma mark - Private Helpers
+
+- (NSString *)currentDateStringWithTimeZone:(NSTimeZone *)timezone {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = timezone;
+    formatter.dateFormat = @"h:mm a";
+    NSString *stringDate = [formatter stringFromDate:[NSDate date]];
+    NSLog(@"It is %@ in %@", stringDate, timezone.name);
+    return stringDate;
+}
 
 @end
