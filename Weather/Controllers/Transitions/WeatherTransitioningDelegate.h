@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WeatherTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
 
 @property (nonatomic) CGPoint startingCenter;
+@property (nonatomic) CGRect openingFrame;
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source;
 

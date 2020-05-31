@@ -24,6 +24,7 @@
 		EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA92B243C49810055F8EF /* CityForecastCell.m */; };
 		EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA932243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m */; };
 		EA0AA93A243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */; };
+		EA489FE4248340F600248951 /* UICollectionView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = EA489FE3248340F600248951 /* UICollectionView+Additions.m */; };
 		EA561D06246070A800F8617D /* Cashier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; };
 		EA561D07246070A900F8617D /* Cashier.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA561D05246070A800F8617D /* Cashier.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA6B82A9245134AC002021AB /* SearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6B82A8245134AC002021AB /* SearchResultsController.m */; };
@@ -114,6 +115,9 @@
 		EA0AA938243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CityForecastCell+ConfigureForForecast.h"; sourceTree = "<group>"; };
 		EA0AA939243C512A0055F8EF /* CityForecastCell+ConfigureForForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CityForecastCell+ConfigureForForecast.m"; sourceTree = "<group>"; };
 		EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weather-Prefix.pch"; sourceTree = "<group>"; };
+		EA489FE2248340F600248951 /* UICollectionView+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UICollectionView+Additions.h"; path = "Weather/Controllers/UICollectionView+Additions.h"; sourceTree = SOURCE_ROOT; };
+		EA489FE3248340F600248951 /* UICollectionView+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UICollectionView+Additions.m"; path = "Weather/Controllers/UICollectionView+Additions.m"; sourceTree = SOURCE_ROOT; };
+		EA489FE5248341CC00248951 /* UIIKit+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIIKit+Additions.h"; sourceTree = "<group>"; };
 		EA561D05246070A800F8617D /* Cashier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cashier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6B82A7245134AC002021AB /* SearchResultsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchResultsController.h; sourceTree = "<group>"; };
 		EA6B82A8245134AC002021AB /* SearchResultsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchResultsController.m; sourceTree = "<group>"; };
@@ -347,6 +351,7 @@
 				EA736620242677B800CABA5C /* Info.plist */,
 				EA736621242677B800CABA5C /* main.m */,
 				EA0AA93B243C566D0055F8EF /* Weather-Prefix.pch */,
+				EA489FE5248341CC00248951 /* UIIKit+Additions.h */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -376,6 +381,8 @@
 		EA73663724267D9C00CABA5C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EA489FE2248340F600248951 /* UICollectionView+Additions.h */,
+				EA489FE3248340F600248951 /* UICollectionView+Additions.m */,
 				EA0AA8E4243173F60055F8EF /* UISpringTimingParameters+Convenience.h */,
 				EA0AA8E3243173F60055F8EF /* UISpringTimingParameters+Convenience.m */,
 				EAAD4ECC242966CA0031A171 /* CLGeocoder+City.h */,
@@ -564,6 +571,7 @@
 				EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */,
 				EA0AA929243C46410055F8EF /* Store.m in Sources */,
 				EA0AA926243C3EDE0055F8EF /* ForecastDataSource.m in Sources */,
+				EA489FE4248340F600248951 /* UICollectionView+Additions.m in Sources */,
 				EAFB766A244DE05900671CE8 /* WeatherTransitioningDelegate.m in Sources */,
 				EA0AA8FF2435A5150055F8EF /* UIColor+WeatherColors.m in Sources */,
 				EA0AA92C243C49810055F8EF /* CityForecastCell.m in Sources */,

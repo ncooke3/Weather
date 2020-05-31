@@ -11,21 +11,44 @@
 // Animator Objects
 #import "WeatherControllerAnimator.h"
 
+// Controllers
+#import "MenuViewController.h"
+#import "WeatherViewController.h"
+
+@interface WeatherTransitioningDelegate ()
+
+@property (nonatomic) WeatherControllerAnimator *animator;
+
+@end
+
 @implementation WeatherTransitioningDelegate
 
+// (lldb) po [((UINavigationController *)presenting) topViewController];
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    WeatherControllerAnimator *animator = [[WeatherControllerAnimator alloc] init];
-    animator.startingCenter = _startingCenter;
-    animator.presenting = YES;
-    return animator;
+    
+    presenting = [(UINavigationController *)presenting topViewController];
+    
+    [self createAnimatorForPresentedController:presented andPresentingController:presenting];
+    self.animator.presenting = YES;
+    return self.animator;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    WeatherControllerAnimator *animator = [[WeatherControllerAnimator alloc] init];
-    animator.presenting = NO;
-    animator.startingCenter = _startingCenter;
-    return animator;
+    // MARK: close app in forecast then reopen, both cases of killing/not killing app
+    self.animator.presenting = NO;
+    return self.animator;
 }
 
+#pragma mark - Property Utils
+
+- (WeatherControllerAnimator *)createAnimatorForPresentedController:(UIViewController *)presented andPresentingController:(UIViewController *)presenting {
+
+    MenuViewController *menuController = (MenuViewController *)presenting;
+    WeatherViewController *weatherController = (WeatherViewController *)presented;
+    _animator = [[WeatherControllerAnimator alloc] initWithMenuController:menuController
+                                                     andWeatherController:weatherController];
+    
+    return _animator;
+}
 
 @end

@@ -10,6 +10,12 @@
 
 @implementation NSArray (Map)
 
+- (void)forEach:(void(^)(id item))block {
+    for (id obj in self) {
+        block(obj);
+    }
+}
+
 - (NSArray *)map: (id (^)(id obj))block {
     NSMutableArray *new = [NSMutableArray array];
     for(id obj in self) {

@@ -36,11 +36,12 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     return _forecastsConstructor;
 }
 
-- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location {
+- (instancetype)initForPlaceNamed:(NSString *)placeName atLocation:(CLLocation *)location withTimeZone:(nullable NSTimeZone *)timeZone {
     self = [super init];
     if (self) {
         _locationString = placeName;
         _location = location;
+        _timeZone = timeZone;
     }
     return self;
 }

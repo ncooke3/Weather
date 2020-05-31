@@ -9,7 +9,7 @@
 #import "WeatherViewController.h"
 
 // Views
-#import "WeatherScrollView.h"
+//#import "WeatherScrollView.h"
 
 // Models
 #import "ForecastDataSource.h"
@@ -19,12 +19,20 @@
 
 @interface WeatherViewController ()
 
-@property (nonatomic) WeatherScrollView *weatherScrollView;
+
 @property (nonatomic, retain) ForecastDataSource *dataSource;
 
 @end
 
 @implementation WeatherViewController
+
+- (instancetype)initWithForecast:(Forecast *)forecast {
+    self = [super init];
+    if (self) {
+        _forecast = forecast;
+    }
+    return self;
+}
 
 - (WeatherScrollView *)weatherScrollView {
     if (!_weatherScrollView) {
@@ -64,9 +72,17 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [_weatherScrollView fadeInLabels];
+}
+
 - (void)configureForecastDataSource {
     self.dataSource = [[ForecastDataSource alloc] initWithItems:self.forecast.dailyForecasts cellIdentifier:@"dailyForecastCell" configureCellBlock:self.weatherScrollView.configureCell];
     self.weatherScrollView.forecastCollectionView.dataSource = self.dataSource;
+}
+
+- (void)fadeIn {
+  [_weatherScrollView fadeInLabels];
 }
 
 #pragma mark - Handlers

@@ -11,11 +11,18 @@
 // Models
 #import "Forecast.h"
 
+#import "WeatherScrollView.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WeatherViewController : UIViewController
 
 @property (nonatomic) Forecast *forecast;
+@property (nonatomic) WeatherScrollView *weatherScrollView;
+
+- (void)fadeIn;
+
+- (instancetype)initWithForecast:(Forecast *)forecast;
 
 @end
 
