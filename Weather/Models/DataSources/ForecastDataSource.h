@@ -16,6 +16,7 @@ typedef void (^CollectionCellConfigureBlock)(id cell, id item);
 @interface ForecastDataSource : NSObject <UICollectionViewDataSource>
 
 @property (nonatomic) NSMutableArray *items;
+@property (nonatomic) UIView *emptyView;
 
 - (id)initWithItems:(NSArray *)anItems cellIdentifier:(NSString *)aCellIdentifier configureCellBlock:(CollectionCellConfigureBlock)aConfigureCellBlock;
 

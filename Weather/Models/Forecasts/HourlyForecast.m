@@ -15,15 +15,15 @@
 
 - (NSNumber *)temperature {
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"units"]) {
-        return @(round(([_temperature doubleValue] - 32.0) * .5556));
+        return [_temperature doubleValue] != 0.0 ? @(round(([_temperature doubleValue] - 32.0) * .5556)) : @(0);
     }
     return _temperature;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary andTimezone:(NSTimeZone *)timezone {
     self = [super init];
     if (self) {
-        _time = [NSDateFormatter hourOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]]];
+        _time = [NSDateFormatter hourOfDayFrom:[NSDate dateWithTimeIntervalSince1970:[(NSNumber *)[dictionary[kDSTime] copy] integerValue]] forTimezone:timezone];
         _icon = [dictionary[kDSIcon] copy];
         _temperature = @(round([(NSNumber*)[dictionary[kDSTemperature] copy] doubleValue]));
         _precipProbability = @(round([[dictionary[kDSPrecipProbability] copy] doubleValue] * 100));

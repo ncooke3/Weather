@@ -22,8 +22,9 @@
     return [formatter stringFromDate:date];
 }
 
-+ (NSString *)hourOfDayFrom:(NSDate *)date {
++ (NSString *)hourOfDayFrom:(NSDate *)date forTimezone:(NSTimeZone *)timezone {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = timezone;
     [formatter setDateFormat:@"ha"];
     return [formatter stringFromDate:date];
 }

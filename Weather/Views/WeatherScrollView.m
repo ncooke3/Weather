@@ -11,8 +11,6 @@
 // Views
 #import "GraphView.h"
 #import "ForecastCollectionViewFlowLayout.h"
-#import "MoonButton.h"
-#import "SolarLunarView.h"
 
 // Categories
 #import "NSDateFormatter+UnixConverter.h"
@@ -23,15 +21,7 @@
 @interface WeatherScrollView () <UIScrollViewDelegate, UICollectionViewDelegate>
 
 // Location Properties
-
 @property (nonatomic) UILabel *pinnedLocationLabel;
-
-// Time & Date Properties
-
-
-// Current Forecast Properties
-
-
 
 @property (nonatomic) UILabel *pinnedTemperatureLabel;
 
@@ -44,11 +34,7 @@
 
 // Weather Plots
 @property (nonatomic) GraphView *temperaturePlot;
-@property (nonatomic) GraphView *precipitationPlot;
 
-// Sun/Moon View
-@property (nonatomic) SolarLunarView *sunMoonInfoView;
-@property (nonatomic) NSLayoutConstraint *sunMoonInfoViewBottomConstraint;
 
 @end
 
@@ -181,27 +167,6 @@
     return _forecastCollectionView;
 }
 
-- (GraphView *)precipitationPlot {
-    if (!_precipitationPlot) {
-        _precipitationPlot = [[GraphView alloc] init];
-        _precipitationPlot.labelUnits = @"%";
-        _precipitationPlot.labelFontColor = UIColor.secondaryLabelColor;
-        _precipitationPlot.strokeColor = UIColor.systemGray3Color;
-        _precipitationPlot.strokeFillColor = UIColor.systemGray3Color;
-        _precipitationPlot.pointFillColor = [UIColor systemGray5Color];
-    }
-    return _precipitationPlot;
-}
-
-- (SolarLunarView *)sunMoonInfoView {
-    if (!_sunMoonInfoView) {
-        _sunMoonInfoView = [[SolarLunarView alloc] init];
-        _sunMoonInfoView.translatesAutoresizingMaskIntoConstraints = NO;
-        _sunMoonInfoView.layer.cornerRadius = 15.0;
-    }
-    return _sunMoonInfoView;
-}
-
 #pragma mark - Init
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -274,16 +239,30 @@
         [[_forecastCollectionView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:.85] setActive:YES];
         [[_forecastCollectionView.heightAnchor constraintEqualToAnchor:self.heightAnchor multiplier:0.2 constant:0] setActive:YES];
         
-        // Sun/Moon Info View
-        [self addSubview:self.sunMoonInfoView];
-        [_sunMoonInfoView.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:10];
-        [_sunMoonInfoView.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor];
-        [[_sunMoonInfoView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:1] setActive:YES];
-        [[_sunMoonInfoView.heightAnchor constraintEqualToConstant:120] setActive:YES];
-        _sunMoonInfoViewBottomConstraint = [_sunMoonInfoView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-50];
-        [_sunMoonInfoViewBottomConstraint setActive:YES];
+//        NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+//        paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+//        paragraph.alignment = NSTextAlignmentCenter;
+//
+//        NSDictionary<NSAttributedStringKey, id> *attributes = @{NSParagraphStyleAttributeName: paragraph,
+//                                                                NSForegroundColorAttributeName: UIColor.secondaryLabelColor,
+//                                                                NSFontAttributeName: [UIFont systemFontOfSize:16 weight:UIFontWeightMedium]};
+//        NSTextAttachment *imageAttachment = [NSTextAttachment new];
+//        imageAttachment.image = [[UIImage systemImageNamed:@"sunrise.fill"] imageWithTintColor:UIColor.labelColor renderingMode:UIImageRenderingModeAlwaysOriginal];
+//
+//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Sunrise "];
+//        [string appendAttributedString:[NSAttributedString attributedStringWithAttachment:imageAttachment]];
+//        [string appendAttributedString:[[NSAttributedString alloc] initWithString:@" is at 7:11 AM"]];
+//
+//        [string addAttributes:attributes range:NSMakeRange(0, string.length)];
+//
+//        UILabel *label = [UILabel new];
+//        label.attributedText = string;
+//        label.translatesAutoresizingMaskIntoConstraints = NO;
+//        [self addSubview:label];
+//        [label.centerXAnchor pinTo:self.centerXAnchor];
+//        [label.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:40];
+//        [[label.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-60] setActive:YES];
         
-        // MARK: precipitation plot is handled by showPrecipitationView: method
         
     }
     return self;
@@ -372,48 +351,33 @@
     
 }
 
-- (void)updateSolarLunarViewWithData:(NSDictionary *)data {
-    [_sunMoonInfoView setData:data];
-}
-
-- (void)showPrecipitationView {
-    [self addSubview:self.precipitationPlot];
+- (void)updateSunriseSunsetForPhase:(NSString *)sunPhase atTime:(NSString *)time {
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
     
-    _precipitationPlot.translatesAutoresizingMaskIntoConstraints = NO;
-    [_sunMoonInfoViewBottomConstraint setActive:NO];
-
-    [_precipitationPlot.topAnchor pinTo:_sunMoonInfoView.bottomAnchor withPadding:20];
-    [[_precipitationPlot.widthAnchor constraintEqualToConstant:self.frame.size.width * 1.02] setActive:YES];
-    [[_precipitationPlot.heightAnchor constraintEqualToConstant:self.frame.size.height * 0.20] setActive:YES];
-    [_precipitationPlot.centerXAnchor pinTo:self.centerXAnchor];
+    NSDictionary<NSAttributedStringKey, id> *attributes = @{NSParagraphStyleAttributeName: paragraph,
+                                                            NSForegroundColorAttributeName: UIColor.secondaryLabelColor,
+                                                            NSFontAttributeName: [UIFont systemFontOfSize:16 weight:UIFontWeightMedium]};
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
     
-    [_precipitationPlot layoutIfNeeded];
+    NSString *symbolName = [NSString stringWithFormat:@"%@.fill", sunPhase.lowercaseString];
     
-    UIView *precipitationFooterView = [[UIView alloc] init];
-    precipitationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:precipitationFooterView];
-    [precipitationFooterView.topAnchor pinTo:_precipitationPlot.bottomAnchor];
-    [precipitationFooterView.widthAnchor pinTo:self.widthAnchor];
-    [precipitationFooterView.centerXAnchor pinTo:self.centerXAnchor];
-    [[precipitationFooterView.heightAnchor constraintEqualToConstant:1000] setActive:YES];
-    [precipitationFooterView.bottomAnchor pinTo:self.bottomAnchor withPadding:950];
-    precipitationFooterView.backgroundColor = _precipitationPlot.strokeFillColor;
+    imageAttachment.image = [[UIImage systemImageNamed:symbolName] imageWithTintColor:UIColor.secondaryLabelColor renderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UILabel *precipitationLabel = [[UILabel alloc] init];
-    precipitationLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    precipitationLabel.text = @"Rain Forecast";
-    precipitationLabel.font = [UIFont systemFontOfSize:22 weight:UIFontWeightMedium];
-    precipitationLabel.textColor = UIColor.secondaryLabelColor;;
-    precipitationLabel.alpha = 1;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", sunPhase]];
+    [string appendAttributedString:[NSAttributedString attributedStringWithAttachment:imageAttachment]];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" at %@ %@", time, [sunPhase isEqualToString:@"Sunrise"] ? @"AM" : @"PM"]]];
     
-    [precipitationFooterView addSubview:precipitationLabel];
-    [precipitationLabel.bottomAnchor pinTo:precipitationFooterView.topAnchor];
-    [precipitationLabel.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor];
+    [string addAttributes:attributes range:NSMakeRange(0, string.length)];
     
-}
-
-- (void)refreshPrecipitationPlotWithData:(NSArray *)data {
-    [_precipitationPlot plotWithData:data];
+    UILabel *label = [UILabel new];
+    label.attributedText = string;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:label];
+    [label.centerXAnchor pinTo:self.centerXAnchor];
+    [label.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:40];
+    [[label.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-60] setActive:YES];
 }
 
 - (CGFloat)slidingValueWithx0:(CGFloat)x0 x1:(CGFloat)x1 y0:(CGFloat)y0 y1:(CGFloat)y1 x:(CGFloat)x {
@@ -450,11 +414,6 @@
     
     _forecastCollectionViewLabel.alpha = [self slidingValueWithx0:0 x1:200 y0:0 y1:1 x:scrollView.contentOffset.y];
     _forecastCollectionView.alpha = [self slidingValueWithx0:0 x1:200 y0:0 y1:1 x:scrollView.contentOffset.y];
-    
-    _sunMoonInfoView.alpha = [self slidingValueWithx0:250 x1:400 y0:0 y1:1 x:scrollView.contentOffset.y];
-    
-    //_precipitationPlot.alpha = [self slidingValueWithx0:500 x1:600 y0:0 y1:1 x:scrollView.contentOffset.y];
-    
 }
 
 # pragma mark - UICollectionViewDelegate

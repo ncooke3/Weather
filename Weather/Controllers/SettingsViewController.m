@@ -50,12 +50,14 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleDone)];
 }
 
+- (void)updateSettings {
+    [[NSUserDefaults standardUserDefaults] setInteger:self.units forKey:@"units"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.forecastColors forKey:@"forecastColors"];
+    [self.delegate settingsDidChange];
+}
+
 - (void)handleDone {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [[NSUserDefaults standardUserDefaults] setInteger:self.units forKey:@"units"];
-        [self.delegate settingsDidChange];
-        [[NSUserDefaults standardUserDefaults] setInteger:self.forecastColors forKey:@"forecastColors"];
-    }];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate
@@ -89,9 +91,7 @@
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Default";
         } else if (indexPath.row == 1) {
-            cell.textLabel.text = @"Blues";
-        } else if (indexPath.row == 2) {
-            cell.textLabel.text = @"Loveless";
+            cell.textLabel.text = @"Purple Glow";
         }
         
         if (indexPath.row == _forecastColors) {
@@ -104,16 +104,25 @@
         cell.textLabel.text = indexPath.row ? @"Severe Weather Updates" : @"Rain Notifications";
         
     } else if (indexPath.section == 3) {
-        cell.textLabel.textColor = UIColor.systemBlueColor;
+        
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Write a Review";
+            cell.userInteractionEnabled = NO;
+            cell.textLabel.textColor = UIColor.secondaryLabelColor;
+            
         } else if (indexPath.row == 1) {
             cell.textLabel.text = @"Share";
+            cell.userInteractionEnabled = NO;
+            cell.textLabel.textColor = UIColor.secondaryLabelColor;
+            
         } else if (indexPath.row == 2) {
             cell.textLabel.text = @"Send Feedback";
+            cell.userInteractionEnabled = NO;
+            cell.textLabel.textColor = UIColor.secondaryLabelColor;
+            
         } else if (indexPath.row == 3) {
             cell.textLabel.text = @"Privacy Policy";
-            cell.textLabel.textColor = UIColor.labelColor;
+            cell.textLabel.textColor = UIColor.systemBlueColor;
         }
     }
     
@@ -137,8 +146,38 @@
         
         if (indexPath.section == 0) {
             _units = indexPath.row;
+            [self updateSettings];
         } else {
             _forecastColors = indexPath.row;
+            [self updateSettings];
+        }
+        
+    }
+    
+    if (indexPath.section == 3) {
+        
+        if (indexPath.row == 0) {
+            // write a review
+            
+            
+        } else if (indexPath.row == 1) {
+            // share
+            
+            
+        } else if (indexPath.row == 2) {
+            // send feedback
+            NSString *subject = [NSString stringWithFormat:@"Weather App"];
+            NSString *mail = [NSString stringWithFormat:@"ncooke3@gatech.edu"];
+            NSCharacterSet *set = [NSCharacterSet URLHostAllowedCharacterSet];
+            NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
+                                                        [mail stringByAddingPercentEncodingWithAllowedCharacters:set],
+                                                        [subject stringByAddingPercentEncodingWithAllowedCharacters:set]]];
+            [[UIApplication sharedApplication] openURL:url options:(@{}) completionHandler:nil];
+            
+        } else if (indexPath.row == 3) {
+            // privacy policy
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://ncooke3.github.io/GazeWeather/"] options:@{} completionHandler:nil];
+            
         }
         
     }
@@ -152,7 +191,7 @@
     if (section == 0) {
         numberOfRows = 2;
     } else if (section == 1) {
-        numberOfRows = 3;
+        numberOfRows = 2;
     } else if (section == 2) {
         numberOfRows = 2;
     } else if (section == 3) {
@@ -186,11 +225,10 @@
     if (section == 1) {
         footerTitle = @"These themes correspond to the colors used to represent various weather conditions.";
     } else if (section == 3) {
-        footerTitle = @"Weather 1.0";
+        footerTitle = @"Weather 1.0 \nPowered by Dark Sky";
     }
     
     return footerTitle;
 }
-
 
 @end

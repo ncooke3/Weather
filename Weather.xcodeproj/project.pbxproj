@@ -13,7 +13,6 @@
 		EA0AA8FF2435A5150055F8EF /* UIColor+WeatherColors.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA8FE2435A5150055F8EF /* UIColor+WeatherColors.m */; };
 		EA0AA9022435C7560055F8EF /* NSLayoutAnchor+Pinto.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */; };
 		EA0AA90B243867620055F8EF /* UIView+Pinto.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA90A243867620055F8EF /* UIView+Pinto.m */; };
-		EA0AA91124386A8D0055F8EF /* MoonButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91024386A8D0055F8EF /* MoonButton.m */; };
 		EA0AA9142438F87F0055F8EF /* WeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA9132438F87E0055F8EF /* WeatherViewController.m */; };
 		EA0AA91824390AE30055F8EF /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91724390AE30055F8EF /* LocationManager.m */; };
 		EA0AA91B243915050055F8EF /* DarkSky+CLLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0AA91A243915050055F8EF /* DarkSky+CLLocation.m */; };
@@ -50,7 +49,6 @@
 		EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EED2429DDC50031A171 /* GraphPoint.m */; };
 		EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EEF2429DDC50031A171 /* GraphView.m */; };
 		EAD249A9246754FE0013C217 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD249A8246754FE0013C217 /* SettingsViewController.m */; };
-		EAFB7667244BA29700671CE8 /* SolarLunarView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB7666244BA29700671CE8 /* SolarLunarView.m */; };
 		EAFB766A244DE05900671CE8 /* WeatherTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */; };
 		EAFB766D244DE47400671CE8 /* WeatherControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB766C244DE47400671CE8 /* WeatherControllerAnimator.m */; };
 /* End PBXBuildFile section */
@@ -92,8 +90,6 @@
 		EA0AA9012435C7560055F8EF /* NSLayoutAnchor+Pinto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutAnchor+Pinto.m"; sourceTree = "<group>"; };
 		EA0AA909243867620055F8EF /* UIView+Pinto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Pinto.h"; sourceTree = "<group>"; };
 		EA0AA90A243867620055F8EF /* UIView+Pinto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Pinto.m"; sourceTree = "<group>"; };
-		EA0AA90F24386A8D0055F8EF /* MoonButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoonButton.h; sourceTree = "<group>"; };
-		EA0AA91024386A8D0055F8EF /* MoonButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoonButton.m; sourceTree = "<group>"; };
 		EA0AA9122438F87E0055F8EF /* WeatherViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WeatherViewController.h; path = Weather/Application/WeatherViewController.h; sourceTree = SOURCE_ROOT; };
 		EA0AA9132438F87E0055F8EF /* WeatherViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WeatherViewController.m; path = Weather/Application/WeatherViewController.m; sourceTree = SOURCE_ROOT; };
 		EA0AA91624390AE30055F8EF /* LocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
@@ -165,8 +161,6 @@
 		EAAD4EEF2429DDC50031A171 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		EAD249A7246754FE0013C217 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		EAD249A8246754FE0013C217 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		EAFB7665244BA29700671CE8 /* SolarLunarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SolarLunarView.h; path = "UI Controls/SolarLunarView.h"; sourceTree = "<group>"; };
-		EAFB7666244BA29700671CE8 /* SolarLunarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SolarLunarView.m; path = "UI Controls/SolarLunarView.m"; sourceTree = "<group>"; };
 		EAFB7668244DE05900671CE8 /* WeatherTransitioningDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherTransitioningDelegate.h; sourceTree = "<group>"; };
 		EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherTransitioningDelegate.m; sourceTree = "<group>"; };
 		EAFB766B244DE47400671CE8 /* WeatherControllerAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherControllerAnimator.h; sourceTree = "<group>"; };
@@ -265,8 +259,6 @@
 		EA0AA92F243C4AF40055F8EF /* UI Controls */ = {
 			isa = PBXGroup;
 			children = (
-				EA0AA90F24386A8D0055F8EF /* MoonButton.h */,
-				EA0AA91024386A8D0055F8EF /* MoonButton.m */,
 				EA6B82AA2453BEA3002021AB /* RoundButton.h */,
 				EA6B82AB2453BEA3002021AB /* RoundButton.m */,
 			);
@@ -418,8 +410,6 @@
 		EA73663924267DA000CABA5C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EAFB7665244BA29700671CE8 /* SolarLunarView.h */,
-				EAFB7666244BA29700671CE8 /* SolarLunarView.m */,
 				EA0AA8E82431740E0055F8EF /* WeatherScrollView.h */,
 				EA0AA8E6243173FD0055F8EF /* WeatherScrollView.m */,
 				EA0AA931243C4B190055F8EF /* CollectionViewLayouts */,
@@ -565,7 +555,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA0AA91124386A8D0055F8EF /* MoonButton.m in Sources */,
 				EA6B82AF2453C84C002021AB /* MapViewController.m in Sources */,
 				EA0AA8E5243173F60055F8EF /* UISpringTimingParameters+Convenience.m in Sources */,
 				EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */,
@@ -591,7 +580,6 @@
 				EA736645242681B300CABA5C /* DarkSkyContants.m in Sources */,
 				EA736622242677B800CABA5C /* main.m in Sources */,
 				EA0AA934243C4B380055F8EF /* ForecastCollectionViewFlowLayout.m in Sources */,
-				EAFB7667244BA29700671CE8 /* SolarLunarView.m in Sources */,
 				EAD249A9246754FE0013C217 /* SettingsViewController.m in Sources */,
 				EA6B82A9245134AC002021AB /* SearchResultsController.m in Sources */,
 				EAAD4EB32427CDE40031A171 /* Forecast.m in Sources */,
@@ -762,6 +750,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -785,6 +774,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Weather/Weather-Prefix.pch";
 				INFOPLIST_FILE = Weather/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

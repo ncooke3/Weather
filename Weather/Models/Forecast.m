@@ -13,6 +13,7 @@
 #import "NSString+ForecastConditions.h"
 #import "UIColor+WeatherColors.h"
 #import "CLGeocoder+City.h"
+#import "NSDateFormatter+UnixConverter.h"
 
 typedef NSDictionary * ForecastResponse;
 typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, NSInteger);
@@ -46,24 +47,8 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     return self;
 }
 
-- (instancetype)initForLocation:(CLLocation *)location {
-    self = [super init];
-    if (self) {
-        _location = location;
-        [self configureForecastsConstructor];
-        [self updateLocalityForLocation];
-    }
-    return self;
-}
-
 + (BOOL)supportsSecureCoding {
     return YES;
-}
-
-- (void)updateLocalityForLocation {
-    [CLGeocoder cityFromLocation:_location completion:^(Placemark city) {
-        self.locationString = city.locality;
-    }];
 }
 
 - (void)configureForecastsConstructor {
@@ -72,7 +57,7 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
         for (NSDictionary *forecastJSON in response) {
             if ([forecasts count] == count) break;
             id forecast;
-            if (type == ForecastTypeHourly) forecast = [[HourlyForecast alloc] initWithDictionary:forecastJSON];
+            if (type == ForecastTypeHourly) forecast = [[HourlyForecast alloc] initWithDictionary:forecastJSON andTimezone:[self.timeZone copy]];
             if (type == ForecastTypeDaily) forecast = [[DailyForecast alloc] initWithDictionary:forecastJSON];
             [forecasts addObject:forecast];
         }
@@ -145,6 +130,7 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
 
 - (void)encodeWithCoder:(nonnull NSCoder *)encoder {
     [encoder encodeObject:self.location forKey:@"location"];
+    [encoder encodeObject:self.timeZone forKey:@"timezone"];
     [encoder encodeObject:self.locationString forKey:@"locationString"];
     [encoder encodeObject:self.currentForecast forKey:@"currentForecast"];
     [encoder encodeObject:self.dailyForecasts forKey:@"dailyForecast"];
@@ -155,6 +141,7 @@ typedef NSArray * (^ForecastsConstructorBlock)(ForecastResponse, ForecastType, N
     self = [super init];
     if (self) {
         self.location = [decoder decodeObjectOfClass:CLLocation.class forKey:@"location"];
+        self.timeZone = [decoder decodeObjectOfClass:NSTimeZone.class forKey:@"timezone"];
         self.locationString = [decoder decodeObjectForKey:@"locationString"];
         self.currentForecast = [decoder decodeObjectOfClass:CurrentForecast.class forKey:@"currentForecast"];
         self.dailyForecasts = [decoder decodeObjectOfClasses:[NSSet setWithArray:@[NSArray.class, DailyForecast.class]] forKey:@"dailyForecast"];

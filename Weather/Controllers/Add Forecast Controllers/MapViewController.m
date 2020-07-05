@@ -90,7 +90,7 @@
     [[_cancelButton.centerXAnchor constraintEqualToAnchor:self.mapView.centerXAnchor] setActive:YES];
     [[_cancelButton.widthAnchor constraintEqualToAnchor:self.selectButton.widthAnchor] setActive:YES];
     [[_cancelButton.heightAnchor constraintEqualToAnchor:self.selectButton.heightAnchor] setActive:YES];
-    [[_cancelButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:0] setActive:YES];
+    [[_cancelButton.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-5] setActive:YES];
     
     
     

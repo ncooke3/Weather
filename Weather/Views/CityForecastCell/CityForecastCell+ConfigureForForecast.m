@@ -62,7 +62,6 @@
     formatter.timeZone = timezone;
     formatter.dateFormat = @"h:mm a";
     NSString *stringDate = [formatter stringFromDate:[NSDate date]];
-    NSLog(@"It is %@ in %@", stringDate, timezone.name);
     return stringDate;
 }
 

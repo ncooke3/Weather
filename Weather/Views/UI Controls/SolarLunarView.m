@@ -20,6 +20,8 @@
 @property (nonatomic) UILabel *primaryLabel;
 @property (nonatomic) UILabel *secondaryLabel;
 
+@property (nonatomic) UIImageView *imageView;
+
 @end
 
 @implementation SolarLunarView
@@ -43,10 +45,8 @@
     if (!_primaryLabel) {
         _primaryLabel = [[UILabel alloc] init];
         _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _primaryLabel.textColor = UIColor.grayColor; // MARK: color
-        _primaryLabel.font = [UIFont fontWithName:@"Futura-Medium" size:16]; // MARK: font
-        
-        _primaryLabel.text = @"Sunrise at 6:43 AM";
+        _primaryLabel.textColor = UIColor.secondaryLabelColor;
+        _primaryLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
     }
     return _primaryLabel;
 }
@@ -55,8 +55,8 @@
     if (!_secondaryLabel) {
         _secondaryLabel = [[UILabel alloc] init];
         _secondaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _secondaryLabel.textColor = UIColor.grayColor; // MARK: color
-        _secondaryLabel.font = [UIFont fontWithName:@"Futura-Medium" size:12]; // MARK: font
+        _secondaryLabel.textColor = UIColor.grayColor;
+        _secondaryLabel.font = [UIFont fontWithName:@"Futura-Medium" size:12];
         
         _secondaryLabel.text = @"Full Moon";
     }
@@ -67,22 +67,43 @@
     self = [super init];
     if (self) {
         
-        [self addSubview:self.button];
-        [_button.leadingAnchor pinTo:self.leadingAnchor withPadding:0];
-        [_button.centerYAnchor pinTo:self.centerYAnchor];
+//        [self addSubview:self.button];
+//        [_button.leadingAnchor pinTo:self.leadingAnchor withPadding:0];
+//        [_button.centerYAnchor pinTo:self.centerYAnchor];
+        
+        _imageView = [UIImageView new];
+        _imageView.backgroundColor = UIColor.systemPinkColor;
+        UIImageSymbolConfiguration *config = [UIImageSymbolConfiguration configurationWithPointSize:30];
+        _imageView.image = [[UIImage systemImageNamed:@"sunrise.fill"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];// imageWithConfiguration:config];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [_imageView setTintColor:[UIColor secondaryLabelColor]];
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_imageView];
+        [_imageView.leadingAnchor pinTo:self.leadingAnchor withPadding:0];
+        [_imageView.centerYAnchor pinTo:self.centerYAnchor];
+        [[_imageView.widthAnchor constraintEqualToConstant:70] setActive:YES];
+        [[_imageView.heightAnchor constraintEqualToConstant:70] setActive:YES];
         
         [self addSubview:self.primaryLabel];
-        [_primaryLabel.bottomAnchor pinTo:self.centerYAnchor withPadding:-2];
-        [_primaryLabel.leadingAnchor pinTo:_button.trailingAnchor withPadding:30];
+//        [_primaryLabel.bottomAnchor pinTo:self.centerYAnchor withPadding:-2];
+        [_primaryLabel.centerYAnchor pinTo:self.centerYAnchor];
+//        [_primaryLabel.leadingAnchor pinTo:_button.trailingAnchor withPadding:30];
+        [_primaryLabel.leadingAnchor pinTo:_imageView.trailingAnchor withPadding:15];
         
-        [self addSubview:self.secondaryLabel];
-        [_secondaryLabel.topAnchor pinTo:self.centerYAnchor withPadding:2];
-        [_secondaryLabel.leadingAnchor pinTo:_button.trailingAnchor withPadding:30];
+//        [self addSubview:self.secondaryLabel];
+//        [_secondaryLabel.topAnchor pinTo:self.centerYAnchor withPadding:2];
+////        [_secondaryLabel.leadingAnchor pinTo:_button.trailingAnchor withPadding:30];
+//        [_secondaryLabel.leadingAnchor pinTo:imageView.trailingAnchor withPadding:30];
         
         self.translatesAutoresizingMaskIntoConstraints = NO;
     
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _imageView.layer.cornerRadius = CGRectGetWidth(_imageView.frame) / 2;
 }
 
 + (BOOL)requiresConstraintBasedLayout {

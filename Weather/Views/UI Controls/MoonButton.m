@@ -48,24 +48,6 @@ typedef NS_ENUM(NSUInteger, ForceState) {
 
 @implementation MoonButton
 
-// TODO: try replacing with factory methods?
-
-- (CAShapeLayer *)sunLayer {
-    if (!_sunLayer) {
-        _sunLayer = [[CAShapeLayer alloc] init];
-        _sunLayer.backgroundColor = [UIColor colorWithRed:0.98 green:0.80 blue:0.37 alpha:1.00].CGColor;
-    }
-    return _sunLayer;
-}
-
-- (CAShapeLayer *)moonLayer {
-    if (!_moonLayer) {
-        _moonLayer = [[CAShapeLayer alloc] init];
-        _moonLayer.backgroundColor = [UIColor moonColor].CGColor;
-    }
-    return _moonLayer;
-}
-
 - (instancetype)init {
     self = [super init];
     if (self) {

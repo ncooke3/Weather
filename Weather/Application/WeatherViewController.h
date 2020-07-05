@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) Forecast *forecast;
 @property (nonatomic) WeatherScrollView *weatherScrollView;
 
-- (void)fadeIn;
-
 - (instancetype)initWithForecast:(Forecast *)forecast;
 
 @end

@@ -96,6 +96,48 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     self.collectionView.dataSource = self.dataSource;
 }
 
+- (void)configureEmptyViewForDataSource {
+    UIView *emptyView = [[UIView alloc] init];
+    UILabel *label = [[UILabel alloc] init];
+    label.numberOfLines = 3;
+    [emptyView addSubview:label];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    [[label.centerYAnchor constraintEqualToAnchor:emptyView.centerYAnchor] setActive:YES];
+    [label.leadingAnchor pinTo:emptyView.leadingAnchor withPadding:15];
+    [label.trailingAnchor pinTo:emptyView.trailingAnchor withPadding:-15];
+    
+    NSTextAttachment *symbolAttachment = [[NSTextAttachment alloc] init];
+    UIImage *symbol = [[UIImage systemImageNamed:@"ellipsis.circle.fill"] imageWithTintColor:UIColor.labelColor renderingMode:UIImageRenderingModeAlwaysTemplate];
+    symbolAttachment.image = symbol;
+    
+    NSString *firstPart = @"You have no added forecasts. \nPress ";
+    
+    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:firstPart];
+    [mutableAttributedString appendAttributedString:[NSAttributedString attributedStringWithAttachment:symbolAttachment]];
+    
+    NSString *secondPart = @" and then tap Add Forecast";
+    NSMutableAttributedString *secondAttributedPart = [[NSMutableAttributedString alloc] initWithString:secondPart];
+    [secondAttributedPart addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17 weight:UIFontWeightBold] range:NSMakeRange(13, 13)];
+    
+    [mutableAttributedString appendAttributedString:secondAttributedPart];
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    [mutableAttributedString addAttributes:@{
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: UIColor.secondaryLabelColor
+    } range:NSMakeRange(0, mutableAttributedString.length)];
+    
+    label.attributedText = mutableAttributedString;
+
+    [label sizeToFit];
+    
+    
+    self.dataSource.emptyView = emptyView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -111,13 +153,13 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     [self.view addSubview:self.collectionView];
     [self layoutCollectionView];
     
-
     _cityForecasts = [self.weatherCache objectForKey:@"forecasts"]; //[Store forecasts];
     if (_cityForecasts == nil) {
         _cityForecasts = [NSArray new];
     }
     
     [self configureCollectionViewDataSource];
+    [self configureEmptyViewForDataSource];
     
     _settingsButton = [[RoundButton alloc] initWithSystemImageNamed:@"gear"];
     [self.view addSubview:_settingsButton];
@@ -156,6 +198,8 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     NSDate *fireDate = [[NSDate now] dateByAddingTimeInterval:initialInterval];
     NSTimer *timer = [[NSTimer alloc] initWithFireDate:fireDate interval:60 target:self selector:@selector(updateDisplayedCellTimeLabels) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
+    [self updateDisplayedCellTimeLabels];
 }
 
 - (void)updateDisplayedCellTimeLabels {
@@ -171,7 +215,6 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
     formatter.timeZone = timezone;
     formatter.dateFormat = @"h:mm a";
     NSString *stringDate = [formatter stringFromDate:[NSDate date]];
-    NSLog(@"It is %@ in %@", stringDate, timezone.name);
     return stringDate;
 }
 
@@ -349,7 +392,6 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
 - (void)presentMapViewController {
     MapViewController *mapController = [MapViewController new];
     mapController.delegate = self;
-    // TODO: Can this be done with just [self presentViewController: animated: completion:]
     UINavigationController *mapNavigationController = [[UINavigationController alloc] initWithRootViewController:mapController];
     [self.navigationController presentViewController:mapNavigationController animated:YES completion:nil];
 }
@@ -424,7 +466,6 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
         [self.weatherCache setObject:self.dataSource.items forKey:@"forecasts"];
     }
     
-    
 }
 
 #pragma mark - UICollectionViewDragDelegate & UICollectionViewDropDelegate
@@ -445,31 +486,26 @@ typedef NS_ENUM(NSUInteger, MenuControllerState) {
                         withDestinationIndexPath:(NSIndexPath *)destinationIndexPath {
     
     if (collectionView.hasActiveDrag) {
-//        if (destinationIndexPath.row == 0) {
-//            return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove];
-//        } else {
-            return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove
-                                                                        intent:UICollectionViewDropIntentInsertAtDestinationIndexPath];
-//        }
+        return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationMove
+                                                                    intent:UICollectionViewDropIntentInsertAtDestinationIndexPath];
     }
-  
     return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationForbidden];
 }
 
-
 - (void)collectionView:(UICollectionView *)collectionView performDropWithCoordinator:(id<UICollectionViewDropCoordinator>)coordinator {
-  
-  id<UICollectionViewDropItem> item = coordinator.items.firstObject;
+    
+    id<UICollectionViewDropItem> item = coordinator.items.firstObject;
+    
+    [self.collectionView performBatchUpdates:^{
+        [self.dataSource.items removeObjectAtIndex:item.sourceIndexPath.item];
+        [self.dataSource.items insertObject:(Forecast *)item.dragItem.localObject atIndex:coordinator.destinationIndexPath.item];
 
-  [self.collectionView performBatchUpdates:^{
-    [self.dataSource.items removeObjectAtIndex:item.sourceIndexPath.item];
-    [self.dataSource.items insertObject:(Forecast *)item.dragItem.localObject atIndex:coordinator.destinationIndexPath.item];
+        [self.collectionView deleteItemsAtIndexPaths:@[item.sourceIndexPath]];
+        [self.collectionView insertItemsAtIndexPaths:@[coordinator.destinationIndexPath]];
+    } completion:nil];
+    [self.weatherCache setObject:self.dataSource.items forKey:@"forecasts"];
 
-    [self.collectionView deleteItemsAtIndexPaths:@[item.sourceIndexPath]];
-    [self.collectionView insertItemsAtIndexPaths:@[coordinator.destinationIndexPath]];
-  } completion:nil];
-
-  [coordinator dropItem:item.dragItem toItemAtIndexPath:coordinator.destinationIndexPath];
+    [coordinator dropItem:item.dragItem toItemAtIndexPath:coordinator.destinationIndexPath];
 }
 
 @end

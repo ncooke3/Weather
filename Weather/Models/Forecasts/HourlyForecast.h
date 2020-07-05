@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HourlyForecast : NSObject <NSCoding, NSSecureCoding>
 
-@property (nonatomic, readonly) NSString *time;
+@property (nonatomic, readonly) NSString * time;
 @property (nonatomic, readonly) NSString *icon;
 
 // Temperature Properties
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Additional Weather Data Properties
 @property (nonatomic, readonly) NSNumber *humidity;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary andTimezone:(NSTimeZone *)timezone;
 
 
 @end
