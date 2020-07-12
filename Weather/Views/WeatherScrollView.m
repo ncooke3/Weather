@@ -83,8 +83,6 @@
         _dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _dateLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
         _dateLabel.textColor = UIColor.darkTextColor;
-        _dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d"]; // MARK: add to settings userdefaults
-        
         _dateLabel.alpha = 0;
     }
     return _dateLabel;

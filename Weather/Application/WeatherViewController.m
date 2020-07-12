@@ -66,6 +66,7 @@
     [self.view addSubview:self.weatherScrollView];
     
     [self configureForecastDataSource];
+    [self handleDate];
     [self handleCurrentForecastUpdate];
     [self handleHourlyForecastUpdate];
     [self handleDailyForecastUpdate];
@@ -82,6 +83,10 @@
 }
 
 #pragma mark - Handlers
+
+- (void)handleDate {
+    self.weatherScrollView.dateLabel.text = [NSDateFormatter stringFromDate:[NSDate date] withDateFormat:@"E MMM d" andTimezone:_forecast.timeZone];
+}
 
 - (void)handleCurrentForecastUpdate {
     [self.weatherScrollView updateLocationLabelsWithLocation:[_forecast locationString]];

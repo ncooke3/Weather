@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EA73660B242677B400CABA5C"
-               BuildableName = "Weather.app"
+               BuildableName = "Gaze Weather.app"
                BlueprintName = "Weather"
                ReferencedContainer = "container:Weather.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA73660B242677B400CABA5C"
-            BuildableName = "Weather.app"
+            BuildableName = "Gaze Weather.app"
             BlueprintName = "Weather"
             ReferencedContainer = "container:Weather.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA73660B242677B400CABA5C"
-            BuildableName = "Weather.app"
+            BuildableName = "Gaze Weather.app"
             BlueprintName = "Weather"
             ReferencedContainer = "container:Weather.xcodeproj">
          </BuildableReference>

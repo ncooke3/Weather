@@ -16,8 +16,9 @@
     return [formatter stringFromDate:date];
 }
 
-+ (NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)dateStyle {
++ (NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)dateStyle andTimezone:(NSTimeZone *)timezone {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = timezone;
     [formatter setDateFormat:dateStyle];
     return [formatter stringFromDate:date];
 }
