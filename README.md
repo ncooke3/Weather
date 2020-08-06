@@ -5,7 +5,7 @@ fundamentals in iOS development.
 
 ## Final Product
 
-[Insert final_product_demo.gif]
+![The completed demo.](./media/final_product_demo.gif)
 
 ## Feature Splotlight
 
@@ -13,7 +13,7 @@ In the following few sections, I wanted to discuss a few of my favorite parts ab
 
 ### Custom `UIViewController` Transitions
 
-[Insert view_controller_transitions.gif]
+![View Controller transitions.](./media/view_controller_transitions.gif)
 
 In the app, the main screen is a view controller with a `UICollectionView` displaying a user's stored forecasts. When a user taps a cell, a view controller 
 appears showing detailed information about that particular forecast. 
