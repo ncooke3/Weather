@@ -15,9 +15,9 @@ In the following few sections, I wanted to discuss a few of my favorite parts ab
 
 ### Custom `UIViewController` Transitions
 
-<p align="center">
-  <img width="300" src="./media/view_controller_transitions.gif">
-</p>
+
+<img width="300" src="./media/view_controller_transitions.gif" align="right">
+
 
 In the app, the main screen is a view controller with a `UICollectionView` displaying a user's stored forecasts. When a user taps a cell, a view controller 
 appears showing detailed information about that particular forecast. 
