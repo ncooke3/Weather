@@ -197,7 +197,7 @@
         [self addSubview:self.locationLabel];
         [_locationLabel.topAnchor pinTo:self.topAnchor withPadding:80];
         [_locationLabel.leadingAnchor pinTo:self.leadingAnchor withPadding:40];
-        [_locationLabel.trailingAnchor pinTo:self.trailingAnchor withPadding:-15];
+        [_locationLabel.trailingAnchor pinTo:self.safeAreaLayoutGuide.trailingAnchor withPadding:-15];
 
         /// Date Label
         [self addSubview:self.dateLabel];
@@ -236,32 +236,6 @@
         [_forecastCollectionView.leadingAnchor pinTo:_forecastCollectionViewLabel.leadingAnchor withPadding:-5];
         [[_forecastCollectionView.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier:.85] setActive:YES];
         [[_forecastCollectionView.heightAnchor constraintEqualToAnchor:self.heightAnchor multiplier:0.2 constant:0] setActive:YES];
-        
-//        NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
-//        paragraph.lineBreakMode = NSLineBreakByWordWrapping;
-//        paragraph.alignment = NSTextAlignmentCenter;
-//
-//        NSDictionary<NSAttributedStringKey, id> *attributes = @{NSParagraphStyleAttributeName: paragraph,
-//                                                                NSForegroundColorAttributeName: UIColor.secondaryLabelColor,
-//                                                                NSFontAttributeName: [UIFont systemFontOfSize:16 weight:UIFontWeightMedium]};
-//        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-//        imageAttachment.image = [[UIImage systemImageNamed:@"sunrise.fill"] imageWithTintColor:UIColor.labelColor renderingMode:UIImageRenderingModeAlwaysOriginal];
-//
-//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Sunrise "];
-//        [string appendAttributedString:[NSAttributedString attributedStringWithAttachment:imageAttachment]];
-//        [string appendAttributedString:[[NSAttributedString alloc] initWithString:@" is at 7:11 AM"]];
-//
-//        [string addAttributes:attributes range:NSMakeRange(0, string.length)];
-//
-//        UILabel *label = [UILabel new];
-//        label.attributedText = string;
-//        label.translatesAutoresizingMaskIntoConstraints = NO;
-//        [self addSubview:label];
-//        [label.centerXAnchor pinTo:self.centerXAnchor];
-//        [label.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:40];
-//        [[label.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-60] setActive:YES];
-        
-        
     }
     return self;
 }
@@ -371,11 +345,14 @@
     
     UILabel *label = [UILabel new];
     label.attributedText = string;
+    [label sizeToFit];
     label.translatesAutoresizingMaskIntoConstraints = NO;
+
     [self addSubview:label];
     [label.centerXAnchor pinTo:self.centerXAnchor];
     [label.topAnchor pinTo:self.forecastCollectionView.bottomAnchor withPadding:40];
     [[label.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-60] setActive:YES];
+
 }
 
 - (CGFloat)slidingValueWithx0:(CGFloat)x0 x1:(CGFloat)x1 y0:(CGFloat)y0 y1:(CGFloat)y1 x:(CGFloat)x {

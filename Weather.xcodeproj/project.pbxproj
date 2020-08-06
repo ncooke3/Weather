@@ -49,6 +49,7 @@
 		EAAD4EF02429DDC50031A171 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EED2429DDC50031A171 /* GraphPoint.m */; };
 		EAAD4EF12429DDC50031A171 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAAD4EEF2429DDC50031A171 /* GraphView.m */; };
 		EAD249A9246754FE0013C217 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD249A8246754FE0013C217 /* SettingsViewController.m */; };
+		EAD5F86024C67C5800C3F84B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD5F85F24C67C5800C3F84B /* MapKit.framework */; };
 		EAFB766A244DE05900671CE8 /* WeatherTransitioningDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */; };
 		EAFB766D244DE47400671CE8 /* WeatherControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFB766C244DE47400671CE8 /* WeatherControllerAnimator.m */; };
 /* End PBXBuildFile section */
@@ -161,6 +162,7 @@
 		EAAD4EEF2429DDC50031A171 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		EAD249A7246754FE0013C217 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		EAD249A8246754FE0013C217 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		EAD5F85F24C67C5800C3F84B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EAFB7668244DE05900671CE8 /* WeatherTransitioningDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherTransitioningDelegate.h; sourceTree = "<group>"; };
 		EAFB7669244DE05900671CE8 /* WeatherTransitioningDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherTransitioningDelegate.m; sourceTree = "<group>"; };
 		EAFB766B244DE47400671CE8 /* WeatherControllerAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherControllerAnimator.h; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAD5F86024C67C5800C3F84B /* MapKit.framework in Frameworks */,
 				EA561D06246070A800F8617D /* Cashier.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,6 +192,7 @@
 		9BEBB45D1560F77797879DEE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EAD5F85F24C67C5800C3F84B /* MapKit.framework */,
 				EA561D05246070A800F8617D /* Cashier.framework */,
 			);
 			name = Frameworks;
@@ -743,7 +747,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -770,7 +774,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = K2A6VGGX23;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

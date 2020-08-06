@@ -54,7 +54,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     collectionView.backgroundView = [_items count] == 0 ? _emptyView : nil;
-    collectionView.scrollEnabled = [_items count] == 1;
+    collectionView.scrollEnabled = [_items count] >= 1;
     
     return [_items count];
 }

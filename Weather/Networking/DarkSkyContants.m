@@ -10,7 +10,6 @@
 
 NSString* const kDSErrorDomain = @"com.darksky.errors";
 
-// TODO: is there a better way to store this?
 NSString* const darkSkyBaseURL = @"https://api.darksky.net/forecast/";
 
 // TODO: Caches Keys

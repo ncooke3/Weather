@@ -40,7 +40,7 @@
         _cache = [Cashier cacheWithId:@"network"];
         _cache.lifespan = 60 * 30;
         _cache.returnsExpiredData = NO;
-        self.apiKey = @"0e7f5038c7db684db9d0cafe2ad2ee69"; // ⚠️ API KEY exposed
+        self.apiKey = @"0e7f5038c7db684db9d0cafe2ad2ee69"; // ⚠️ This key has since been deactivated.
         self.cacheEnabled = YES;
         self.cacheExpirationInMinutes = 30;
         self.cacheQueue = dispatch_queue_create("com.ncooke.DSCacheQueue", NULL);

@@ -24,10 +24,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Weather needs access to your location to supply real-time weather updates. (2)</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Weather needs access to your location to supply real-time weather updates. (1)</string>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

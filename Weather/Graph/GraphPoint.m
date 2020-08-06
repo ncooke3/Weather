@@ -25,7 +25,7 @@
         _label.textAlignment = NSTextAlignmentCenter;
         _label.textColor = [UIColor labelColor];
         _label.backgroundColor = UIColor.clearColor;
-        _label.font = CGRectGetMaxY([[UIScreen mainScreen] bounds]) <= 667 ? [UIFont systemFontOfSize:11 weight:UIFontWeightRegular] : [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _label.font = [UIFont systemFontOfSize:11 weight:UIFontWeightRegular];
         _label.alpha = 1;
         [self addSubview:_label];
         [_label setCenter:CGPointMake(self.center.x, self.center.y)];
