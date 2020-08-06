@@ -86,4 +86,4 @@ and watched quite a few WWDC videos on everything from UIKit advancements and be
 
 If you made it to the end, thanks for reading and I hope you enjoyed learning about **Weather**. :D
 
-P.S. Check the `media/` directory for more screenshots of the finished app.
+P.S. Check the [`media/`](./media) directory for more screenshots of the finished app.
