@@ -63,8 +63,8 @@ hardest thing about design is it can be hard to know *why* things didn't look go
 with the result. While frustrating at times, the resulting product, and some of my other recent work seems to be a testament to following 
 
 ### Design Resources
-Throughout the design process, I used a few resources that are worth mentioning. Dribble, Behance, and Pinterest were all great when it came to 
-brainstorming ideas at the beginning. I would look up things like "ios weather app" or "ios ui design" to get an idea of where design is these days.
+Throughout the design process, I used a few resources that are worth mentioning. [Dribble](https://dribbble.com), [Behance](https://www.behance.net), 
+and [Pinterest](https://www.pinterest.com) were all great when it came to brainstorming ideas at the beginning. I would look up things like "ios weather app" or "ios ui design" to get an idea of where design is these days.
 
 Another big help was the Apple's Human Design Guidelines. I am a big fan of Apple design and Apple provides their developers with lots of resources to make their
 apps match the iOS aesthetic. 
