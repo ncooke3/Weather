@@ -4,7 +4,7 @@ Throughout the spring of 2020, I built this weather app. The main goal was to be
 fundamentals in iOS development.  
 
 <p align="center">
-  <img width="250" src="./media/final_product_demo.gif" align="center">  
+  <img width="250" src="./media/final_product_demo.gif">  
 </p>
 
 ## Feature Splotlight
