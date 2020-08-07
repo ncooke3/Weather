@@ -1,13 +1,11 @@
 # Weather
+<img width="300" src="./media/final_product_demo.gif" align="right">
 
 Throughout the spring of 2020, I built this weather app. The main goal was to become proficient in **Objective-C** and strengthen my understanding of the 
-fundamentals in iOS development.
-
-## Final Product
-
-<p align="center">
-  <img width="300" src="./media/final_product_demo.gif">
-</p>
+fundamentals in iOS development.  
+  
+  
+  
 
 ## Feature Splotlight
 
@@ -15,8 +13,7 @@ In the following few sections, I wanted to discuss a few of my favorite parts ab
 
 ### Custom `UIViewController` Transitions
 
-
-<img width="300" src="./media/view_controller_transitions.gif" align="right">
+<img width="200" src="./media/view_controller_transitions.gif" align="right">
 
 
 In the app, the main screen is a view controller with a `UICollectionView` displaying a user's stored forecasts. When a user taps a cell, a view controller 
@@ -45,7 +42,7 @@ achieve.
 
 ### Autocomplete location search with MapKit
 
-[Insert location_search.gif]
+<img width="200" src="./media/preview_add_a_forecast.jpeg" align="right">
 
 In addition to viewing forecasts that a user has saved, they will also want to add forecasts. I wanted to provide an intuitive experience for users. 
 After some brainstorming, I decided to give users two options. They would be presented with an interactive map view where they could either tap the location of the 
