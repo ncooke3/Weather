@@ -1,11 +1,11 @@
 # Weather
-<img width="300" src="./media/final_product_demo.gif" align="right">
 
 Throughout the spring of 2020, I built this weather app. The main goal was to become proficient in **Objective-C** and strengthen my understanding of the 
 fundamentals in iOS development.  
-  
-  
-  
+
+<p align="center">
+  <img width="250" src="./media/final_product_demo.gif" align="center">  
+</p>
 
 ## Feature Splotlight
 
