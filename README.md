@@ -74,7 +74,7 @@ each day.
 
 While I'm no designer, I will admit you do learn about what looks good and what doesn't after staring at something long enough! I felt the 
 hardest thing about design is it can be hard to know *why* things didn't look good. There were many times I sketched an idea, coded it up, and was unsatisfied
-with the result. While frustrating at times, the resulting product, and some of my other recent work seems to be a testament to following 
+with the result. While frustrating at times, the resulting product, and some of my other recent work seems to be a testament that anyone can design well if you keep practicing, evaluating, and learning from available resources.
 
 ### Design Resources
 Throughout the design process, I used a few resources that are worth mentioning. [Dribble](https://dribbble.com), [Behance](https://www.behance.net), 
